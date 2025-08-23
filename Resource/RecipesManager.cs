@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using static System.Windows.Forms.AxHost;
 
 namespace CaptainOfPlanner
 {
-
-
-    public static class RecipeManager
+    public static class RecipesManager
     {
         public static List<Recipe> Recipes;
 
-        static RecipeManager()
+        static RecipesManager()
         {
 
         }
@@ -25,7 +18,7 @@ namespace CaptainOfPlanner
         /// </summary>
         public static bool Load(string xml = "Recipes.xml")
         {
-            if (ResouceManager.Resources.Count < 1) return false;
+            if (ResourcesManager.Resources.Count < 1) return false;
 
             var resBufferIn = new Resource[4];
             var resBufferOut = new Resource[4];
@@ -38,7 +31,7 @@ namespace CaptainOfPlanner
                 string name = node.Attributes["name"]?.Value.TrimStart().TrimEnd();
                 if (!int.TryParse(node.Attributes["rate"]?.Value, out rate)) return false;
 
-                if (!ResouceManager.TryGetResource(name, out resource))
+                if (!ResourcesManager.TryGetResource(name, out resource))
                 {
                     Console.WriteLine($"the resource {name} not found in the list");
                     return false;

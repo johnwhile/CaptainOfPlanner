@@ -1,6 +1,6 @@
 ﻿namespace CaptainOfPlanner
 {
-    abstract partial class PlantNodeBaseControl
+    partial class PlantNodeBaseControl
     {
         /// <summary> 
         /// Variabile di progettazione necessaria.
@@ -28,19 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelTitle = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Plant Node";
+            this.labelTitle.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.labelTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelTitle.Location = new System.Drawing.Point(0, 0);
+            this.labelTitle.Name = "label";
+            this.labelTitle.Size = new System.Drawing.Size(197, 26);
+            this.labelTitle.TabIndex = 0;
+            this.labelTitle.Text = "Plant Node";
+            this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // buttonClose
             // 
@@ -54,25 +55,23 @@
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
-            // PlantNodeControl
+            // PlantNodeBaseControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.label1);
-            this.DoubleBuffered = true;
-            this.Name = "PlantNodeControl";
-            this.Size = new System.Drawing.Size(197, 100);
+            this.Controls.Add(this.labelTitle);
+            this.Name = "PlantNodeBaseControl";
+            this.Size = new System.Drawing.Size(197, 159);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button buttonClose;
+        public System.Windows.Forms.Label labelTitle;
+        public System.Windows.Forms.Button buttonClose;
     }
 }

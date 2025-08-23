@@ -50,7 +50,7 @@
     <Compile Include="Plant\FactoryPlant.cs" />
     <Compile Include="Plant\BalancerNode.cs" />
     <Compile Include="Plant\ContainerNode.cs" />
-    <Compile Include="Plant\ProcesserNode.cs" />
+    <Compile Include="Plant\ProcessorNode.cs" />
     <Compile Include="Plant\PlantNode.cs" />
     <Compile Include="ListControl\ListControl.cs">
       <SubType>UserControl</SubType>
@@ -61,19 +61,16 @@
     <Compile Include="PropPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Recipe.cs" />
-    <Compile Include="RecipeManager.cs" />
-    <Compile Include="ResouceManager.cs" />
+    <Compile Include="Resource\Recipe.cs" />
+    <Compile Include="Resource\RecipesManager.cs" />
+    <Compile Include="Resource\ResourcesManager.cs" />
     <Compile Include="Viewer\BalancerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Viewer\ProcesserControl.cs">
+    <Compile Include="Viewer\ProcessorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Viewer\PlantNodeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Viewer\ContainerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Viewer\GraphicExtension.cs" />
@@ -88,6 +85,18 @@
     </Compile>
     <Compile Include="Viewer\PlantNodeBaseControl.Designer.cs">
       <DependentUpon>PlantNodeBaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Viewer\ContainerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Viewer\ContainerControl.Designer.cs">
+      <DependentUpon>ContainerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Viewer\Linker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Viewer\Linker.Designer.cs">
+      <DependentUpon>Linker.cs</DependentUpon>
     </Compile>
     <Compile Include="Window.cs">
       <SubType>Form</SubType>
@@ -110,11 +119,20 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Viewer\Linker.resx">
+      <DependentUpon>Linker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Viewer\PlantViewer.resx">
       <DependentUpon>PlantViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Viewer\PlantNodeBaseControl.resx">
       <DependentUpon>PlantNodeBaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Viewer\ContainerControl.resx">
+      <DependentUpon>ContainerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Viewer\ProcessorControl.resx">
+      <DependentUpon>ProcessorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window.resx">
       <DependentUpon>Window.cs</DependentUpon>

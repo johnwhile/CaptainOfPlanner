@@ -11,7 +11,6 @@ namespace CaptainOfPlanner
         Container
     }
 
-
     public class FactoryPlant : IEnumerable<PlantNode>
     {
         List<PlantNode> Nodes = new List<PlantNode>();
@@ -27,7 +26,7 @@ namespace CaptainOfPlanner
         {
             switch(type)
             {
-                case PlantNodeType.Processer: return new ProcesserNode(this);
+                case PlantNodeType.Processer: return new ProcessorNode(this);
                 case PlantNodeType.Balancer: return new BalancerNode(this);
                 case PlantNodeType.Container: return new ContainerNode(this);
                 default: return null;

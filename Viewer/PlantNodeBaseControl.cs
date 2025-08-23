@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace CaptainOfPlanner
 {
-    public abstract partial class PlantNodeBaseControl : UserControl
+    public partial class PlantNodeBaseControl : UserControl
     {
         public delegate void PlantNodeHandler(PlantNodeBaseControl sender);
 
@@ -37,37 +37,52 @@ namespace CaptainOfPlanner
         }
 
 
+        public Color TitleColor
+        {
+            get => labelTitle.BackColor;
+            set => labelTitle.BackColor = value;
+        }
+
+        /// <summary>
+        /// Designer compatibility
+        /// </summary>
+        public PlantNodeBaseControl()
+        {
+            InitializeComponent();
+        }
         public PlantNodeBaseControl(PlantNode plantnode)
         {
             InitializeComponent();
             PlantNode = plantnode;
-            BackColor = plantnode.BackColor;
-            label1.Text = plantnode.Name;
+            
+            labelTitle.Text = plantnode.Name;
 
+            labelTitle.MouseDown += mouseDown;
+            labelTitle.MouseUp += mouseUp;
+            labelTitle.MouseMove += mouseMove;
+            MouseDown += mouseDown;
+            MouseUp += mouseUp;
+            MouseMove += mouseMove;
         }
 
-        protected override void OnMouseDown(MouseEventArgs e)
+
+
+
+        void mouseDown(object sender, MouseEventArgs e)
         {
-            base.OnMouseDown(e);
-
             OnClickDown?.Invoke(this);
-
             if (e.Button == MouseButtons.Left)
             {
                 traslating = true;
                 mousedown = e.Location;
             }
         }
-
-        protected override void OnMouseUp(MouseEventArgs e)
+        void mouseUp(object sender, MouseEventArgs e)
         {
-            base.OnMouseUp(e);
             traslating = false;
         }
-
-        protected override void OnMouseMove(MouseEventArgs e)
+        void mouseMove(object sender, MouseEventArgs e)
         {
-            base.OnMouseMove(e);
             if (traslating)
             {
                 int movex = e.Location.X - mousedown.X;
@@ -76,8 +91,7 @@ namespace CaptainOfPlanner
                 Location = new Point(Location.X + movex, Location.Y + movey);
             }
         }
-
-        private void buttonClose_Click(object sender, EventArgs e)
+        void buttonClose_Click(object sender, EventArgs e)
         {
             PlantNode.Plant.RemoveFactoryNode(PlantNode);
             OnClosing?.Invoke(this);

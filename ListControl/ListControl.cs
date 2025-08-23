@@ -20,9 +20,11 @@ namespace CaptainOfPlanner.ListControl
                 PlantNodeType.Container
             });
 
+            itemList.DoubleClick += InsertAction;
+
         }
 
-        private void buttonInsert_Click(object sender, EventArgs e)
+        private void InsertAction(object sender, EventArgs e)
         {
             if (!Enum.TryParse(itemList.SelectedItem?.ToString(), out PlantNodeType type)) return;
 

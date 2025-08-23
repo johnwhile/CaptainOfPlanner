@@ -43,7 +43,7 @@ namespace CaptainOfPlanner
         public byte ID;
         public ResourceState State;
         public ResourceOrigin Origin;
-        public override string ToString() => ResouceManager.TryGetName(ID);
+        public override string ToString() => ResourcesManager.TryGetName(ID);
 
         public static Resource Undefined =>
             new Resource()
@@ -55,7 +55,7 @@ namespace CaptainOfPlanner
 
         public static int CompareState(Resource x, Resource y) => x.State.CompareTo(y.State);
         public static int CompareOrigin(Resource x, Resource y) => x.Origin.CompareTo(y.Origin);
-        public static int CompareName(Resource x, Resource y) => ResouceManager.TryGetName(x.ID).CompareTo(ResouceManager.TryGetName(y.ID));
+        public static int CompareName(Resource x, Resource y) => ResourcesManager.TryGetName(x.ID).CompareTo(ResourcesManager.TryGetName(y.ID));
 
     }
     class ComparerByOrigin : IComparer<Resource>
@@ -64,7 +64,7 @@ namespace CaptainOfPlanner
         {
             int result = x.Origin.CompareTo(y.Origin);
             if (result == 0) result = x.State.CompareTo(y.State);
-            if (result == 0) result = ResouceManager.TryGetName(x.ID).CompareTo(ResouceManager.TryGetName(y.ID));
+            if (result == 0) result = ResourcesManager.TryGetName(x.ID).CompareTo(ResourcesManager.TryGetName(y.ID));
             return result;
         }
     }
@@ -74,7 +74,7 @@ namespace CaptainOfPlanner
         {
             int result = x.State.CompareTo(y.State);
             if (result == 0) result = x.Origin.CompareTo(y.Origin);
-            if (result == 0) result = ResouceManager.TryGetName(x.ID).CompareTo(ResouceManager.TryGetName(y.ID));
+            if (result == 0) result = ResourcesManager.TryGetName(x.ID).CompareTo(ResourcesManager.TryGetName(y.ID));
             return result;
         }
     }
@@ -82,7 +82,7 @@ namespace CaptainOfPlanner
     {
         public int Compare(Resource x, Resource y)
         {
-            int result = ResouceManager.TryGetName(x.ID).CompareTo(ResouceManager.TryGetName(y.ID));
+            int result = ResourcesManager.TryGetName(x.ID).CompareTo(ResourcesManager.TryGetName(y.ID));
             //impossible because name must be unique
             if (result == 0) result = x.Origin.CompareTo(y.Origin);
             if (result == 0) result = x.State.CompareTo(y.State);
@@ -93,19 +93,19 @@ namespace CaptainOfPlanner
     {
         public int Compare(Resource x, Resource y)
         {
-            int result = ResouceManager.TryGetName(x.ID).CompareTo(ResouceManager.TryGetName(y.ID));
+            int result = ResourcesManager.TryGetName(x.ID).CompareTo(ResourcesManager.TryGetName(y.ID));
             //impossible because name must be unique
             if (result == 0) result = x.State.CompareTo(y.State);
             if (result == 0) result = x.Origin.CompareTo(y.Origin);
             return result;
         }
     }
-    public static class ResouceManager
+    public static class ResourcesManager
     {
         public static List<string> ResourcesName;
         public static List<Resource> Resources;
 
-        static ResouceManager()
+        static ResourcesManager()
         {
 
 

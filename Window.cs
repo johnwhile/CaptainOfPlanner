@@ -47,8 +47,8 @@ namespace CaptainOfPlanner
 
             Plant = new FactoryPlant();
 
-            ResouceManager.Load("Resource\\Resources.xml");
-            RecipeManager.Load("Resource\\Recipes.xml");
+            ResourcesManager.Load("Resource\\Resources.xml");
+            RecipesManager.Load("Resource\\Recipes.xml");
             //ResouceManager.Save("Resouces_out.xml", SaveResourceOption.SortByOrigin);
 
         }

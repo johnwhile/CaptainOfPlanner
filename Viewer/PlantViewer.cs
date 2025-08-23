@@ -24,9 +24,9 @@ namespace CaptainOfPlanner
         {
             PlantNodeBaseControl controller = null;
 
-            if (node is ProcesserNode pnode)
+            if (node is ProcessorNode pnode)
             {
-                controller = new ProcesserControl(pnode);
+                controller = new ProcessorControl(pnode);
             }
             else if (node is ContainerNode cnode)
             {
