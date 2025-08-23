@@ -8,4 +8,9 @@ C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.pdb
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Recipes.xml
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Resources.xml
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.ListControl.ListControl.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe.config
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.PlantViewer.resources
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.PlantNodeBaseControl.resources

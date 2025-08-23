@@ -8,6 +8,7 @@ namespace CaptainOfPlanner
 {
     internal static class Program
     {
+        public static Random Random = new Random();
         /// <summary>
         /// Punto di ingresso principale dell'applicazione.
         /// </summary>

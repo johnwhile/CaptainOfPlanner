@@ -32,9 +32,8 @@
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ItemList = new CaptainOfPlanner.ItemList();
-            this.PropPanel = new CaptainOfPlanner.PropPanel();
-            this.ViewPanel = new CaptainOfPlanner.ViewPanel();
+            this.listControl = new CaptainOfPlanner.ListControl.ListControl();
+            this.plantViewer = new CaptainOfPlanner.PlantViewer();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,67 +43,57 @@
             this.FileMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(943, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1013, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
-            // fileToolStripMenuItem
+            // FileMenu
             // 
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenMenu,
             this.SaveMenu});
-            this.FileMenu.Name = "fileToolStripMenuItem";
+            this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 20);
             this.FileMenu.Text = "File";
             // 
-            // openMenu
+            // OpenMenu
             // 
-            this.OpenMenu.Name = "openMenu";
+            this.OpenMenu.Name = "OpenMenu";
             this.OpenMenu.Size = new System.Drawing.Size(146, 22);
             this.OpenMenu.Text = "Open planner";
             // 
-            // saveMenu
+            // SaveMenu
             // 
-            this.SaveMenu.Name = "saveMenu";
+            this.SaveMenu.Name = "SaveMenu";
             this.SaveMenu.Size = new System.Drawing.Size(146, 22);
             this.SaveMenu.Text = "Save planner";
             // 
-            // ItemList
+            // listControl
             // 
-            this.ItemList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ItemList.FormattingEnabled = true;
-            this.ItemList.Location = new System.Drawing.Point(0, 24);
-            this.ItemList.Name = "ItemList";
-            this.ItemList.Size = new System.Drawing.Size(131, 480);
-            this.ItemList.TabIndex = 1;
+            this.listControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.listControl.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listControl.Location = new System.Drawing.Point(0, 24);
+            this.listControl.Name = "listControl";
+            this.listControl.Size = new System.Drawing.Size(143, 529);
+            this.listControl.TabIndex = 0;
             // 
-            // PropPanel
+            // plantViewer
             // 
-            this.PropPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PropPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.PropPanel.Location = new System.Drawing.Point(676, 24);
-            this.PropPanel.Name = "PropPanel";
-            this.PropPanel.Size = new System.Drawing.Size(267, 480);
-            this.PropPanel.TabIndex = 2;
-            // 
-            // ViewPanel
-            // 
-            this.ViewPanel.BackColor = System.Drawing.Color.LemonChiffon;
-            this.ViewPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ViewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ViewPanel.Location = new System.Drawing.Point(131, 24);
-            this.ViewPanel.Name = "ViewPanel";
-            this.ViewPanel.Size = new System.Drawing.Size(545, 480);
-            this.ViewPanel.TabIndex = 3;
+            this.plantViewer.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.plantViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.plantViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plantViewer.Location = new System.Drawing.Point(143, 24);
+            this.plantViewer.Name = "plantViewer";
+            this.plantViewer.Size = new System.Drawing.Size(870, 529);
+            this.plantViewer.TabIndex = 2;
             // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(943, 504);
-            this.Controls.Add(this.ViewPanel);
-            this.Controls.Add(this.PropPanel);
-            this.Controls.Add(this.ItemList);
+            this.ClientSize = new System.Drawing.Size(1013, 553);
+            this.Controls.Add(this.plantViewer);
+            this.Controls.Add(this.listControl);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "Window";
@@ -122,9 +111,8 @@
         private System.Windows.Forms.ToolStripMenuItem FileMenu;
         private System.Windows.Forms.ToolStripMenuItem OpenMenu;
         private System.Windows.Forms.ToolStripMenuItem SaveMenu;
-        private ItemList ItemList;
-        private ViewPanel ViewPanel;
-        private PropPanel PropPanel;
+        public ListControl.ListControl listControl;
+        public PlantViewer plantViewer;
     }
 }
 

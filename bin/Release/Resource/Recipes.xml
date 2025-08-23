@@ -1,0 +1,18 @@
+<Recipes>
+  <recipe time="20">
+    <input  rate="20" name="Crude Oil"></input>
+    <input  rate="02" name="Coal"></input>
+    <output rate="09" name="Diesel"></output>
+    <output rate="05" name="Waste Water"></output>
+    <output rate="12" name="Exhaust"></output>
+  </recipe>
+  <recipe time="20">
+    <input  rate="20" name="Crude Oil"></input>
+    <input  rate="02" name="Steam (High)"></input>
+    <output rate="16" name="Medium Oil"></output>
+    <output rate="04" name="Heavy Oil"></output>
+    <output rate="06" name="Sour Water"></output>
+  </recipe>
+  
+  
+</Recipes>

@@ -1,0 +1,252 @@
+<Resouces>
+  <Undefined>
+    <Undefined>
+      <item>undefined</item>
+    </Undefined>
+  </Undefined>
+  <Crafted>
+    <Loose>
+      <item>Filter Media</item>
+    </Loose>
+    <Unit>
+      <item>Aluminum</item>
+      <item>Bricks</item>
+      <item>Concrete Slab</item>
+      <item>Construction Parts</item>
+      <item>Construction Parts II</item>
+      <item>Construction Parts III</item>
+      <item>Construction Parts IV</item>
+      <item>Consumer Electronics</item>
+      <item>Copper</item>
+      <item>Electronics</item>
+      <item>Electronics II</item>
+      <item>Electronics III</item>
+      <item>Flowers</item>
+      <item>Glass</item>
+      <item>Gold</item>
+      <item>Household Appliances</item>
+      <item>Household Goods</item>
+      <item>Iron</item>
+      <item>Lab Equipment</item>
+      <item>Lab Equipment II</item>
+      <item>Lab Equipment III</item>
+      <item>Lab Equipment IV</item>
+      <item>Mechanical Parts</item>
+      <item>Microchips</item>
+      <item>Microchips Stage xx</item>
+      <item>Paper</item>
+      <item>PCB</item>
+      <item>Server</item>
+      <item>Silicon (Poly)</item>
+      <item>Silicon Wafer</item>
+      <item>Solar Cell</item>
+      <item>Solar Cell Mono</item>
+      <item>Steel</item>
+      <item>Vehicle Parts</item>
+      <item>Vehicle Parts II</item>
+      <item>Vehicle Parts III</item>
+    </Unit>
+    <Virtual>
+      <item>Maintenance I</item>
+      <item>Maintenance II</item>
+      <item>Maintenance III</item>
+    </Virtual>
+  </Crafted>
+  <Power>
+    <Fluid>
+      <item>Blanket Fuel</item>
+      <item>Blanket Fuel (Enriched)</item>
+      <item>Core Fuel</item>
+      <item>Core Fuel (Spent)</item>
+      <item>Steam (Depleted)</item>
+      <item>Steam (High)</item>
+      <item>Steam (Low)</item>
+      <item>Steam (Super)</item>
+    </Fluid>
+    <Loose>
+      <item>Depleted Uranium</item>
+      <item>Yellowcake</item>
+    </Loose>
+    <Unit>
+      <item>Enriched Uranium (20%)</item>
+      <item>Enriched Uranium (4%)</item>
+      <item>Fission Product</item>
+      <item>MOX Rod</item>
+      <item>Plutonium</item>
+      <item>Reprocessed Uranium (1%)</item>
+      <item>Retired Waste</item>
+      <item>Spent Fuel</item>
+      <item>Spent MOX</item>
+      <item>Uranium Rod</item>
+    </Unit>
+    <Virtual>
+      <item>Electricity</item>
+      <item>Heat</item>
+      <item>Mechanical Power</item>
+    </Virtual>
+  </Power>
+  <Food>
+    <Fluid>
+      <item>Cooking Oil</item>
+      <item>Corn Mash</item>
+      <item>Ethanol</item>
+      <item>Fertilizer (Organic)</item>
+      <item>Fertilizer I</item>
+      <item>Fertilizer II</item>
+    </Fluid>
+    <Loose>
+      <item>Animal Feed</item>
+      <item>Compost</item>
+      <item>Corn</item>
+      <item>Meat Trimmings</item>
+      <item>Poppy</item>
+      <item>Potato</item>
+      <item>Soybean</item>
+      <item>Sugar</item>
+      <item>Sugar Cane</item>
+      <item>Wheat</item>
+    </Loose>
+    <Unit>
+      <item>Anesthetics</item>
+      <item>Antibiotics</item>
+      <item>Bread</item>
+      <item>Cake</item>
+      <item>Canola</item>
+      <item>Chicken Carcass</item>
+      <item>Disinfectant</item>
+      <item>Eggs</item>
+      <item>Flour</item>
+      <item>Food Pack</item>
+      <item>Fruit</item>
+      <item>Meat</item>
+      <item>Medical Equipment</item>
+      <item>Medical Supplies</item>
+      <item>Medical Supplies II</item>
+      <item>Medical Supplies III</item>
+      <item>Morphine</item>
+      <item>Sausage</item>
+      <item>Snack</item>
+      <item>Tofu</item>
+      <item>Tree Sapling</item>
+      <item>Vegetables</item>
+    </Unit>
+    <Virtual>
+      <item>Fertility</item>
+      <item>Green Manure</item>
+    </Virtual>
+  </Food>
+  <Natural>
+    <Fluid>
+      <item>Seawater</item>
+      <item>Water</item>
+    </Fluid>
+    <Loose>
+      <item>Bauxite</item>
+      <item>Coal</item>
+      <item>Copper Ore</item>
+      <item>Dirt</item>
+      <item>Gold Ore</item>
+      <item>Iron Ore</item>
+      <item>Limestone</item>
+      <item>Quartz</item>
+      <item>Rock</item>
+      <item>Sand</item>
+      <item>Sulfur</item>
+      <item>Titanium Ore</item>
+      <item>Uranium Ore</item>
+    </Loose>
+    <Unit>
+      <item>Wood</item>
+    </Unit>
+  </Natural>
+  <Petrochemical>
+    <Fluid>
+      <item>Ammonia</item>
+      <item>Chlorine</item>
+      <item>Crude Oil</item>
+      <item>Diesel</item>
+      <item>Fuel Gas</item>
+      <item>Heavy Oil</item>
+      <item>Hydrogen</item>
+      <item>Hydrogen Fluoride</item>
+      <item>Light Oil</item>
+      <item>Medium Oil</item>
+      <item>Naphtha</item>
+      <item>Nitrogen</item>
+      <item>Oxygen</item>
+      <item>Sour Water</item>
+    </Fluid>
+    <Unit>
+      <item>Plastic</item>
+      <item>Rubber</item>
+    </Unit>
+  </Petrochemical>
+  <Semi>
+    <Fluid>
+      <item>Acid</item>
+      <item>Brine</item>
+      <item>Chilled Water</item>
+      <item>Manufactured Sand</item>
+    </Fluid>
+    <Loose>
+      <item>Alumina</item>
+      <item>Broken Glass</item>
+      <item>Copper Ore Crushed</item>
+      <item>Copper Scrap</item>
+      <item>Glass Mix</item>
+      <item>Gold Ore Concentrate</item>
+      <item>Gold Ore Crushed</item>
+      <item>Gold Ore Powder</item>
+      <item>Gold Scrap</item>
+      <item>Gravel</item>
+      <item>Hydrated Alumina</item>
+      <item>Iron Ore Crushed</item>
+      <item>Iron Scrap</item>
+      <item>Quartz Crushed</item>
+      <item>Recyclables</item>
+      <item>Salt</item>
+      <item>Slag Crushed</item>
+      <item>Uranium Ore Powder</item>
+      <item>Woodchips</item>
+    </Loose>
+    <Molten>
+      <item>Molten Aluminum</item>
+      <item>Molten Copper</item>
+      <item>Molten Glass</item>
+      <item>Molten Iron</item>
+      <item>Molten Silicon</item>
+      <item>Molten Steel</item>
+    </Molten>
+    <Unit>
+      <item>Cement</item>
+      <item>Copper Scrap Pressed</item>
+      <item>Gold Scrap Pressed</item>
+      <item>Graphite</item>
+      <item>Impure Copper</item>
+      <item>Iron Scrap Pressed</item>
+      <item>Recyclables Pressed</item>
+    </Unit>
+  </Semi>
+  <Waste>
+    <Fluid>
+      <item>Carbon Dioxide</item>
+      <item>Exhaust</item>
+      <item>Toxic Slurry</item>
+      <item>Waste Water</item>
+    </Fluid>
+    <Loose>
+      <item>Biomass</item>
+      <item>Slag</item>
+      <item>Sludge</item>
+      <item>Waste</item>
+    </Loose>
+    <Unit>
+      <item>Waste Pressed</item>
+    </Unit>
+    <Virtual>
+      <item>Air Pollution</item>
+      <item>Radiation</item>
+      <item>Water Pollution</item>
+    </Virtual>
+  </Waste>
+</Resouces>
