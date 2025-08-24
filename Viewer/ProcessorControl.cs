@@ -10,11 +10,8 @@ namespace CaptainOfPlanner
     public class ProcessorControl : PlantNodeBaseControl
     {     
         ComboBox comboBox;
+        
         ProcessorNode Processor;
-
-        List<LinkerControl> InputLinkers;
-        List<LinkerControl> OutputLinkers;
-
 
         public ProcessorControl(ProcessorNode plantnode) : base(plantnode)
         {
@@ -25,8 +22,7 @@ namespace CaptainOfPlanner
 
             comboBox.SelectedValueChanged += ComboBox_SelectionChanged;
 
-            InputLinkers = new List<LinkerControl>();
-            OutputLinkers = new List<LinkerControl>();
+
         }
 
         private void ComboBox_SelectionChanged(object sender, EventArgs e)
@@ -38,66 +34,52 @@ namespace CaptainOfPlanner
 
             if (box.Items[index] is Recipe recipe)
             {
-                if (Processor.Recipe == recipe) return;
+                if (Processor.Recipe != recipe)
+                {
+                    Processor.Recipe = recipe;
+                    RemoveLinkers();
 
-                Processor.Recipe = recipe;
-                RemoveLinkers();
-                CreateLinkers(recipe);
+                    int h = comboBox.Top + comboBox.Height + 2;
+
+                    CreateInputLinkers(comboBox.Location.X, h );
+                    CreateOuputLinkers(Size.Width - 2 - LinkerControl.DefaultWidth, h);
+
+                    ResumeLinkers();
+                }
             }
         }
 
-        void RemoveLinkers()
+        protected virtual void CreateInputLinkers(int offsetx, int offsety)
         {
-            SuspendLayout();
-            foreach (var linker in InputLinkers) Controls.Remove(linker);
-            foreach (var linker in OutputLinkers) Controls.Remove(linker);
-            ResumeLayout(false);
-            PerformLayout();
-        }
-        void CreateLinkers(Recipe recipe)
-        {
-            SuspendLayout();
-
-            int offsetL = comboBox.Location.X;
-            int offsetR = Size.Width - 2 - LinkerControl.DefaultWidth;
-            int offsety = comboBox.Top + comboBox.Height + 2;
-
-            int incount = recipe.ItemIn.Length;
-            for (int i = 0; i < incount; i++)
+            int i = 0;
+            foreach(var link in Processor.Inputs)
             {
                 var linker = new LinkerControl()
                 {
                     LinkerType = LinkerType.AlwayFull,
-                    LinkerText = $"{recipe.RateIn[i]} {recipe.ItemIn[i]}",
-                    Left = offsetL,
-                    Top = offsety + i * LinkerControl.DefaultHeight
+                    LinkerText = link.ResourceCount.ToString(),
+                    Left = offsetx,
+                    Top = offsety + i++ * LinkerControl.DefaultHeight
                 };
-
-                InputLinkers.Add(linker);
-                Controls.Add(linker);
-
+                InputControls.Add(linker);
                 Height = Math.Max(Height, linker.Bottom + 4);
             }
-
-            int outcount = recipe.ItemOut.Length;
-            for (int i = 0; i < outcount; i++)
+        }
+        protected virtual void CreateOuputLinkers(int offsetx, int offsety)
+        {
+            int i = 0;
+            foreach (var input in Processor.Outputs)
             {
                 var linker = new LinkerControl()
                 {
                     LinkerType = LinkerType.Output,
-                    LinkerText = $"{recipe.RateOut[i]} {recipe.ItemOut[i]}",
-                    Left = offsetR,
-                    Top = offsety + i * LinkerControl.DefaultHeight
+                    LinkerText = input.ResourceCount.ToString(),
+                    Left = offsetx,
+                    Top = offsety + i++ * LinkerControl.DefaultHeight
                 };
-
-                InputLinkers.Add(linker);
-                Controls.Add(linker);
-
+                OutputControls.Add(linker);
                 Height = Math.Max(Height, linker.Bottom + 4);
             }
-
-            ResumeLayout(false);
-            PerformLayout();
         }
 
         protected override void OnLoad(EventArgs e)

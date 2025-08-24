@@ -20,23 +20,32 @@ namespace CaptainOfPlanner
         {
             if (ResourcesManager.Resources.Count < 1) return false;
 
-            var resBufferIn = new Resource[4];
-            var resBufferOut = new Resource[4];
-            var rateBufferIn = new int[4];
-            var rateBufferOut = new int[4];
+            List<ResourceCount> InputsBuffer = new List<ResourceCount>();
+            List<ResourceCount> OutputBuffer = new List<ResourceCount>();
 
-            bool ReadResource(XmlNode node, out Resource resource, out int rate)
+            bool ReadResource(XmlNode node, out Resource resource, out byte count)
             {
                 resource = Resource.Undefined;
-                string name = node.Attributes["name"]?.Value.TrimStart().TrimEnd();
-                if (!int.TryParse(node.Attributes["rate"]?.Value, out rate)) return false;
+                count = 0;
 
-                if (!ResourcesManager.TryGetResource(name, out resource))
+                string name = node.Attributes["name"]?.Value.TrimStart().TrimEnd();
+                if (!int.TryParse(node.Attributes["count"]?.Value, out int count32bit))
                 {
-                    Console.WriteLine($"the resource {name} not found in the list");
+                    Console.WriteLine("ERROR reading resource count");
                     return false;
                 }
 
+                if (!ResourcesManager.TryGetResource(name, out resource))
+                {
+                    Console.WriteLine($"ERROR the resource {name} not found in the list");
+                    return false;
+                }
+                if (count32bit<1 || count32bit>255)
+                {
+                    Console.WriteLine($"ERROR reading resource count {count32bit}, it's not in [0,255] range");
+                    return false;
+                }
+                count = (byte)count32bit;
                 return true;
             }
 
@@ -45,46 +54,26 @@ namespace CaptainOfPlanner
                 if (node.Name != "recipe") return null;
                 
                 Recipe recipe = new Recipe();
-                
-                int inputcount = 0;
-                int outcount = 0;
+                if (!int.TryParse(node.Attributes["time"]?.Value, out recipe.Time)) recipe.Time = 60;
+
+                InputsBuffer.Clear();
+                OutputBuffer.Clear();
 
                 foreach (XmlNode child in node.ChildNodes)
                 {
-                    switch(child.Name)
+                    var item = new ResourceCount();
+                    if (ReadResource(child, out item.Resource, out item.Count))
                     {
-                        case "input":
-                            if (!ReadResource(child, out resBufferIn[inputcount], out rateBufferIn[inputcount]))
-                            {
-                                Console.WriteLine("Error reading recipe input");
-                                return null;
-                            }
-                            inputcount++;
-                            
-                            break;
-                        case "output":
-                            if (!ReadResource(child, out resBufferOut[outcount], out rateBufferOut[outcount]))
-                            {
-                                Console.WriteLine("Error reading recipe output");
-                                return null;
-                            }
-                            outcount++;
-                            break;
+                        item.Rate = item.Count * 60f / recipe.Time;
+                        switch (child.Name)
+                        {
+                            case "input": InputsBuffer.Add(item); break;
+                            case "output": OutputBuffer.Add(item); break;
+                        }
                     }
                 }
-
-                int.TryParse(node.Attributes["time"]?.Value, out recipe.Time);
-                recipe.Id = rec_id++;
-                recipe.ItemIn = new Resource[inputcount];
-                recipe.ItemOut = new Resource[outcount];
-                recipe.RateIn = new int[inputcount];
-                recipe.RateOut = new int[outcount];
-
-                Array.Copy(resBufferIn, recipe.ItemIn, inputcount);
-                Array.Copy(resBufferOut, recipe.ItemOut, outcount);
-                Array.Copy(rateBufferIn, recipe.RateIn, inputcount);
-                Array.Copy(rateBufferOut, recipe.RateOut, outcount);
-
+                recipe.Inputs = InputsBuffer.ToArray();
+                recipe.OutPuts = OutputBuffer.ToArray();
                 return recipe;
             }
 

@@ -50,6 +50,7 @@
     <Compile Include="Plant\FactoryPlant.cs" />
     <Compile Include="Plant\BalancerNode.cs" />
     <Compile Include="Plant\ContainerNode.cs" />
+    <Compile Include="Plant\LinkNode.cs" />
     <Compile Include="Plant\ProcessorNode.cs" />
     <Compile Include="Plant\PlantNode.cs" />
     <Compile Include="ListControl\ListControl.cs">

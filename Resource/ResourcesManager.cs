@@ -35,6 +35,10 @@ namespace CaptainOfPlanner
         SortByNameThenOrigin,
         SortByNameThenState
     }
+
+    /// <summary>
+    /// 3 byte
+    /// </summary>
     public struct Resource
     {
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -12,9 +13,12 @@ namespace CaptainOfPlanner
         bool traslating = false;
         Point mousedown;
         PlantNode PlantNode;
-        
+
         public event PlantNodeHandler OnClosing;
         public event PlantNodeHandler OnClickDown;
+
+        protected List<LinkerControl> InputControls;
+        protected List<LinkerControl> OutputControls;
 
         public bool Selected
         {
@@ -36,7 +40,6 @@ namespace CaptainOfPlanner
             }
         }
 
-
         public Color TitleColor
         {
             get => labelTitle.BackColor;
@@ -53,8 +56,12 @@ namespace CaptainOfPlanner
         public PlantNodeBaseControl(PlantNode plantnode)
         {
             InitializeComponent();
+
+            InputControls = new List<LinkerControl>();
+            OutputControls = new List<LinkerControl>();
+
             PlantNode = plantnode;
-            
+
             labelTitle.Text = plantnode.Name;
 
             labelTitle.MouseDown += mouseDown;
@@ -65,7 +72,29 @@ namespace CaptainOfPlanner
             MouseMove += mouseMove;
         }
 
+        /// <summary>
+        /// remove inputs and outputs controls
+        /// </summary>
+        protected void RemoveLinkers()
+        {
+            SuspendLayout();
+            foreach (var linker in InputControls) Controls.Remove(linker);
+            foreach (var linker in OutputControls) Controls.Remove(linker);
+            ResumeLayout(false);
+            PerformLayout();
+        }
 
+        /// <summary>
+        /// add inputs and outputs controls
+        /// </summary>
+        protected void ResumeLinkers()
+        {
+            SuspendLayout();
+            foreach (var linker in InputControls) Controls.Add(linker);
+            foreach (var linker in OutputControls) Controls.Add(linker);
+            ResumeLayout(false);
+            PerformLayout();
+        }
 
 
         void mouseDown(object sender, MouseEventArgs e)
