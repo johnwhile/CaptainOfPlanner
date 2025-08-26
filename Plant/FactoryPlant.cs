@@ -6,9 +6,10 @@ namespace CaptainOfPlanner
 {
     public enum PlantNodeType
     {
-        Processer,
+        Generic,
+        Processor,
         Balancer,
-        Container
+        Storage
     }
 
     public class FactoryPlant : IEnumerable<PlantNode>
@@ -26,9 +27,9 @@ namespace CaptainOfPlanner
         {
             switch(type)
             {
-                case PlantNodeType.Processer: return new ProcessorNode(this);
+                case PlantNodeType.Processor: return new ProcessorNode(this);
                 case PlantNodeType.Balancer: return new BalancerNode(this);
-                case PlantNodeType.Container: return new ContainerNode(this);
+                case PlantNodeType.Storage: return new ContainerNode(this);
                 default: return null;
             }
         }

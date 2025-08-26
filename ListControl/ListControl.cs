@@ -2,12 +2,12 @@
 using System;
 using System.Windows.Forms;
 
-namespace CaptainOfPlanner.ListControl
+namespace CaptainOfPlanner
 {
     public partial class ListControl : UserControl
     {
         public Window Main;
-        public FactoryPlant Plant => Main.Plant;
+        public Plant Plant => Main.Plant;
 
         public ListControl()
         {
@@ -15,24 +15,26 @@ namespace CaptainOfPlanner.ListControl
 
             itemList.Items.AddRange(new object[] 
             {
-                PlantNodeType.Processer,
+                PlantNodeType.Processor,
                 PlantNodeType.Balancer,
-                PlantNodeType.Container
+                PlantNodeType.Storage
             });
 
-            itemList.DoubleClick += InsertAction;
+            itemList.DoubleClick += InsertNode;
 
         }
 
-        private void InsertAction(object sender, EventArgs e)
+        private void InsertNode(object sender, EventArgs e)
         {
             if (!Enum.TryParse(itemList.SelectedItem?.ToString(), out PlantNodeType type)) return;
 
-            var node = Main.Plant.CreateNode(type);
 
-            if (node == null) return;
-
-            var nodecontroller = Main.plantViewer.AddPlantNode(node);
+            switch(type)
+            {
+                case PlantNodeType.Processor: Main.Plant.CreateNode<Processor>(); break;
+                case PlantNodeType.Balancer: Main.Plant.CreateNode<Balancer>(); break;
+                case PlantNodeType.Storage: Main.Plant.CreateNode<Storage>(); break;
+            }
         }
     }
 }

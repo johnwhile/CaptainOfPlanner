@@ -61,8 +61,8 @@ namespace CaptainOfPlanner
             OutputControls = new List<LinkerControl>();
 
             PlantNode = plantnode;
-
-            labelTitle.Text = plantnode.Name;
+            Name = plantnode.Name;
+            labelTitle.Text = Name;
 
             labelTitle.MouseDown += mouseDown;
             labelTitle.MouseUp += mouseUp;
@@ -124,6 +124,11 @@ namespace CaptainOfPlanner
         {
             PlantNode.Plant.RemoveFactoryNode(PlantNode);
             OnClosing?.Invoke(this);
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

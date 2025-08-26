@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using static System.Windows.Forms.LinkLabel;
 
 namespace CaptainOfPlanner
 {
@@ -59,7 +60,8 @@ namespace CaptainOfPlanner
                     LinkerType = LinkerType.AlwayFull,
                     LinkerText = link.ResourceCount.ToString(),
                     Left = offsetx,
-                    Top = offsety + i++ * LinkerControl.DefaultHeight
+                    Top = offsety + i++ * LinkerControl.DefaultHeight,
+                    LinkNode = link
                 };
                 InputControls.Add(linker);
                 Height = Math.Max(Height, linker.Bottom + 4);
@@ -68,14 +70,15 @@ namespace CaptainOfPlanner
         protected virtual void CreateOuputLinkers(int offsetx, int offsety)
         {
             int i = 0;
-            foreach (var input in Processor.Outputs)
+            foreach (var link in Processor.Outputs)
             {
                 var linker = new LinkerControl()
                 {
                     LinkerType = LinkerType.Output,
-                    LinkerText = input.ResourceCount.ToString(),
+                    LinkerText = link.ResourceCount.ToString(),
                     Left = offsetx,
-                    Top = offsety + i++ * LinkerControl.DefaultHeight
+                    Top = offsety + i++ * LinkerControl.DefaultHeight,
+                    LinkNode = link
                 };
                 OutputControls.Add(linker);
                 Height = Math.Max(Height, linker.Bottom + 4);
@@ -115,7 +118,6 @@ namespace CaptainOfPlanner
 
             AutoScaleDimensions = new SizeF(6F, 13F);
             Controls.Add(comboBox);
-            Name = "ProcessorControl";
             Size = new Size(219, 67);
             Controls.SetChildIndex(comboBox, 0);
             ResumeLayout(false);

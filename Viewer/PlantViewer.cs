@@ -51,6 +51,7 @@ namespace CaptainOfPlanner
                 CurrentSelected.Selected = false;
             CurrentSelected = sender;
             CurrentSelected.Selected = true;
+            CurrentSelected.BringToFront();
         }
         private void PlantNodeController_Closing(PlantNodeBaseControl sender)
         {

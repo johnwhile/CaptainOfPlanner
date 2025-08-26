@@ -1,12 +1,11 @@
-﻿
-using CaptainOfPlanner.Plant;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 
 namespace CaptainOfPlanner
 {
     public abstract class PlantNode
 	{
+        static int instance_counter = 0;
+
         /// <summary>
         /// for derived class
         /// </summary>
@@ -37,7 +36,7 @@ namespace CaptainOfPlanner
         }
         public PlantNode(FactoryPlant plant, string name = "node")
         {
-            Name = name;
+            Name = instance_counter++.ToString() + "_" + name;
             Plant = plant;
             Inputs = new List<InputNode>();
             Outputs = new List<OutputNode>();

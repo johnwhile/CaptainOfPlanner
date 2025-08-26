@@ -1,4 +1,6 @@
-﻿namespace CaptainOfPlanner
+﻿using CaptainOfPlanner.Controls;
+
+namespace CaptainOfPlanner
 {
     partial class Window
     {
@@ -32,8 +34,7 @@
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.listControl = new CaptainOfPlanner.ListControl.ListControl();
-            this.plantViewer = new CaptainOfPlanner.PlantViewer();
+            this.listControl = new CaptainOfPlanner.ListControl();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,14 +60,16 @@
             // OpenMenu
             // 
             this.OpenMenu.Name = "OpenMenu";
-            this.OpenMenu.Size = new System.Drawing.Size(146, 22);
+            this.OpenMenu.Size = new System.Drawing.Size(180, 22);
             this.OpenMenu.Text = "Open planner";
+            this.OpenMenu.Click += new System.EventHandler(this.OpenMenu_Click);
             // 
             // SaveMenu
             // 
             this.SaveMenu.Name = "SaveMenu";
-            this.SaveMenu.Size = new System.Drawing.Size(146, 22);
+            this.SaveMenu.Size = new System.Drawing.Size(180, 22);
             this.SaveMenu.Text = "Save planner";
+            this.SaveMenu.Click += new System.EventHandler(this.SaveMenu_Click);
             // 
             // listControl
             // 
@@ -79,20 +82,20 @@
             // 
             // plantViewer
             // 
-            this.plantViewer.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.plantViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.plantViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plantViewer.Location = new System.Drawing.Point(143, 24);
-            this.plantViewer.Name = "plantViewer";
-            this.plantViewer.Size = new System.Drawing.Size(870, 529);
-            this.plantViewer.TabIndex = 2;
+            this.plantControl.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.plantControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.plantControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plantControl.Location = new System.Drawing.Point(143, 24);
+            this.plantControl.Name = "plantViewer";
+            this.plantControl.Size = new System.Drawing.Size(870, 529);
+            this.plantControl.TabIndex = 2;
             // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1013, 553);
-            this.Controls.Add(this.plantViewer);
+            this.Controls.Add(this.plantControl);
             this.Controls.Add(this.listControl);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
@@ -111,8 +114,8 @@
         private System.Windows.Forms.ToolStripMenuItem FileMenu;
         private System.Windows.Forms.ToolStripMenuItem OpenMenu;
         private System.Windows.Forms.ToolStripMenuItem SaveMenu;
-        public ListControl.ListControl listControl;
-        public PlantViewer plantViewer;
+        public ListControl listControl;
+        public CaptainOfPlanner.Controls.PlantControl plantControl;
     }
 }
 

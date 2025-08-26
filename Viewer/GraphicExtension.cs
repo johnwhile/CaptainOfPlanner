@@ -1,5 +1,9 @@
 ﻿
+using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace CaptainOfPlanner
 {
@@ -15,5 +19,17 @@ namespace CaptainOfPlanner
             path.CloseFigure();
             return path;
         }
+        public static bool IsMouseOver(this Control control, Point screen)
+        {
+            Point local = control.PointToClient(screen);
+            return !(
+                local.X < 0 || 
+                local.Y < 0 ||
+                local.X > control.Width ||
+                local.Y > control.Height);
+        }
+
+        public static Point Sum(this Point left, Point right) => new Point(left.X + right.X, left.Y + right.Y);
+        public static Point Sub(this Point left, Point right) => new Point(left.X - right.X, left.Y - right.Y);
     }
 }

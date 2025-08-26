@@ -1,4 +1,4 @@
-﻿namespace CaptainOfPlanner.ListControl
+﻿namespace CaptainOfPlanner
 {
     partial class ListControl
     {
@@ -42,7 +42,7 @@
             this.buttonInsert.TabIndex = 1;
             this.buttonInsert.Text = "Insert";
             this.buttonInsert.UseVisualStyleBackColor = true;
-            this.buttonInsert.Click += new System.EventHandler(this.InsertAction);
+            this.buttonInsert.Click += new System.EventHandler(this.InsertNode);
             // 
             // panel
             // 

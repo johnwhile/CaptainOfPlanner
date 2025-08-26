@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-
+﻿
 namespace CaptainOfPlanner
 {
 	public class ProcessorNode : PlantNode
