@@ -9,6 +9,34 @@ using System.Xml;
 
 namespace CaptainOfPlanner
 {
+    public abstract class Link
+    {
+        public ResourceCount ResourceCount { get; set; }
+        public readonly Node Owner;
+
+        protected Link(Node owner)
+        {
+            Owner = owner;
+            ResourceCount = ResourceCount.Undefined;
+        }
+
+        public override string ToString()
+        {
+            return $"{Owner.GetType()} {ResourceCount}";
+        }
+    }
+
+    public class Input : Link
+    {
+        internal Input(Node owner) : base(owner) { }
+    }
+
+    public class Output : Link
+    {
+        internal Output(Node owner) : base(owner) { }
+    }
+
+
     /// <summary>
     /// A node rapresent a single resource's function.
     /// This base class can be used as generic node
@@ -39,12 +67,17 @@ namespace CaptainOfPlanner
         /// </summary>
         public NodeControl Control { get; protected set; }
 
+        public List<Input> Inputs;
+        public List<Output> Outputs;
+
+
         internal Node(Plant plant, string name = "generic node") 
         {
             Name = name;
             Plant = plant;
             Id = instance_counter++;
-
+            Inputs = new List<Input>();
+            Outputs = new List<Output>();
             CreateController();
         }
 
@@ -60,7 +93,21 @@ namespace CaptainOfPlanner
             }
             return Control;
         }
-
+        /// <summary>
+        /// Create new input linker and add to inputlist
+        /// </summary>
+        public Input CreateInput()
+        {
+            var node = new Input(this);
+            Inputs.Add(node);
+            return node;
+        }
+        public Output CreateOutput()
+        {
+            var node = new Output(this);
+            Outputs.Add(node);
+            return node;
+        }
         /// <summary>
         /// Mark as deleted, remove dependent controllers
         /// </summary>
@@ -74,6 +121,8 @@ namespace CaptainOfPlanner
                 Control.Dispose();
             }
         }
+
+
         public virtual void SaveXml(XmlDocument doc)
         {
             var node = doc.CreateElement("Node");
@@ -89,7 +138,30 @@ namespace CaptainOfPlanner
     public class Processor : Node
     {
         public override PlantNodeType Type => PlantNodeType.Processor;
+        Recipe recipe;
 
+        /// <summary>
+        /// Changing recipe cause invalidating all inputs and outputs
+        /// </summary>
+        public Recipe Recipe
+        {
+            get => recipe;
+            set
+            {
+                if (recipe == value) return;
+                recipe = value;
+
+                Inputs.Clear();
+                Outputs.Clear();
+
+                foreach (var itemcount in recipe.Inputs)
+                    CreateInput().ResourceCount = itemcount;
+                foreach (var itemcount in recipe.OutPuts)
+                    CreateOutput().ResourceCount = itemcount;
+
+            }
+        }
+        
         internal Processor(Plant plant, string name = "processor") : base(plant, name)
         {
 
@@ -192,6 +264,7 @@ namespace CaptainOfPlanner
         public void RemoveNode(Node node)
         {
             nodes.Remove(node);
+            node.Delete();
         }
 
 

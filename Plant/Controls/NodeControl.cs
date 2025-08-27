@@ -5,17 +5,37 @@ using System.Windows.Forms;
 
 namespace CaptainOfPlanner.Controls
 {
+    public class ButtonClose : Button
+    {
+        public ButtonClose()
+        {
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            BackgroundImage = Properties.Resources.close;
+            FlatStyle = FlatStyle.Standard;
+            Size = BackgroundImage.Size;
+
+
+        }
+    }
+
     /// <summary>
     /// The base class <see cref="NodeControl"/> can be used as generic node
     /// </summary>
     public class NodeControl : UserControl
     {
-        static Font font;
-        static SolidBrush brush;
-        static Pen pen;
-        bool draging;
-        Point mousedown;
+        public delegate void NodeControlHandler(NodeControl sender);
+        public event NodeControlHandler OnClosing;
 
+        
+        protected static Font font;
+        protected static SolidBrush brush;
+        protected static Pen pen;
+        protected bool draging;
+        protected Point mousedown;
+        protected ButtonClose buttonclose;
+        protected int headerHeight = 20;
+        
         static NodeControl()
         {
             brush = new SolidBrush(Color.Gray);
@@ -26,7 +46,6 @@ namespace CaptainOfPlanner.Controls
 
         public List<InputLinkControl> Inputs { get; }
         public List<OutputLinkControl> Outputs { get; }
-
         public PlantControl PlantControl { get; }
         public Color HeaderColor { get; set; }
         public Node Node { get; }
@@ -48,7 +67,19 @@ namespace CaptainOfPlanner.Controls
             Top = 0;
             Left = 0;
 
+            buttonclose = new ButtonClose();
+            buttonclose.Location = new Point(Width - buttonclose.Size.Width - 2, 2);
+            buttonclose.Click += Close_Click;
+            Controls.Add(buttonclose);
+
             draging = false;
+        }
+
+        private void Close_Click(object sender, EventArgs e)
+        {
+            OnClosing?.Invoke(this);
+            PlantControl.Controls.Remove(this);
+            Node.Plant.RemoveNode(Node);
         }
 
         protected override void OnGotFocus(EventArgs e)
@@ -62,7 +93,7 @@ namespace CaptainOfPlanner.Controls
             base.OnPaint(e);
             brush.Color = HeaderColor;
             
-            e.Graphics.FillRectangle(brush, 0, 0, Size.Width, 20);
+            e.Graphics.FillRectangle(brush, 0, 0, Size.Width, headerHeight);
             e.Graphics.DrawString(Name, font, Brushes.Black, 5, 5);
 
             BackColor = Color.White;
@@ -103,29 +134,4 @@ namespace CaptainOfPlanner.Controls
         }
        
     }
-
-    public class ProcessorControl : NodeControl
-    {
-        public ProcessorControl(PlantControl owner, Processor node) : base(owner, node)
-        {
-            HeaderColor = Color.FromArgb(160, 80, 40);
-        }
-    }
-
-    public class BalancerControl : NodeControl
-    {
-        public BalancerControl(PlantControl owner, Balancer node) : base(owner, node)
-        {
-            HeaderColor = Color.FromArgb(40, 160, 90);
-        }
-    }
-
-    public class StorageControl : NodeControl
-    {
-        public StorageControl(PlantControl owner, Storage node) : base(owner, node)
-        {
-            HeaderColor = Color.FromArgb(20, 60, 120);
-        }
-    }
-
 }

@@ -50,8 +50,11 @@
     <Compile Include="Plant\Controls\LinkControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Plant\Controls\NodeControl.cs">
+    <Compile Include="Plant\Controls\ProcessControls.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Plant\Controls\NodeControl.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Plant\Controls\PlantControl.cs">
       <SubType>UserControl</SubType>
@@ -142,9 +145,6 @@
     <EmbeddedResource Include="Viewer\ContainerControl.resx">
       <DependentUpon>ContainerControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Viewer\ProcessorControl.resx">
-      <DependentUpon>ProcessorControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window.resx">
       <DependentUpon>Window.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,7 +162,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resource\close.bmp" />
+    <Content Include="Resource\close.png" />
+    <Content Include="Resource\icons.png" />
     <Content Include="Resource\Recipes.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
