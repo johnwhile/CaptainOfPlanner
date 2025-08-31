@@ -35,6 +35,7 @@ namespace CaptainOfPlanner
             this.OpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.listControl = new CaptainOfPlanner.ListControl();
+            this.plantControl = new PlantControl();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 

@@ -7,20 +7,16 @@
       "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:plant\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\plant\\controls\\nodecontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:plant\\controls\\nodecontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\plant\\controls\\plantcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:plant\\controls\\plantcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\plant\\processornode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:plant\\processornode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\plant\\nodes\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:plant\\nodes\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\viewer\\processorcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:viewer\\processorcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\plant\\controls\\processcontrols.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:plant\\controls\\processcontrols.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\plant\\nodes\\processor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:plant\\nodes\\processor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,41 +30,41 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProcessorNode.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\ProcessorNode.cs",
-              "RelativeDocumentMoniker": "Plant\\ProcessorNode.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\ProcessorNode.cs",
-              "RelativeToolTip": "Plant\\ProcessorNode.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAMAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T11:06:31.912Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ProcessorControl.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Viewer\\ProcessorControl.cs",
-              "RelativeDocumentMoniker": "Viewer\\ProcessorControl.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Viewer\\ProcessorControl.cs",
-              "RelativeToolTip": "Viewer\\ProcessorControl.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAgwCgAAAAkAAAAAAAAAA==",
+              "Title": "Processor.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Nodes\\Processor.cs",
+              "RelativeDocumentMoniker": "Plant\\Nodes\\Processor.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Nodes\\Processor.cs",
+              "RelativeToolTip": "Plant\\Nodes\\Processor.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAwwFEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T10:49:05.004Z",
+              "WhenOpened": "2025-08-31T21:36:09.912Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ProcessControls.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Controls\\ProcessControls.cs",
-              "RelativeDocumentMoniker": "Plant\\Controls\\ProcessControls.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Controls\\ProcessControls.cs",
-              "RelativeToolTip": "Plant\\Controls\\ProcessControls.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAowDQAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Node.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Nodes\\Node.cs",
+              "RelativeDocumentMoniker": "Plant\\Nodes\\Node.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Nodes\\Node.cs",
+              "RelativeToolTip": "Plant\\Nodes\\Node.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAIwEwAAABkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T10:42:55.074Z",
+              "WhenOpened": "2025-08-31T21:34:51.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlantControl.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Controls\\PlantControl.cs",
+              "RelativeDocumentMoniker": "Plant\\Controls\\PlantControl.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Controls\\PlantControl.cs",
+              "RelativeToolTip": "Plant\\Controls\\PlantControl.cs",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAAABgAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-31T20:45:37.17Z",
               "EditorCaption": ""
             },
             {
@@ -79,22 +75,9 @@
               "RelativeDocumentMoniker": "Plant\\Plant.cs",
               "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Plant.cs",
               "RelativeToolTip": "Plant\\Plant.cs",
-              "ViewState": "AgIAAIsAAAAAAAAAAAA0wKgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALkAAAAAAAAAAAAowJAAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T09:12:07.967Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NodeControl.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Controls\\NodeControl.cs",
-              "RelativeDocumentMoniker": "Plant\\Controls\\NodeControl.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Plant\\Controls\\NodeControl.cs",
-              "RelativeToolTip": "Plant\\Controls\\NodeControl.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAwwEcAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T08:48:27.449Z",
+              "WhenOpened": "2025-08-31T20:42:18.055Z",
               "EditorCaption": ""
             }
           ]

@@ -2,269 +2,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Reflection;
 using System.Xml;
 
 namespace CaptainOfPlanner
 {
-    public abstract class Link
+    public class PlantNodes : IEnumerable<Node> , IDisposable
     {
-        public ResourceCount ResourceCount { get; set; }
-        public readonly Node Owner;
-
-        protected Link(Node owner)
-        {
-            Owner = owner;
-            ResourceCount = ResourceCount.Undefined;
-        }
-
-        public override string ToString()
-        {
-            return $"{Owner.GetType()} {ResourceCount}";
-        }
-    }
-
-    public class Input : Link
-    {
-        internal Input(Node owner) : base(owner) { }
-    }
-
-    public class Output : Link
-    {
-        internal Output(Node owner) : base(owner) { }
-    }
-
-
-    /// <summary>
-    /// A node rapresent a single resource's function.
-    /// This base class can be used as generic node
-    /// </summary>
-    public class Node
-    {
-        protected static int instance_counter = 0;
-        public virtual PlantNodeType Type { get => PlantNodeType.Generic; }
-        
-        /// <summary>
-        /// optional name
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// unique integer to define class
-        /// </summary>
-        public int Id { get; }
-        /// <summary>
-        /// Main owner of all nodes
-        /// </summary>
-        public Plant Plant { get; }
-        /// <summary>
-        /// bound size of node in plant space
-        /// </summary>
-        protected RectangleF aabb;
-        /// <summary>
-        /// the base controller to interact with
-        /// </summary>
-        public NodeControl Control { get; protected set; }
-
-        public List<Input> Inputs;
-        public List<Output> Outputs;
-
-
-        internal Node(Plant plant, string name = "generic node") 
-        {
-            Name = name;
-            Plant = plant;
-            Id = instance_counter++;
-            Inputs = new List<Input>();
-            Outputs = new List<Output>();
-            CreateController();
-        }
-
-        public virtual NodeControl CreateController()
-        {
-            Control = null;
-            if (Plant.Control is PlantControl parent)
-            {
-                Control = new NodeControl(parent, this);
-                parent.SuspendLayout();
-                parent.Controls.Add(Control);
-                parent.ResumeLayout(false);
-            }
-            return Control;
-        }
-        /// <summary>
-        /// Create new input linker and add to inputlist
-        /// </summary>
-        public Input CreateInput()
-        {
-            var node = new Input(this);
-            Inputs.Add(node);
-            return node;
-        }
-        public Output CreateOutput()
-        {
-            var node = new Output(this);
-            Outputs.Add(node);
-            return node;
-        }
-        /// <summary>
-        /// Mark as deleted, remove dependent controllers
-        /// </summary>
-        public void Delete()
-        {
-            if (Plant.Control is PlantControl parent)
-            {
-                parent.SuspendLayout();
-                parent.Controls.Remove(Control);
-                parent.ResumeLayout(false);
-                Control.Dispose();
-            }
-        }
-
-
-        public virtual void SaveXml(XmlDocument doc)
-        {
-            var node = doc.CreateElement("Node");
-            node.SetAttribute("type", Type.ToString());
-            node.SetAttribute("id", Id.ToString());
-            doc.AppendChild(node);
-        }
-    }
-
-    /// <summary>
-    /// A node that transform some inputs in some outputs
-    /// </summary>
-    public class Processor : Node
-    {
-        public override PlantNodeType Type => PlantNodeType.Processor;
-        Recipe recipe;
-
-        /// <summary>
-        /// Changing recipe cause invalidating all inputs and outputs
-        /// </summary>
-        public Recipe Recipe
-        {
-            get => recipe;
-            set
-            {
-                if (recipe == value) return;
-                recipe = value;
-
-                Inputs.Clear();
-                Outputs.Clear();
-
-                foreach (var itemcount in recipe.Inputs)
-                    CreateInput().ResourceCount = itemcount;
-                foreach (var itemcount in recipe.OutPuts)
-                    CreateOutput().ResourceCount = itemcount;
-
-            }
-        }
-        
-        internal Processor(Plant plant, string name = "processor") : base(plant, name)
-        {
-
-        }
-
-        public override NodeControl CreateController()
-        {
-            Control = null;
-            if (Plant?.Control is PlantControl parent)
-            {
-                Control = new Controls.ProcessorControl(parent, this);
-                parent.SuspendLayout();
-                parent.Controls.Add(Control);
-                parent.ResumeLayout(false);
-            }
-            return Control;
-        }
-
-        public override void SaveXml(XmlDocument doc)
-        {
-            base.SaveXml(doc);
-        }
-
-    }
-
-    /// <summary>
-    /// A node for only one resource that can have one input and one output, can be used as generator for infinite resources
-    /// or an infinite storage or a flow rate graph
-    /// </summary>
-    public class Storage : Node
-    {
-        public override PlantNodeType Type => PlantNodeType.Storage;
-        internal Storage(Plant plant, string name = "storage") : base(plant, name)
-        {
-
-        }
-
-        public override NodeControl CreateController()
-        {
-            Control = null;
-            if (Plant?.Control is PlantControl parent)
-            {
-                Control = new StorageControl(parent, this);
-                parent.SuspendLayout();
-                parent.Controls.Add(Control);
-                parent.ResumeLayout(false);
-            }
-            return Control;
-        }
-        public override void SaveXml(XmlDocument doc)
-        {
-            base.SaveXml(doc);
-        }
-    }
-
-    /// <summary>
-    /// A node for only one resource that can merge more than one inputs and or split it to more than one ouputs
-    /// </summary>
-    public class Balancer : Node
-    {
-        public override PlantNodeType Type => PlantNodeType.Balancer;
-        internal Balancer(Plant plant, string name = "balancer") : base(plant, name)
-        {
-
-        }
-        public override NodeControl CreateController()
-        {
-            Control = null;
-            if (Plant?.Control is PlantControl parent)
-            {
-                Control = new Controls.BalancerControl(parent, this);
-                parent.SuspendLayout();
-                parent.Controls.Add(Control);
-                parent.ResumeLayout(false);
-            }
-            return Control;
-        }
-        public override void SaveXml(XmlDocument doc)
-        {
-            base.SaveXml(doc);
-        }
-
-    }
-
-    public class PlantNodes : IEnumerable<Node>
-    {
-        Plant root;
+        Plant plant;
         List<Node> nodes;
 
-        public PlantNodes(Plant root)
+        public PlantNodes(Plant plant)
         {
-            this.root = root;
+            this.plant = plant;
             nodes = new List<Node>();
         }
-
         public void AddNode(Node node)
         {
+            if (node == null) return;
             nodes.Add(node);
+            plant.Control.AddNodeControl(node.Control);
         }
         public void RemoveNode(Node node)
         {
+            if (node == null) return;
             nodes.Remove(node);
-            node.Delete();
+            node.Inputs.Clear();
+            node.Outputs.Clear();
+            plant.Control.RemoveNodeControl(node.Control);
         }
 
 
@@ -274,85 +39,139 @@ namespace CaptainOfPlanner
         }
 
         IEnumerator IEnumerable.GetEnumerator()=> GetEnumerator();
-        
-    }
 
+        public void Dispose()
+        {
+            while (nodes.Count > 0) RemoveNode(nodes[nodes.Count - 1]);
+        }
+    }
 
     /// <summary>
     /// Main factory class
     /// </summary>
-    public class Plant
+    public class Plant : IDisposable
     {
+        PlantControl control;
+
         public string Name { get; set; }
         /// <summary>
         /// Node list is the basic plant structure, each node rapresent a resource process
         /// </summary>
         public PlantNodes Nodes { get; }
-
-        public PlantControl Control { get; }
-
+        public PlantControl Control
+        {
+            get => control;
+            set
+            {
+                if (control != null) control.OnNodeClosing -= OnNodeClosing;
+                if (value != null)
+                {
+                    value.OnNodeClosing += OnNodeClosing;
+                }
+                control = value;
+            }
+        }
+        
         public Plant(string name)
         {
             Name = name;
             Nodes = new PlantNodes(this);
-            Control = new PlantControl(this);
+        }
+
+        private void OnNodeClosing(Node sender)
+        {
+            Nodes.RemoveNode(sender);
+        }
+
+        public void UnLinking(Link A)
+        {
+            var tmp = A.Linked;
+            A.Linked = null;
+            if (tmp != null)
+            {
+                tmp.Linked = null;
+                tmp.Control?.Invalidate();
+            }
+        }
+
+        public bool Linking(Link A, Link B)
+        {
+            if (!A.IsLinkable(B)) return false;
+
+            //avoid self linking
+            if (A.Owner==B.Owner) return false;
+
+            UnLinking(A);
+            UnLinking(B);
+
+            A.Linked = B;
+            B.Linked = A;
+
+            return true;
         }
 
 
         /// <summary>
-        /// Create a plant's node and link to its controller
+        /// Create a plant's node and its controller.
         /// </summary>
-        public NODE CreateNode<NODE>(string name = null) where NODE : Node
+        public Node CreateNode(NodeType type, string name = null)
         {
-            object[] arg = new object[] { this, string.IsNullOrEmpty(name) ? Type.Missing : name };
-            var constructorInfo = typeof(NODE).GetConstructor(
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.OptionalParamBinding,
-                null,
-                new Type[] { typeof(Plant), typeof(string) },
-                null);
-            
-            var node = (NODE)constructorInfo.Invoke(arg);
-
-
+            Console.WriteLine("Create Node " + type);
+            Node node;
+            switch (type)
+            {
+                case NodeType.Processor:node= new Processor(this, name); break;
+                case NodeType.Balancer:node = new Balancer(this, name); break;
+                case NodeType.Storage:node = new Storage(this, name); break;
+                default:node = new Node(this, name); break;
+            }
             Nodes.AddNode(node);
-
-            Control.ResumeLayout(true);
-
             return node;
         }
-
-        public void RemoveNode(Node node)
-        {
-            Nodes.RemoveNode(node);
-        }
-
-
-        public void OnMouse(Point screen)
-        {
-
-        }
-
 
         /// <summary>
         /// Save Plant scene to xml file
         /// </summary>
         public void SaveXml(string xmlfile)
         {
+            RecalculateLinkId();
+
             var doc = new XmlDocument();
             var plant = doc.CreateElement("Plant");
             plant.SetAttribute("name", Name);
             doc.AppendChild(plant);
 
-            foreach (var node in Nodes) node.SaveXml(doc);
+            foreach (var node in Nodes) 
+                node.SaveXml(plant);
 
             File.Create(xmlfile).Dispose();
             doc.Save(xmlfile);
         }
 
+
+        void RecalculateLinkId()
+        {
+            int ID = 1;
+            foreach(var node in Nodes)
+            {
+                foreach (var link in node.Inputs)
+                    link.xml_id = ID++;
+                foreach (var link in node.Outputs)
+                    link.xml_id = ID++;
+            }
+        }
+
+        public void Dispose()
+        {
+            Nodes.Dispose();
+            Control = null;
+        }
+
+
         /// <summary>
         /// Load a new Plant scene from xml file
         /// </summary>
-        public static Plant Load(string xmlfile)
+        public static Plant Load(string xmlfile, PlantControl control)
         {
             var doc = new XmlDocument();
             doc.Load(xmlfile);
@@ -362,14 +181,28 @@ namespace CaptainOfPlanner
                 return null;
             }
             var plant = new Plant(doc.DocumentElement.GetAttribute("name"));
+            plant.Control = control;
+            control.Plant = plant;
 
-            foreach (XmlNode element in doc.DocumentElement.ChildNodes)
+            Dictionary<int, Link> ToResolve = new Dictionary<int, Link>();
+
+            foreach (XmlElement element in doc.DocumentElement.ChildNodes)
+                Node.LoadXml(plant, element, ToResolve);
+            
+
+            foreach (var link in ToResolve.Values)
             {
+                if (link.xml_linked_id > 0 && ToResolve.TryGetValue(link.xml_linked_id, out Link tolink) && link.IsLinkable(tolink))
+                {
+                    link.Linked = tolink;
+                    tolink.Linked = link;
+                    link.Control?.Invalidate();
+                    tolink.Control?.Invalidate();
+                }
 
             }
-
+            plant.Control.Invalidate();
             return plant;
-
         }
     }
 }

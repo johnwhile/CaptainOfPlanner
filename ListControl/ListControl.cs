@@ -15,9 +15,10 @@ namespace CaptainOfPlanner
 
             itemList.Items.AddRange(new object[] 
             {
-                PlantNodeType.Processor,
-                PlantNodeType.Balancer,
-                PlantNodeType.Storage
+                NodeType.Generic,
+                NodeType.Processor,
+                NodeType.Balancer,
+                NodeType.Storage
             });
 
             itemList.DoubleClick += InsertNode;
@@ -26,15 +27,10 @@ namespace CaptainOfPlanner
 
         private void InsertNode(object sender, EventArgs e)
         {
-            if (!Enum.TryParse(itemList.SelectedItem?.ToString(), out PlantNodeType type)) return;
+            if (!Enum.TryParse(itemList.SelectedItem?.ToString(), out NodeType type)) return;
 
-
-            switch(type)
-            {
-                case PlantNodeType.Processor: Main.Plant.CreateNode<Processor>(); break;
-                case PlantNodeType.Balancer: Main.Plant.CreateNode<Balancer>(); break;
-                case PlantNodeType.Storage: Main.Plant.CreateNode<Storage>(); break;
-            }
+            Plant Plant = Main.Plant;
+            Node node = Plant.CreateNode(type);
         }
     }
 }

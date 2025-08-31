@@ -1,5 +1,5 @@
 <Recipes>
-  <!-- 
+<!-- 
  <recipe time=" ">
     <input  count="" name=""></input>
     <input  count="" name=""></input>
@@ -7,7 +7,7 @@
     <output count="" name=""></output>
  </recipe>
 -->
-  <!-- ======================================================== CRUDE OIL-->
+<!-- ======================================================== CRUDE OIL-->
   <recipe time="20">
     <input  count="20" name="Crude Oil"></input>
     <input  count="02" name="Coal"></input>
@@ -29,48 +29,48 @@
     <output count="08" name="Steam (High)"></output>
     <output count="15" name="Exhaust"></output>
   </recipe>
-  <recipe time="20">
+    <recipe time="20">
     <input  count="16" name="Medium Oil"></input>
     <input  count="01" name="Steam (High)"></input>
     <output count="12" name="Diesel"></output>
     <output count="10" name="Light Oil"></output>
   </recipe>
-  <!-- ======================================================== HEAVY OIL-->
-  <recipe time="10">
+<!-- ======================================================== HEAVY OIL-->
+ <recipe time="10">
     <input  count="8" name="Water"></input>
     <input  count="6" name="Heavy Oil"></input>
     <output count="8" name="Steam (High)"></output>
     <output count="15" name="Exhaust"></output>
-  </recipe>
-  <recipe time="30">
+ </recipe>
+ <recipe time="30">
     <input  count="2" name="Diamond"></input>
     <input  count="1" name="Heavy Oil"></input>
     <output count="8" name="Diamond Paste"></output>
-  </recipe>
-  <recipe time="20">
+ </recipe>
+   <recipe time="20">
     <input  count="08" name="Heavy Oil"></input>
     <input  count="03" name="Hydrogen"></input>
     <output count="12" name="Diesel"></output>
     <output count="02" name="Fuel Gas"></output>
-  </recipe>
+ </recipe>
   <recipe time="20">
     <input  count="08" name="Heavy Oil"></input>
     <input  count="03" name="Hydrogen"></input>
     <output count="12" name="Naphtha"></output>
     <output count="02" name="Fuel Gas"></output>
-  </recipe>
-  <recipe time="20">
+ </recipe>
+ <recipe time="20">
     <input  count="08" name="Heavy Oil"></input>
     <output count="10" name="Air Pollution"></output>
-  </recipe>
-  <!-- ======================================================== Light OIL-->
-  <recipe time="10">
+ </recipe>
+ <!-- ======================================================== Light OIL-->
+<recipe time="10">
     <input  count="8" name="Water"></input>
     <input  count="9" name="Light Oil"></input>
     <output count="8" name="Steam (High)"></output>
     <output count="12" name="Exhaust"></output>
-  </recipe>
-  <recipe time="20">
+ </recipe>
+<recipe time="20">
     <input  count="10" name="Light Oil"></input>
     <input  count="01" name="Steam (High)"></input>
     <output count="08" name="Naphtha"></output>
@@ -79,9 +79,9 @@
   <recipe time="20">
     <input  count="12" name="Light Oil"></input>
     <output count="08" name="Air Pollution"></output>
-  </recipe>
-  <!-- ======================================================== Naptha -->
-
-
-
+ </recipe>
+ 
+ 
+ 
+ 
 </Recipes>

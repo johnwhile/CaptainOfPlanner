@@ -37,7 +37,6 @@ namespace CaptainOfPlanner
     }
 
     /// <summary>
-    /// 3 byte
     /// </summary>
     public struct Resource
     {
@@ -47,7 +46,26 @@ namespace CaptainOfPlanner
         public byte ID;
         public ResourceState State;
         public ResourceOrigin Origin;
-        public override string ToString() => ResourcesManager.TryGetName(ID);
+
+        /// <summary>
+        /// Get the resource's name
+        /// </summary>
+        public string Name => ResourcesManager.TryGetName(ID);
+
+        public override string ToString() => Name;
+
+        public string ToFormatString(int numchars)
+        {
+            char[] result = new char[numchars];
+            for (int i = 0; i < numchars; i++) result[i] = '\t';
+
+            var name = ResourcesManager.TryGetName(ID);
+            for (int i = 0; i < Math.Min(name.Length, numchars); i++) result[i] = name[i];
+
+            return new string(result);
+        }
+
+
 
         public static Resource Undefined =>
             new Resource()
@@ -56,6 +74,8 @@ namespace CaptainOfPlanner
                 State = ResourceState.Undefined,
                 Origin = ResourceOrigin.Undefined
             };
+
+        public bool IsCompatible(Resource other) => ID == other.ID;
 
         public static int CompareState(Resource x, Resource y) => x.State.CompareTo(y.State);
         public static int CompareOrigin(Resource x, Resource y) => x.Origin.CompareTo(y.Origin);
@@ -104,6 +124,11 @@ namespace CaptainOfPlanner
             return result;
         }
     }
+
+
+    /// <summary>
+    /// 184 resources
+    /// </summary>
     public static class ResourcesManager
     {
         public static List<string> ResourcesName;
@@ -232,7 +257,7 @@ namespace CaptainOfPlanner
             int index = 1;
             XmlNode node = null;
 
-            switch(sortby)
+            switch (sortby)
             {
                 case SaveResourceOption.SortByState:
                 case SaveResourceOption.SortByNameThenState:
@@ -295,7 +320,7 @@ namespace CaptainOfPlanner
 
                 var resource_name_tmp = new List<string>(ResourcesName.Count) { ResourcesName[0] };
 
-                for (byte i=1;i<ResourcesName.Count;i++)
+                for (byte i = 1; i < ResourcesName.Count; i++)
                 {
                     var res = Resources[i];
                     resource_name_tmp.Add(ResourcesName[res.ID]);
@@ -305,7 +330,7 @@ namespace CaptainOfPlanner
                 ResourcesName = resource_name_tmp;
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show("Error loading Resources.xml", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Resources = new List<Resource>() { Resource.Undefined };

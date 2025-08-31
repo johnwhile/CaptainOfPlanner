@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base36.cs" />
+    <Compile Include="Math.cs" />
+    <Compile Include="Plant\Controls\ButtonClose.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Plant\Controls\Collections.cs" />
     <Compile Include="Plant\Controls\LinkControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -54,64 +60,31 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Plant\Controls\NodeControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Plant\Controls\PlantControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Plant\FactoryPlant.cs" />
-    <Compile Include="Plant\BalancerNode.cs" />
-    <Compile Include="Plant\ContainerNode.cs" />
-    <Compile Include="Plant\LinkNode.cs" />
+    <Compile Include="Plant\Nodes\LinkCollection.cs" />
+    <Compile Include="Plant\Nodes\Node.cs" />
+    <Compile Include="Plant\Nodes\Processor.cs" />
+    <Compile Include="Plant\Nodes\Balancer.cs" />
+    <Compile Include="Plant\Nodes\Storage.cs" />
+    <Compile Include="Plant\Link.cs" />
     <Compile Include="Plant\Plant.cs" />
-    <Compile Include="Plant\ProcessorNode.cs" />
-    <Compile Include="Plant\PlantNode.cs" />
     <Compile Include="ListControl\ListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ListControl\ListControl.Designer.cs">
       <DependentUpon>ListControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PropPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Resource\Recipe.cs" />
     <Compile Include="Resource\RecipesManager.cs" />
     <Compile Include="Resource\ResourcesManager.cs" />
-    <Compile Include="Viewer\BalancerControl.cs">
+    <Compile Include="Viewer\GraphicalOverlay.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Viewer\ProcessorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Viewer\PlantNodeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Viewer\GraphicExtension.cs" />
-    <Compile Include="Viewer\PlantViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Viewer\PlantViewer.Designer.cs">
-      <DependentUpon>PlantViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Viewer\PlantNodeBaseControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Viewer\PlantNodeBaseControl.Designer.cs">
-      <DependentUpon>PlantNodeBaseControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Viewer\ContainerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Viewer\ContainerControl.Designer.cs">
-      <DependentUpon>ContainerControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Viewer\Linker.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Viewer\Linker.Designer.cs">
-      <DependentUpon>Linker.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Extension.cs" />
     <Compile Include="Window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,18 +106,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Viewer\Linker.resx">
-      <DependentUpon>Linker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Viewer\PlantViewer.resx">
-      <DependentUpon>PlantViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Viewer\PlantNodeBaseControl.resx">
-      <DependentUpon>PlantNodeBaseControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Viewer\ContainerControl.resx">
-      <DependentUpon>ContainerControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window.resx">
       <DependentUpon>Window.cs</DependentUpon>
     </EmbeddedResource>

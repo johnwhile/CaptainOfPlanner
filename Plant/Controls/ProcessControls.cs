@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -6,27 +7,20 @@ namespace CaptainOfPlanner.Controls
 {
     public class ProcessorControl : NodeControl
     {
-        ComboBox combox;
+        public ComboBox combox;
 
-        public Recipe Recipe
+        public ProcessorControl(Processor node) : base(node)
         {
-            get { if (Node is Processor processor) return processor.Recipe; return null; }
-            set { if (Node is Processor processor) processor.Recipe = value; }
-        }
-
-        public ProcessorControl(PlantControl owner, Processor node) : base(owner, node)
-        {
+            MyDefaultSize.width = 150;
             HeaderColor = Color.FromArgb(160, 80, 40);
+
+            int maxlength = RecipesManager.MaxRecipesFormattedNameLenght;
 
             combox = new ComboBox();
             combox.Items.Clear();
 
-            int maxlength = 0;
             foreach (var recipe in RecipesManager.Recipes)
-            {
-                maxlength = Math.Max(maxlength, recipe.ToString().Length);
-                combox.Items.Add(recipe);
-            }
+                combox.Items.Add(recipe.Display);
 
             combox.DropDownWidth = maxlength * 6;
             combox.Location = new Point(2, headerHeight + 2);
@@ -37,30 +31,29 @@ namespace CaptainOfPlanner.Controls
             Controls.Add(combox);
         }
 
+
+        public Vector2i GetOffsetLocation(LinkType type) =>
+            new Vector2i(type == LinkType.Input ? 2 : Width - LinkControl.MyDefaultSize.width - 2, combox.Location.Y + combox.Height + 10);
+
         private void SelectionChanged(object sender, EventArgs e)
         {
             var box = (ComboBox)sender;
+            if (!(Node is Processor processor))
+            {
+                throw new ArgumentException("invalid cast");
+            }
 
             int index = box.SelectedIndex;
-            if (index < 0) { RemoveLinkers(); return; }
 
-            if (box.Items[index] is Recipe recipe && Node is Processor processor && processor.Recipe != recipe)
+            if (index <= 0)
             {
-                processor.Recipe = recipe;
-                RemoveLinkers();
-
-
+                processor.Inputs.Clear();
+                processor.Outputs.Clear();
+                return;
             }
-        }
 
-        void UpdateLayout()
-        {
-
-        }
-
-
-        void RemoveLinkers()
-        {
+            var recipe = RecipesManager.Recipes[index];
+            if (processor.Recipe != recipe) processor.Recipe = recipe;
 
         }
     }
@@ -70,7 +63,7 @@ namespace CaptainOfPlanner.Controls
 
     public class BalancerControl : NodeControl
     {
-        public BalancerControl(PlantControl owner, Balancer node) : base(owner, node)
+        public BalancerControl(Balancer node) : base(node)
         {
             HeaderColor = Color.FromArgb(40, 160, 90);
         }
@@ -78,7 +71,7 @@ namespace CaptainOfPlanner.Controls
 
     public class StorageControl : NodeControl
     {
-        public StorageControl(PlantControl owner, Storage node) : base(owner, node)
+        public StorageControl(Storage node) : base(node)
         {
             HeaderColor = Color.FromArgb(20, 60, 120);
         }

@@ -8,43 +8,12 @@ namespace CaptainOfPlanner
 {
     public partial class Window : Form
     {
-        Timer timer;
-
         public Plant Plant;
 
         public Window()
         {
-            Plant = new Plant("myplant");
-            plantControl = Plant.Control;
-
-
             InitializeComponent();
-            
             listControl.Main = this;
-            timer = new Timer();
-            timer.Interval = 500;
-            timer.Tick += Timer_Tick;
-            timer.Start();
-
-        }
-
-        protected override void OnLostFocus(EventArgs e)
-        {
-            base.OnLostFocus(e);
-            timer.Stop();
-
-        }
-
-        protected override void OnGotFocus(EventArgs e)
-        {
-            base.OnGotFocus(e);
-            timer.Start();
-        }   
-
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            //plantViewer.Refresh();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -55,6 +24,9 @@ namespace CaptainOfPlanner
             RecipesManager.Load("Resource\\Recipes.xml");
             //ResouceManager.Save("Resouces_out.xml", SaveResourceOption.SortByOrigin);
 
+            Plant = new Plant("myplant");
+            Plant.Control = plantControl;
+            plantControl.Plant = Plant;
         }
 
         private void SaveMenu_Click(object sender, EventArgs e)
@@ -79,7 +51,9 @@ namespace CaptainOfPlanner
                 dialog.RestoreDirectory = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    Plant = CaptainOfPlanner.Plant.Load(dialog.FileName);
+                    if (Plant != null) Plant.Dispose();
+                    plantControl.Clear();
+                    Plant = Plant.Load(dialog.FileName, plantControl);
                 }
             }
         }
