@@ -1,15 +1,10 @@
-﻿using CaptainOfPlanner.Controls;
+﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CaptainOfPlanner
+namespace CaptainOfPlanner.NewControls
 {
-    public class PlantControllersManager : IDisposable
+    public class PlantControllersManager
     {  
         UserControl Viewer;
         Plant plant;
@@ -24,6 +19,7 @@ namespace CaptainOfPlanner
                 {
                     plant.OnNodeCreating -= PlantOnNodeCreating;
                     plant.OnNodeRemoving -= PlantOnNodeRemoving;
+                    Viewer.Controls.Clear();
                 }
                 if (value != null)
                 {
@@ -38,22 +34,19 @@ namespace CaptainOfPlanner
         /// <summary>
         /// </summary>
         /// <param name="viewer">must be an empty controller</param>
-        public PlantControllersManager(UserControl viewer, Plant plant)
+        public PlantControllersManager(UserControl viewer)
         {
-            if (viewer == null || plant == null) throw new ArgumentNullException();
-
+            if (viewer == null) throw new ArgumentNullException();
             Viewer = viewer;
-            Plant = plant;
-
-            Viewer.Controls.Clear();
         }
 
 
         public bool CreateControl(Node node, out Control control)
         {
+            control = null;
             if (node is Processor processor)
             {
-                ProcessorControl control_proc = new ProcessorControl(processor);
+                ProcessControl control_proc = new ProcessControl(processor);
                 control = control_proc;
 
             }
@@ -75,16 +68,6 @@ namespace CaptainOfPlanner
         private void PlantOnNodeRemoving(Node sender)
         {
             throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            if (Plant != null)
-            {
-                Plant.OnNodeCreating -= PlantOnNodeCreating;
-                Plant.OnNodeRemoving -= PlantOnNodeRemoving;
-                Plant = null;
-            }
         }
     }
 }

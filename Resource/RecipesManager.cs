@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -6,34 +7,103 @@ using System.Xml;
 
 namespace CaptainOfPlanner
 {
-    public class CompareByName : IComparer<Recipe>
+    public class RecipeCollection : IEnumerable<Recipe>
     {
-        public int Compare(Recipe x, Recipe y) => x.Display.CompareTo(y.Display);
-    };
+        class CompareByName : IComparer<Recipe>
+        {
+            public int Compare(Recipe x, Recipe y) => x.Display.CompareTo(y.Display);
+        };
+
+        List<Recipe> recipes;
+        Dictionary<string, Recipe> dictionary;
+
+        internal RecipeCollection()
+        {
+            recipes = new List<Recipe>();
+            dictionary = new Dictionary<string, Recipe>();
+        }
+
+        public Recipe this[int index] 
+        { 
+            get => recipes[index];
+        }
+
+        public int Count => recipes.Count;
+
+        public bool TryGetByEncoded(string encoded, out Recipe recipe) =>
+            dictionary.TryGetValue(encoded, out recipe);
+
+        public bool TryAdd(Recipe recipe)
+        {
+            if (!Contains(recipe))
+            {
+                recipes.Add(recipe);
+                dictionary.Add(recipe.Encoded, recipe);
+                return true;
+            }
+            return false;
+        }
+
+        public void Clear()
+        {
+            recipes.Clear();
+            dictionary.Clear();
+        }
+
+        /// <summary>
+        /// Sort by name
+        /// </summary>
+        public void Sort(int startindex)
+        {
+            recipes.Sort(startindex, recipes.Count - startindex, new CompareByName());
+        }
+
+        public bool Contains(Recipe recipe) => dictionary.ContainsKey(recipe.Encoded);
+        
+        /// <summary>
+        /// Filter by resource
+        /// </summary>
+        public IEnumerator<Recipe> GetEnumerator(Resource resource)
+        {
+            foreach (var recipe in recipes)
+                if (recipe.Contains(resource, out _))
+                    yield return recipe;
+        }
+        public IEnumerator<Recipe> GetEnumerator()
+        {
+            foreach(var recipe in recipes)
+                yield return recipe;
+        }
+
+        public int IndexOf(Recipe item)=>
+            recipes.IndexOf(item);
+
+        public bool Remove(Recipe item)=>
+            dictionary.Remove(item.Encoded) && recipes.Remove(item);
+        
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
 
     public static class RecipesManager
     {
-        static Dictionary<string, Recipe> Dictionary;
-        public static List<Recipe> Recipes;
         public static int MaxRecipesFormattedNameLenght;
         public static int max_resource_count;
 
+        public static RecipeCollection Recipes;
 
         static RecipesManager()
         {
-            Recipes = new List<Recipe>();
-            Dictionary = new Dictionary<string, Recipe>();
+            Recipes = new RecipeCollection();
         }
 
-        public static bool TryGetValue(string encoded, out Recipe recipe) =>
-            Dictionary.TryGetValue(encoded, out recipe);
+
         
         /// <summary>
         /// ResourceManager must be load before to check item validity
         /// </summary>
         public static bool Load(string xml = "Recipes.xml")
         {
-            Dictionary.Clear();
+            Recipes.Clear();
 
             if (ResourcesManager.Resources.Count < 1) return false;
 
@@ -96,9 +166,7 @@ namespace CaptainOfPlanner
                 return recipe;
             }
 
-            var empty = Recipe.Empty;
-
-            Dictionary.Add(empty.Encoded, empty);
+            Recipes.TryAdd(Recipe.Empty);
 
             var doc = new XmlDocument();
             doc.Load(xml);
@@ -109,18 +177,12 @@ namespace CaptainOfPlanner
                 {
                     Recipe recipe = ReadRecipe(node);
                     if (recipe != null)
-                    {
-                        if (Dictionary.ContainsKey(recipe.Encoded))
+                        if (!Recipes.TryAdd(recipe))
                             throw new ArgumentException("Recipe already exist " + recipe.ToString());
-                        Dictionary.Add(recipe.Encoded, recipe);
-                    }
+                    
                 }
 
-            Recipes = Dictionary.Values.ToList();
-
-
-
-            Recipes.Sort(1,Recipes.Count-1, new CompareByName());
+            Recipes.Sort(1);
 
             for (int id = 0; id < Recipes.Count; id++)
             {

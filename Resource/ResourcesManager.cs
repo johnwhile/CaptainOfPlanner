@@ -56,13 +56,10 @@ namespace CaptainOfPlanner
 
         public string ToFormatString(int numchars)
         {
-            char[] result = new char[numchars];
-            for (int i = 0; i < numchars; i++) result[i] = '\t';
-
             var name = ResourcesManager.TryGetName(ID);
-            for (int i = 0; i < Math.Min(name.Length, numchars); i++) result[i] = name[i];
-
-            return new string(result);
+            bool cut = name.Length > numchars;
+            if (cut) name = name.Substring(0, numchars-3) + "...";
+            return name;
         }
 
 

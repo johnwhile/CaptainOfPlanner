@@ -1,22 +1,15 @@
-﻿using CaptainOfPlanner.Controls;
-using System;
-using System.Drawing;
-using System.Linq;
+﻿using System;
 using System.Windows.Forms;
 
-namespace CaptainOfPlanner
+namespace CaptainOfPlanner.NewControls
 {
     public partial class Window : Form
     {
-        PlantControllersManager Manager;
-
-
-        public Plant Plant;
+        public PlantControllersManager Manager;
 
         public Window()
         {
             InitializeComponent();
-            listControl.Main = this;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -27,23 +20,22 @@ namespace CaptainOfPlanner
             RecipesManager.Load("Resource\\Recipes.xml");
             //ResouceManager.Save("Resouces_out.xml", SaveResourceOption.SortByOrigin);
 
-            Plant = new Plant("myplant");
-            Plant.Control = plantControl;
-            plantControl.Plant = Plant;
-
-            Manager = new PlantControllersManager(plantControl, Plant);
+            Manager = new PlantControllersManager(plantControl);
+            Manager.Plant = new Plant("MyPlant");
         }
 
         private void SaveMenu_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog())
             {
-                dialog.FileName = Plant.Name + ".xml";
+                Plant plant = Manager.Plant;
+
+                dialog.FileName = plant.Name + ".xml";
                 dialog.Filter = "plant blueprint (*.xml)|*.xml";
                 dialog.RestoreDirectory = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    Plant.SaveXml(dialog.FileName);
+                    plant.SaveXml(dialog.FileName);
                 }
             }
         }
@@ -56,9 +48,10 @@ namespace CaptainOfPlanner
                 dialog.RestoreDirectory = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (Plant != null) Plant.Dispose();
-                    plantControl.Clear();
-                    Plant = Plant.Load(dialog.FileName, plantControl);
+                    var plant = new Plant("MyPlant");
+                    Manager.Plant = plant;
+                    if (!plant.Load(dialog.FileName))
+                        MessageBox.Show("Error loading plant");
                 }
             }
         }

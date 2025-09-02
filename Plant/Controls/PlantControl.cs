@@ -11,7 +11,6 @@ namespace CaptainOfPlanner.Controls
         Pen pen = new Pen(Brushes.Gray, 5);
 
         public Plant Plant { get; set; }
-        public GraphicalOverlay Overlay { get; }
 
         Timer timer;
 

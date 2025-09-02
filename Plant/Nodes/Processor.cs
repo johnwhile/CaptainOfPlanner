@@ -1,11 +1,7 @@
 ﻿
 using CaptainOfPlanner.Controls;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Xml;
-using static System.Windows.Forms.LinkLabel;
 
 namespace CaptainOfPlanner
 {
@@ -63,14 +59,14 @@ namespace CaptainOfPlanner
 
         public void LoadXml(XmlElement element)
         {
-            if (RecipesManager.TryGetValue(element.GetAttribute("recipe"), out Recipe recipe))
+            if (RecipesManager.Recipes.TryGetByEncoded(element.GetAttribute("recipe"), out Recipe recipe))
             {
                 if (Control is ProcessorControl processor)
                 {
-                    for (int i = 0; i < processor.combox.Items.Count; i++)
-                        if (processor.combox.Items[i] is string name && name.CompareTo(recipe.Display) == 0)
+                    for (int i = 0; i < processor.comboRecipe.Items.Count; i++)
+                        if (processor.comboRecipe.Items[i] is string name && name.CompareTo(recipe.Display) == 0)
                         {
-                            processor.combox.SelectedIndex = i;
+                            processor.comboRecipe.SelectedIndex = i;
                             break;
                         }
                 }

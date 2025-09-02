@@ -1,20 +1,20 @@
-﻿using CaptainOfPlanner.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
-namespace CaptainOfPlanner
+namespace CaptainOfPlanner.NewControls
 {
     public delegate void PlantEventHandler(Plant sender);
     public delegate void NodeEventHandler(Node sender);
 
+    [DebuggerDisplay("Name")]
     /// <summary>
     /// Main factory class
     /// </summary>
-    public class Plant : IDisposable
+    public class Plant
     {
-        PlantControl control;
         /// <summary>
         /// Optional name of plat
         /// </summary>
@@ -24,29 +24,12 @@ namespace CaptainOfPlanner
         /// </summary>
         public NodeCollection Nodes { get; }
         
-        public PlantControl Control
-        {
-            get => control;
-            set
-            {
-                if (control != null) control.OnNodeClosing -= OnNodeClosing;
-                if (value != null)
-                {
-                    value.OnNodeClosing += OnNodeClosing;
-                }
-                control = value;
-            }
-        }
-        
+
         public Plant(string name)
         {
             Name = name;
             Nodes = new NodeCollection(this);
 
-            foreach (var d in OnNodeCreating.GetInvocationList())
-            {
-                OnNodeCreating -= (NodeEventHandler)d;
-            }
         }
 
 
@@ -57,7 +40,7 @@ namespace CaptainOfPlanner
         public event NodeEventHandler OnNodeRemoving;
 
 
-        private void OnNodeClosing(Node sender)
+        void OnNodeClosing(Node sender)
         {
             Nodes.RemoveNode(sender);
 
@@ -95,18 +78,15 @@ namespace CaptainOfPlanner
 
 
         /// <summary>
-        /// Create a plant's node and its controller.
+        /// Create a plant's node
         /// </summary>
         public Node CreateNode(NodeType type, string name = null)
         {
             Console.WriteLine("Create Node " + type);
-            Node node;
+            Node node = null;
             switch (type)
             {
                 case NodeType.Processor:node= new Processor(this, name); break;
-                case NodeType.Balancer:node = new Balancer(this, name); break;
-                case NodeType.Storage:node = new Storage(this, name); break;
-                default:node = new Node(this, name); break;
             }
             Nodes.AddNode(node);
             return node;
@@ -117,7 +97,12 @@ namespace CaptainOfPlanner
         /// </summary>
         public void SaveXml(string xmlfile)
         {
-            RecalculateLinkId();
+            int ID = 1;
+            foreach (var node in Nodes)
+            {
+                //foreach (var link in node.Inputs) link.xml_id = ID++;
+                //foreach (var link in node.Outputs) link.xml_id = ID++;
+            }
 
             var doc = new XmlDocument();
             var plant = doc.CreateElement("Plant");
@@ -131,59 +116,38 @@ namespace CaptainOfPlanner
             doc.Save(xmlfile);
         }
 
-        void RecalculateLinkId()
-        {
-            int ID = 1;
-            foreach(var node in Nodes)
-            {
-                foreach (var link in node.Inputs)
-                    link.xml_id = ID++;
-                foreach (var link in node.Outputs)
-                    link.xml_id = ID++;
-            }
-        }
-
-        public void Dispose()
-        {
-            Nodes.Clear();
-            Control = null;
-        }
-
 
         /// <summary>
         /// Load a new Plant scene from xml file
         /// </summary>
-        public static Plant Load(string xmlfile, PlantControl control)
+        public bool Load(string xmlfile)
         {
             var doc = new XmlDocument();
             doc.Load(xmlfile);
             if (doc.DocumentElement.Name != "Plant")
             {
                 Console.WriteLine("Is not a plant xml");
-                return null;
+                return false;
             }
-            var plant = new Plant(doc.DocumentElement.GetAttribute("name"));
-            plant.Control = control;
-            control.Plant = plant;
+
+            Name = doc.DocumentElement.GetAttribute("name");
+
 
             Dictionary<int, Link> ToResolve = new Dictionary<int, Link>();
 
             foreach (XmlElement element in doc.DocumentElement.ChildNodes)
-                Node.LoadXml(plant, element, ToResolve);
+                Node.LoadXml(this, element, ToResolve);
             
-
             foreach (var link in ToResolve.Values)
             {
                 if (link.xml_linked_id > 0 && ToResolve.TryGetValue(link.xml_linked_id, out Link tolink) && link.IsLinkable(tolink))
                 {
-                    link.Linked = tolink;
-                    tolink.Linked = link;
-                    link.Control?.Invalidate();
-                    tolink.Control?.Invalidate();
+
                 }
             }
-            plant.Control.Invalidate();
-            return plant;
+            return true;
         }
+
+        public override string ToString() => Name;
     }
 }

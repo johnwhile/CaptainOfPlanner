@@ -67,6 +67,15 @@ namespace CaptainOfPlanner
             Display = ToFormatString();
         }
 
+        public bool Contains(Resource resource, out LinkType type)
+        {
+            type = LinkType.Undefined;
+            foreach (var res in Inputs) if (res.Resource.IsCompatible(resource)) { type = LinkType.Input; return true; }
+            foreach (var res in OutPuts) if (res.Resource.IsCompatible(resource)) { type = LinkType.Output; return true; }
+            return false;
+        }
+        public int CompareTo(Recipe other) => Display.CompareTo(other.Display);
+
 
         public static Recipe Empty => new Recipe() { Id = -1, Name = "undefined" };
 
@@ -124,7 +133,6 @@ namespace CaptainOfPlanner
             return result;
         }
 
-        public int CompareTo(Recipe other) => Display.CompareTo(other.Display);
 
     }
 

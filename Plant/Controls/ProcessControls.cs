@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,7 +6,8 @@ namespace CaptainOfPlanner.Controls
 {
     public class ProcessorControl : NodeControl
     {
-        public ComboBox combox;
+        public ComboBox comboRecipe;
+        public ComboBox comboFilter;
         public Processor node;
 
         public ProcessorControl(Processor node) : base(node)
@@ -17,26 +17,43 @@ namespace CaptainOfPlanner.Controls
 
             int maxlength = RecipesManager.MaxRecipesFormattedNameLenght;
 
-            combox = new ComboBox();
-            combox.Items.Clear();
+            comboRecipe = new ComboBox();
+            comboFilter = new ComboBox();
+
+            foreach (var resource in ResourcesManager.Resources)
+                comboFilter.Items.Add(resource.Name);
+
+            comboFilter.DropDownWidth = 20;
+            comboFilter.Location = new Point(2, headerHeight + 2);
+            comboFilter.Size = new Size(Width - 4, 20);
+            comboFilter.Text = "-- filter resource --";
+            comboFilter.SelectedValueChanged += FilterSelectionChanged;
+
 
             foreach (var recipe in RecipesManager.Recipes)
-                combox.Items.Add(recipe.Display);
+                comboRecipe.Items.Add(recipe.Display);
 
-            combox.DropDownWidth = maxlength * 6;
-            combox.Location = new Point(2, headerHeight + 2);
-            combox.Size = new Size(Width - 4, 20);
-            combox.Text = "-- select recipe --";
-            combox.SelectedValueChanged += SelectionChanged;
+            comboRecipe.DropDownWidth = maxlength * 6;
+            comboRecipe.Location = new Point(2, headerHeight + 2 + comboFilter.Height);
+            comboRecipe.Size = new Size(Width - 4, 20);
+            comboRecipe.Text = "-- select recipe --";
+            comboRecipe.SelectedValueChanged += RecipeSelectionChanged;
 
-            Controls.Add(combox);
+            Controls.Add(comboRecipe);
         }
 
 
         public Vector2i GetOffsetLocation(LinkType type) =>
-            new Vector2i(type == LinkType.Input ? 2 : Width - LinkControl.MyDefaultSize.width - 2, combox.Location.Y + combox.Height + 10);
+            new Vector2i(type == LinkType.Input ? 2 : Width - LinkControl.MyDefaultSize.width - 2, comboRecipe.Location.Y + comboRecipe.Height + 10);
 
-        private void SelectionChanged(object sender, EventArgs e)
+
+        private void FilterSelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void RecipeSelectionChanged(object sender, EventArgs e)
         {
             var box = (ComboBox)sender;
             if (!(Node is Processor processor))

@@ -1,4 +1,4 @@
-﻿namespace CaptainOfPlanner
+﻿namespace CaptainOfPlanner.NewControls
 {
     partial class ListControl
     {

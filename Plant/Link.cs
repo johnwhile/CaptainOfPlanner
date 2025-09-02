@@ -6,6 +6,7 @@ namespace CaptainOfPlanner
 {
     public enum LinkType
     {
+        Undefined,
         Input,
         Output
     }

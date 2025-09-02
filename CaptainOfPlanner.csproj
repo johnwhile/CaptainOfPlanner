@@ -47,10 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Math.cs" />
-    <Compile Include="NodeControl.cs">
+    <Compile Include="NewControls\PlantControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="NewControls\Node.cs" />
+    <Compile Include="NewControls\NodeCollection.cs" />
+    <Compile Include="Math.cs" />
+    <Compile Include="NewControls\NodeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewControls\Plant.cs" />
+    <Compile Include="NewControls\Processor.cs" />
     <Compile Include="Plant\Controls\ButtonClose.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -74,15 +81,15 @@
     <Compile Include="Plant\Nodes\Storage.cs" />
     <Compile Include="Plant\Link.cs" />
     <Compile Include="Plant\Plant.cs" />
-    <Compile Include="ListControl\ListControl.cs">
+    <Compile Include="NewControls\ListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ListControl\ListControl.Designer.cs">
+    <Compile Include="NewControls\ListControl.Designer.cs">
       <DependentUpon>ListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Plant\NodeCollection.cs" />
-    <Compile Include="PlantControllersManager.cs" />
-    <Compile Include="ProcessControl.cs">
+    <Compile Include="NewControls\PlantControllersManager.cs" />
+    <Compile Include="NewControls\ProcessControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Resource\Recipe.cs" />
@@ -97,7 +104,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ListControl\ListControl.resx">
+    <EmbeddedResource Include="NewControls\ListControl.resx">
       <DependentUpon>ListControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -136,8 +143,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Viewer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

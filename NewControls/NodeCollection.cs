@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
-namespace CaptainOfPlanner
+namespace CaptainOfPlanner.NewControls
 {
+    [DebuggerDisplay("Count = {Count}")]
     public class NodeCollection : IEnumerable<Node>
     {
         Plant plant;
@@ -14,6 +16,9 @@ namespace CaptainOfPlanner
             this.plant = plant;
             nodes = new List<Node>();
         }
+
+        public int Count => nodes.Count;
+
         public void Clear()
         {
             while (nodes.Count > 0) RemoveNode(nodes[nodes.Count - 1]);
@@ -22,15 +27,11 @@ namespace CaptainOfPlanner
         {
             if (node == null) return;
             nodes.Add(node);
-            plant.Control.AddNodeControl(node.Control);
         }
         public void RemoveNode(Node node)
         {
             if (node == null) return;
             nodes.Remove(node);
-            node.Inputs.Clear();
-            node.Outputs.Clear();
-            plant.Control.RemoveNodeControl(node.Control);
         }
 
 
@@ -41,6 +42,9 @@ namespace CaptainOfPlanner
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }
