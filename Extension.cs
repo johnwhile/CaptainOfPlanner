@@ -3,14 +3,36 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
 namespace CaptainOfPlanner
 {
 
-    internal static class GraphicExtension
+    internal static class Extensions
     {
+        public static void ClearEvents(object instance)
+        {
+            var eventsToClear = instance.GetType().GetEvents(
+                BindingFlags.Public | BindingFlags.NonPublic
+                | BindingFlags.Instance | BindingFlags.Static);
+
+            foreach (var eventInfo in eventsToClear)
+            {
+                var fieldInfo = instance.GetType().GetField(
+                    eventInfo.Name,
+                    BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+
+                if (fieldInfo.GetValue(instance) is Delegate eventHandler)
+                    foreach (var invocatedDelegate in eventHandler.GetInvocationList())
+                        eventInfo.GetRemoveMethod(fieldInfo.IsPrivate).Invoke(
+                            instance,
+                            new object[] { invocatedDelegate });
+            }
+        }
+
+
         public static string ByteArrayToHexString(byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);

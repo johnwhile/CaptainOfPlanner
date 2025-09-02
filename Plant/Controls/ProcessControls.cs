@@ -8,6 +8,7 @@ namespace CaptainOfPlanner.Controls
     public class ProcessorControl : NodeControl
     {
         public ComboBox combox;
+        public Processor node;
 
         public ProcessorControl(Processor node) : base(node)
         {

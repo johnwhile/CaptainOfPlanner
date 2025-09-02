@@ -1,50 +1,14 @@
 ﻿using CaptainOfPlanner.Controls;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Xml;
 
 namespace CaptainOfPlanner
 {
-    public class PlantNodes : IEnumerable<Node> , IDisposable
-    {
-        Plant plant;
-        List<Node> nodes;
-
-        public PlantNodes(Plant plant)
-        {
-            this.plant = plant;
-            nodes = new List<Node>();
-        }
-        public void AddNode(Node node)
-        {
-            if (node == null) return;
-            nodes.Add(node);
-            plant.Control.AddNodeControl(node.Control);
-        }
-        public void RemoveNode(Node node)
-        {
-            if (node == null) return;
-            nodes.Remove(node);
-            node.Inputs.Clear();
-            node.Outputs.Clear();
-            plant.Control.RemoveNodeControl(node.Control);
-        }
-
-
-        public IEnumerator<Node> GetEnumerator()
-        {
-            foreach (var node in nodes) yield return node;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()=> GetEnumerator();
-
-        public void Dispose()
-        {
-            while (nodes.Count > 0) RemoveNode(nodes[nodes.Count - 1]);
-        }
-    }
+    public delegate void PlantEventHandler(Plant sender);
+    public delegate void NodeEventHandler(Node sender);
 
     /// <summary>
     /// Main factory class
@@ -52,12 +16,15 @@ namespace CaptainOfPlanner
     public class Plant : IDisposable
     {
         PlantControl control;
-
+        /// <summary>
+        /// Optional name of plat
+        /// </summary>
         public string Name { get; set; }
         /// <summary>
         /// Node list is the basic plant structure, each node rapresent a resource process
         /// </summary>
-        public PlantNodes Nodes { get; }
+        public NodeCollection Nodes { get; }
+        
         public PlantControl Control
         {
             get => control;
@@ -75,13 +42,31 @@ namespace CaptainOfPlanner
         public Plant(string name)
         {
             Name = name;
-            Nodes = new PlantNodes(this);
+            Nodes = new NodeCollection(this);
+
+            foreach (var d in OnNodeCreating.GetInvocationList())
+            {
+                OnNodeCreating -= (NodeEventHandler)d;
+            }
         }
+
+
+        /// <summary>
+        /// Generate when you create a new Node
+        /// </summary>
+        public event NodeEventHandler OnNodeCreating;
+        public event NodeEventHandler OnNodeRemoving;
+
 
         private void OnNodeClosing(Node sender)
         {
             Nodes.RemoveNode(sender);
+
+            foreach (var d in OnNodeCreating.GetInvocationList()) 
+                OnNodeCreating -= (NodeEventHandler)d;
+
         }
+
 
         public void UnLinking(Link A)
         {
@@ -93,7 +78,6 @@ namespace CaptainOfPlanner
                 tmp.Control?.Invalidate();
             }
         }
-
         public bool Linking(Link A, Link B)
         {
             if (!A.IsLinkable(B)) return false;
@@ -148,7 +132,6 @@ namespace CaptainOfPlanner
             doc.Save(xmlfile);
         }
 
-
         void RecalculateLinkId()
         {
             int ID = 1;
@@ -163,7 +146,7 @@ namespace CaptainOfPlanner
 
         public void Dispose()
         {
-            Nodes.Dispose();
+            Nodes.Clear();
             Control = null;
         }
 
@@ -199,7 +182,6 @@ namespace CaptainOfPlanner
                     link.Control?.Invalidate();
                     tolink.Control?.Invalidate();
                 }
-
             }
             plant.Control.Invalidate();
             return plant;

@@ -8,6 +8,9 @@ namespace CaptainOfPlanner
 {
     public partial class Window : Form
     {
+        PlantControllersManager Manager;
+
+
         public Plant Plant;
 
         public Window()
@@ -27,6 +30,8 @@ namespace CaptainOfPlanner
             Plant = new Plant("myplant");
             Plant.Control = plantControl;
             plantControl.Plant = Plant;
+
+            Manager = new PlantControllersManager(plantControl, Plant);
         }
 
         private void SaveMenu_Click(object sender, EventArgs e)

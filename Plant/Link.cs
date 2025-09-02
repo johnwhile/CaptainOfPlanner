@@ -1,8 +1,6 @@
 ﻿using CaptainOfPlanner.Controls;
 using System;
-using System.Collections.Generic;
 using System.Xml;
-using static System.Windows.Forms.LinkLabel;
 
 namespace CaptainOfPlanner
 {
@@ -12,6 +10,9 @@ namespace CaptainOfPlanner
         Output
     }
 
+    /// <summary>
+    /// A link can be an input or output source for one resource
+    /// </summary>
     public class Link : IDisposable
     {
         /// <summary>

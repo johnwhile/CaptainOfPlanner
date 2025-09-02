@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base36.cs" />
     <Compile Include="Math.cs" />
+    <Compile Include="NodeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Plant\Controls\ButtonClose.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -78,12 +80,14 @@
     <Compile Include="ListControl\ListControl.Designer.cs">
       <DependentUpon>ListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plant\NodeCollection.cs" />
+    <Compile Include="PlantControllersManager.cs" />
+    <Compile Include="ProcessControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Resource\Recipe.cs" />
     <Compile Include="Resource\RecipesManager.cs" />
     <Compile Include="Resource\ResourcesManager.cs" />
-    <Compile Include="Viewer\GraphicalOverlay.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Extension.cs" />
     <Compile Include="Window.cs">
       <SubType>Form</SubType>
@@ -131,6 +135,9 @@
     <Content Include="Resource\Resources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Viewer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
