@@ -47,6 +47,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NewControls\ButtonClose.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewControls\Storage.cs" />
+    <Compile Include="NewControls\BalanceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewControls\StorageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewControls\Balancer.cs" />
+    <Compile Include="NewControls\LinkControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewControls\Link.cs" />
+    <Compile Include="NewControls\LinkCollection.cs" />
     <Compile Include="NewControls\PlantControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -58,37 +74,13 @@
     </Compile>
     <Compile Include="NewControls\Plant.cs" />
     <Compile Include="NewControls\Processor.cs" />
-    <Compile Include="Plant\Controls\ButtonClose.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Plant\Controls\Collections.cs" />
-    <Compile Include="Plant\Controls\LinkControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plant\Controls\ProcessControls.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plant\Controls\NodeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plant\Controls\PlantControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plant\Nodes\LinkCollection.cs" />
-    <Compile Include="Plant\Nodes\Node.cs" />
-    <Compile Include="Plant\Nodes\Processor.cs" />
-    <Compile Include="Plant\Nodes\Balancer.cs" />
-    <Compile Include="Plant\Nodes\Storage.cs" />
-    <Compile Include="Plant\Link.cs" />
-    <Compile Include="Plant\Plant.cs" />
     <Compile Include="NewControls\ListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="NewControls\ListControl.Designer.cs">
       <DependentUpon>ListControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Plant\NodeCollection.cs" />
-    <Compile Include="NewControls\PlantControllersManager.cs" />
+    <Compile Include="NewControls\ControlManager.cs" />
     <Compile Include="NewControls\ProcessControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

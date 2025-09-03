@@ -41,10 +41,5 @@ namespace CaptainOfPlanner.NewControls
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
     }
 }

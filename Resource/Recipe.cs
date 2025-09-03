@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
-namespace CaptainOfPlanner
+namespace CaptainOfPlanner.NewControls
 {
     /// <summary>
     /// 8 bytes
@@ -23,6 +20,13 @@ namespace CaptainOfPlanner
         /// rate as processed per minutes, calculated as Count / Recipe's Time * 60
         /// </summary>
         public float Rate;
+
+        public ResourceCount(Resource resource, byte count) : this()
+        {
+            Count = count;
+            Resource = resource;
+        }
+
 
         public static ResourceCount Undefined = new ResourceCount() { Resource = Resource.Undefined };
 
@@ -55,6 +59,9 @@ namespace CaptainOfPlanner
             Inputs = inputs;
             OutPuts = output;
 
+            if (Inputs == null) Inputs = new ResourceCount[0];
+            if (OutPuts == null) OutPuts = new ResourceCount[0];
+
             var encoded = Encode(this);
             StringBuilder builder = new StringBuilder();
             foreach (var value in encoded)
@@ -67,6 +74,16 @@ namespace CaptainOfPlanner
             Display = ToFormatString();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="name">resource name</param>
+        public bool Contains(string name, out LinkType type)
+        {
+            type = LinkType.Undefined;
+            if (ResourcesManager.TryGetResource(name, out Resource resource))
+                return Contains(resource, out type);
+            return false;
+        }
         public bool Contains(Resource resource, out LinkType type)
         {
             type = LinkType.Undefined;
@@ -76,9 +93,7 @@ namespace CaptainOfPlanner
         }
         public int CompareTo(Recipe other) => Display.CompareTo(other.Display);
 
-
         public static Recipe Empty => new Recipe() { Id = -1, Name = "undefined" };
-
 
         void buildformattedstring(ResourceCount[] array, StringBuilder builder)
         {

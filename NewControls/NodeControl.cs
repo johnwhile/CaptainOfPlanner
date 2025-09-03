@@ -1,41 +1,28 @@
-﻿using CaptainOfPlanner.Controls;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace CaptainOfPlanner.NewControls
 {
-    public delegate void NodeControlHandler(NodeControl sender);
 
+    [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class NodeControl : UserControl
     {
         static int instance_count = 0;
         protected const int HeaderHeight = 20;
-        protected static Font font;
-        protected static SolidBrush brush;
-        protected static Pen pen;
         protected static Vector2i preferedsize = new Vector2i(150, 50);
 
         bool draging;
         Vector2i mousedown;
-        
         ButtonClose buttonclose;
-
-        public Color NodeColor;
         
-        public event NodeControlHandler OnRequestClosing;
-
+        public Color NodeColor { get; set; }
         public int Id { get; }
+        public abstract Node Node { get; }
 
-        static NodeControl()
-        {
-            brush = new SolidBrush(Color.Gray);
-            font = new Font("Arial", 6f, FontStyle.Bold);
-            pen = Pens.Black;
-            
-        }
 
-        public NodeControl()
+        public NodeControl(Node node)
         {
             Size = preferedsize;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
@@ -52,9 +39,16 @@ namespace CaptainOfPlanner.NewControls
             Id = instance_count++;
 
             Name = "NodeCtrl";
+
+            Location = node.Position;
         }
 
-        private void OnCloseClick(object sender, EventArgs e) => OnRequestClosing?.Invoke(this);
+        private void OnCloseClick(object sender, EventArgs e)
+        {
+            Node.Plant.RemoveNode(Node);
+            if (Parent is PlantControl plantctrl) 
+                plantctrl.RemoveControl(this);
+        }
 
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -70,6 +64,7 @@ namespace CaptainOfPlanner.NewControls
             if (draging)
             {
                 Location = (Vector2i)Location + ((Vector2i)e.Location - mousedown);
+                Parent.Invalidate();
             }
         }
         protected override void OnMouseUp(MouseEventArgs e)
@@ -81,10 +76,10 @@ namespace CaptainOfPlanner.NewControls
         {
             base.OnPaint(e);
 
-            brush.Color = NodeColor;
+            ControlManager.SBrush.Color = NodeColor;
 
-            e.Graphics.FillRectangle(brush, 0, 0, Width, HeaderHeight);
-            e.Graphics.DrawString($"{Id} {Name}", font, Brushes.Black, 5, 5);
+            e.Graphics.FillRectangle(ControlManager.SBrush, 0, 0, Width, HeaderHeight);
+            e.Graphics.DrawString($"{Id} {Name}", ControlManager.ArialBold6, Brushes.Black, 5, 5);
 
             BackColor = Color.White;
             ControlPaint.DrawBorder3D(e.Graphics, 0, 0, Width, Height, Border3DStyle.Raised);

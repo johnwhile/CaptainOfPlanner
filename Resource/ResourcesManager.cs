@@ -73,7 +73,6 @@ namespace CaptainOfPlanner
             };
 
         public bool IsCompatible(Resource other) => ID == other.ID;
-
         public static int CompareState(Resource x, Resource y) => x.State.CompareTo(y.State);
         public static int CompareOrigin(Resource x, Resource y) => x.Origin.CompareTo(y.Origin);
         public static int CompareName(Resource x, Resource y) => ResourcesManager.TryGetName(x.ID).CompareTo(ResourcesManager.TryGetName(y.ID));

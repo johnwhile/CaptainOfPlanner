@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
 
-
 namespace CaptainOfPlanner.NewControls
 {
     public enum NodeType
@@ -35,10 +34,23 @@ namespace CaptainOfPlanner.NewControls
         /// </summary>
         public Plant Plant { get; }
 
+        /// <summary>
+        /// A node can contains more than one input
+        /// </summary>
+        public LinkCollection Inputs;
+        /// <summary>
+        /// A node can contains more than one output
+        /// </summary>
+        public LinkCollection Outputs;
+
+
         protected Node(Plant plant, string name)
         {
             Name = name ?? "node";
             Plant = plant;
+
+            Inputs = new LinkCollection(this, LinkType.Input);
+            Outputs = new LinkCollection(this, LinkType.Output);
         }
 
         public virtual XmlElement SaveXml(XmlElement plant)
@@ -48,8 +60,11 @@ namespace CaptainOfPlanner.NewControls
             node.SetAttribute("pos", Position.ToString());
             plant.AppendChild(node);
 
-            //Inputs.SaveXml(node);
-            //Outputs.SaveXml(node);
+            Inputs.Clear();
+            Outputs.Clear();
+
+            foreach (var link in Inputs) link.SaveXml(node);
+            foreach (var link in Outputs) link.SaveXml(node);
 
             return node;
         }
@@ -57,11 +72,15 @@ namespace CaptainOfPlanner.NewControls
         /// <summary>
         /// after node type is resolved, load xml data with derived implementation
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="ToResolve"></param>
-        protected abstract void LoadXml(XmlElement node, Dictionary<int, Link> ToResolve);
+        protected abstract void LoadXml(XmlElement node);
 
 
+
+        /// <summary>
+        /// load xml node.
+        /// </summary>
+        /// <param name="ToResolve">link list to resolve after loading all nodes</param>
+        /// <returns></returns>
         public static Node LoadXml(Plant plant, XmlElement element, Dictionary<int, Link> ToResolve)
         {
             Node node = null;
@@ -69,12 +88,17 @@ namespace CaptainOfPlanner.NewControls
             if (Enum.TryParse(element.Name, out NodeType type))
             {
                 string name = element.GetAttribute("name");
-                node = plant.CreateNode(type, name);
+
+                node = plant.GenerateNode(type);
 
                 if (Vector2i.TryParse(element.GetAttribute("pos"), out Vector2i pos))
                     node.Position = pos;
 
-                node.LoadXml(element, ToResolve);
+                node.LoadXml(element);
+
+                foreach (var link in node.Inputs) if (link.xml_id > 0) ToResolve.Add(link.xml_id, link);
+                foreach (var link in node.Outputs) if (link.xml_id > 0) ToResolve.Add(link.xml_id, link);
+
             }
             return node;
         }

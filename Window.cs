@@ -5,7 +5,7 @@ namespace CaptainOfPlanner.NewControls
 {
     public partial class Window : Form
     {
-        public PlantControllersManager Manager;
+        public ControlManager Manager;
 
         public Window()
         {
@@ -20,7 +20,7 @@ namespace CaptainOfPlanner.NewControls
             RecipesManager.Load("Resource\\Recipes.xml");
             //ResouceManager.Save("Resouces_out.xml", SaveResourceOption.SortByOrigin);
 
-            Manager = new PlantControllersManager(plantControl);
+            Manager = new ControlManager(plantControl);
             Manager.Plant = new Plant("MyPlant");
         }
 
@@ -49,9 +49,10 @@ namespace CaptainOfPlanner.NewControls
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     var plant = new Plant("MyPlant");
-                    Manager.Plant = plant;
+                    
                     if (!plant.Load(dialog.FileName))
                         MessageBox.Show("Error loading plant");
+                    Manager.Plant = plant;
                 }
             }
         }

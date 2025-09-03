@@ -1,8 +1,6 @@
-﻿using CaptainOfPlanner.Controls;
-using System;
-using System.Xml;
+﻿using System.Xml;
 
-namespace CaptainOfPlanner
+namespace CaptainOfPlanner.NewControls
 {
     public enum LinkType
     {
@@ -14,7 +12,7 @@ namespace CaptainOfPlanner
     /// <summary>
     /// A link can be an input or output source for one resource
     /// </summary>
-    public class Link : IDisposable
+    public class Link
     {
         /// <summary>
         /// unique integer to define class when esport to xml
@@ -24,19 +22,34 @@ namespace CaptainOfPlanner
 
         public ResourceCount ResourceCount { get; }
         public Node Owner { get; private set; }
-        public LinkControl Control { get; set; }
         public LinkType Type { get; }
         public Link Linked { get; set; }
+        public ILinkable Controller { get; set; }
 
         public Link(Node owner, LinkType type, ResourceCount resource)
         {
             Owner = owner;
             Type = type;
             ResourceCount = resource;
-            Control = new LinkControl();
-            Control.Node = this;
         }
 
+        public void DoLink(Link other)
+        {
+            if (Linked != other) UnLink();
+            if (other.Linked != this) other.UnLink();
+
+            other.Linked = this;
+            Linked = other;
+
+            Controller?.DoLink(other);
+        }
+
+        public void UnLink()
+        {
+            Controller?.UnLink();
+            if (Linked != null) Linked.Linked = null;
+            Linked = null;
+        }
 
         /// <summary>
         /// must be same resource and must be opposite of Input or Output type
@@ -53,28 +66,23 @@ namespace CaptainOfPlanner
         /// <summary>
         /// Save only linked link
         /// </summary>
-        public void SaveXml(XmlElement node)
+        public XmlElement SaveXml(XmlElement parent)
         {
             if (Linked != null)
             {
-                var link = node.OwnerDocument.CreateElement(Type.ToString());
+                var link = parent.OwnerDocument.CreateElement(Type.ToString());
                 link.SetAttribute("id", xml_id.ToString());
                 link.SetAttribute("linkid", Linked.xml_id.ToString());
                 link.SetAttribute("res", ResourceCount.Resource.Name);
-                node.AppendChild(link);
+                parent.AppendChild(link);
+                return link;
             }
+            return null;
         }
 
-
-        public void Dispose()
+        public bool LoadXml(XmlElement node)
         {
-            Owner = null;
-            if (Linked != null)
-            {
-                Linked.Linked = null;
-                Linked.Control.Invalidate();
-            }
-            Linked = null;
+            return false;
         }
     }
 }

@@ -26,7 +26,9 @@ namespace CaptainOfPlanner.NewControls
             if (!Enum.TryParse(itemList.SelectedItem?.ToString(), out NodeType type)) return;
 
             if (Parent is Window window)
-                window.Manager.Plant.CreateNode(type);
+            {
+                window.Manager.Control.AddNewNodeAndControler(window.Manager.Plant, type);
+            }
         }
     }
 }
