@@ -23,7 +23,11 @@ namespace CaptainOfPlanner.NewControls
 
         }
 
-        protected override void LoadXml(XmlElement element)
+        protected override void SaveDerivedXml(XmlElement node)
+        {
+            node.SetAttribute("res", resource.Name);
+        }
+        protected override void LoadDerivedXml(XmlElement element)
         {
             if( ResourcesManager.TryGetResource(element.GetAttribute("res"), out Resource res))
             {

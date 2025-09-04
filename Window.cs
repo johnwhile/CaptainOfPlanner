@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CaptainOfPlanner.NewControls
 {
@@ -21,7 +22,10 @@ namespace CaptainOfPlanner.NewControls
             //ResouceManager.Save("Resouces_out.xml", SaveResourceOption.SortByOrigin);
 
             Manager = new ControlManager(plantControl);
-            Manager.Plant = new Plant("MyPlant");
+            var plant = new Plant("MyPlant");
+            if (!plant.Load("C:\\Users\\Administrator\\Desktop\\myplant.xml"))
+                MessageBox.Show("Error loading plant");
+            Manager.Plant = plant;
         }
 
         private void SaveMenu_Click(object sender, EventArgs e)
@@ -55,6 +59,11 @@ namespace CaptainOfPlanner.NewControls
                     Manager.Plant = plant;
                 }
             }
+        }
+
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

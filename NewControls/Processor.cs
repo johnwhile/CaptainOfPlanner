@@ -34,8 +34,11 @@ namespace CaptainOfPlanner.NewControls
         {
 
         }
-
-        protected override void LoadXml(XmlElement element)
+        protected override void SaveDerivedXml(XmlElement node)
+        {
+            node.SetAttribute("recipe", recipe.Encoded);
+        }
+        protected override void LoadDerivedXml(XmlElement element)
         {
             string encode = element.GetAttribute("recipe");
             

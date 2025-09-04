@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -21,7 +22,7 @@ namespace CaptainOfPlanner.NewControls
         public static LinkControl CurrentSelected;
 
         bool selected = false;
-        bool linked = false;
+        bool islinked = false;
 
         protected static Vector2i preferedsize = new Vector2i(70, 25);
         public Link Node { get; }
@@ -66,22 +67,22 @@ namespace CaptainOfPlanner.NewControls
 
         public void DoLink(Link other)
         {
-            // already linked
-            if (Node.Linked == other) return;
-            
-            if (Node.Type == LinkType.Input && Parent?.Parent is PlantControl plantcontrol)
+            if (Parent?.Parent is PlantControl plantcontrol)
             {
                 if (other.Controller is LinkControl linked)
-
-                plantcontrol.AddConnection(this, linked);
+                {
+                    plantcontrol.AddConnection(this, linked);
+                    islinked = true;
+                    linked.islinked = true;
+                }
             }
         }
 
         public void UnLink()
         {
-            linked = false;
+            islinked = false;
 
-            if (Node.Type== LinkType.Input && Parent?.Parent is PlantControl plantcontrol)
+            if (Parent?.Parent is PlantControl plantcontrol)
             {
                 plantcontrol.RemoveConnection(this);
             }

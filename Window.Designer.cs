@@ -33,15 +33,17 @@ namespace CaptainOfPlanner.NewControls
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.listControl = new ListControl();
-            this.plantControl = new PlantControl();
+            this.listControl = new CaptainOfPlanner.NewControls.ListControl();
+            this.plantControl = new CaptainOfPlanner.NewControls.PlantControl();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileMenu});
+            this.FileMenu,
+            this.runToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1013, 24);
@@ -60,14 +62,14 @@ namespace CaptainOfPlanner.NewControls
             // OpenMenu
             // 
             this.OpenMenu.Name = "OpenMenu";
-            this.OpenMenu.Size = new System.Drawing.Size(180, 22);
+            this.OpenMenu.Size = new System.Drawing.Size(146, 22);
             this.OpenMenu.Text = "Open planner";
             this.OpenMenu.Click += new System.EventHandler(this.OpenMenu_Click);
             // 
             // SaveMenu
             // 
             this.SaveMenu.Name = "SaveMenu";
-            this.SaveMenu.Size = new System.Drawing.Size(180, 22);
+            this.SaveMenu.Size = new System.Drawing.Size(146, 22);
             this.SaveMenu.Text = "Save planner";
             this.SaveMenu.Click += new System.EventHandler(this.SaveMenu_Click);
             // 
@@ -80,15 +82,23 @@ namespace CaptainOfPlanner.NewControls
             this.listControl.Size = new System.Drawing.Size(143, 529);
             this.listControl.TabIndex = 0;
             // 
-            // plantViewer
+            // plantControl
             // 
             this.plantControl.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.plantControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.plantControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.plantControl.Location = new System.Drawing.Point(143, 24);
-            this.plantControl.Name = "plantViewer";
+            this.plantControl.Name = "plantControl";
+            this.plantControl.Plant = null;
             this.plantControl.Size = new System.Drawing.Size(870, 529);
             this.plantControl.TabIndex = 2;
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
             // Window
             // 
@@ -116,6 +126,7 @@ namespace CaptainOfPlanner.NewControls
         private System.Windows.Forms.ToolStripMenuItem SaveMenu;
         public ListControl listControl;
         public PlantControl plantControl;
+        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
     }
 }
 

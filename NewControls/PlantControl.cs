@@ -29,16 +29,25 @@ namespace CaptainOfPlanner.NewControls
         public void RemoveControl(NodeControl node)
         {
             Controls.Remove(node);
+            Invalidate();
         }
 
         public void RemoveConnection(LinkControl linkctrl)
         {
+            if (ConnectTo.TryGetValue(linkctrl, out LinkControl tolink))
+                tolink.Invalidate();
+
             ConnectTo.Remove(linkctrl);
+            linkctrl.Invalidate();
+
+            Invalidate();
         }
         public void AddConnection(LinkControl fromlink, LinkControl tolink)
         {
-
             ConnectTo.Add(fromlink, tolink);
+            fromlink.Invalidate();
+            tolink.Invalidate();
+            Invalidate();
         }
 
         public void AddNewNodeAndControler(Plant plant, NodeType type)

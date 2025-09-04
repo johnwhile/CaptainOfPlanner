@@ -53,6 +53,13 @@ namespace CaptainOfPlanner.NewControls
             Outputs = new LinkCollection(this, LinkType.Output);
         }
 
+
+
+        /// <summary>
+        /// after node type is resolved, load xml data with derived implementation
+        /// </summary>
+        protected abstract void LoadDerivedXml(XmlElement node);
+        protected abstract void SaveDerivedXml(XmlElement node);
         public virtual XmlElement SaveXml(XmlElement plant)
         {
             var node = plant.OwnerDocument.CreateElement(Type.ToString());
@@ -60,21 +67,13 @@ namespace CaptainOfPlanner.NewControls
             node.SetAttribute("pos", Position.ToString());
             plant.AppendChild(node);
 
-            Inputs.Clear();
-            Outputs.Clear();
+            SaveDerivedXml(node);
 
             foreach (var link in Inputs) link.SaveXml(node);
             foreach (var link in Outputs) link.SaveXml(node);
 
             return node;
         }
-
-        /// <summary>
-        /// after node type is resolved, load xml data with derived implementation
-        /// </summary>
-        protected abstract void LoadXml(XmlElement node);
-
-
 
         /// <summary>
         /// load xml node.
@@ -94,7 +93,7 @@ namespace CaptainOfPlanner.NewControls
                 if (Vector2i.TryParse(element.GetAttribute("pos"), out Vector2i pos))
                     node.Position = pos;
 
-                node.LoadXml(element);
+                node.LoadDerivedXml(element);
 
                 foreach (var link in node.Inputs) if (link.xml_id > 0) ToResolve.Add(link.xml_id, link);
                 foreach (var link in node.Outputs) if (link.xml_id > 0) ToResolve.Add(link.xml_id, link);

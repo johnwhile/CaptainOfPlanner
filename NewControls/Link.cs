@@ -35,6 +35,7 @@ namespace CaptainOfPlanner.NewControls
 
         public void DoLink(Link other)
         {
+            if (!IsLinkable(other)) return;
             if (Linked != other) UnLink();
             if (other.Linked != this) other.UnLink();
 

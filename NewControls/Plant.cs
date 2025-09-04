@@ -61,32 +61,10 @@ namespace CaptainOfPlanner.NewControls
         public void RemoveNode(Node node)
         {
             if (node == null) return;
+            foreach (var link in node.Inputs) link.UnLink();
+            foreach (var link in node.Outputs) link.UnLink();
             nodes.Remove(node);
-        }
-
-        public void UnLinking(Link A)
-        {
-            var tmp = A.Linked;
-            A.Linked = null;
-            if (tmp != null)
-            {
-                tmp.Linked = null;
-            }
-        }
-        public bool Linking(Link A, Link B)
-        {
-            if (!A.IsLinkable(B)) return false;
-
-            //avoid self linking
-            if (A.Owner==B.Owner) return false;
-
-            UnLinking(A);
-            UnLinking(B);
-
-            A.Linked = B;
-            B.Linked = A;
-
-            return true;
+           
         }
 
 
