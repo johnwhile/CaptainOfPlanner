@@ -1,7 +1,5 @@
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.csproj.AssemblyReference.cache
-C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.NewControls.ListControl.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.Properties.Resources.resources
-C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.NewControls.Window.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.csproj.GenerateResource.cache
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Recipes.xml
@@ -12,3 +10,5 @@ C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\CaptainOfPlanner.
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.pdb
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe.config
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.ListControl.resources
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.Window.resources

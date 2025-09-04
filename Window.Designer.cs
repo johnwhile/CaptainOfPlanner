@@ -1,5 +1,4 @@
-﻿
-namespace CaptainOfPlanner.NewControls
+﻿namespace CaptainOfPlanner
 {
     partial class Window
     {
@@ -33,8 +32,8 @@ namespace CaptainOfPlanner.NewControls
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.listControl = new CaptainOfPlanner.NewControls.ListControl();
-            this.plantControl = new CaptainOfPlanner.NewControls.PlantControl();
+            this.listControl = new CaptainOfPlanner.ListControl();
+            this.plantControl = new CaptainOfPlanner.PlantControl();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();

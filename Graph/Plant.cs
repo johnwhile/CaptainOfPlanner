@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography;
 using System.Xml;
-using System.Xml.Linq;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     [DebuggerDisplay("Name")]
     /// <summary>
@@ -61,7 +59,8 @@ namespace CaptainOfPlanner.NewControls
         public void RemoveNode(Node node)
         {
             if (node == null) return;
-            foreach (var link in node.Inputs) link.UnLink();
+            foreach (var link in node.Inputs) 
+                link.UnLink();
             foreach (var link in node.Outputs) link.UnLink();
             nodes.Remove(node);
            

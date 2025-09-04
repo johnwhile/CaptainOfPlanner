@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Text;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     /// <summary>
-    /// 8 bytes
     /// </summary>
     public struct ResourceCount
     {
         /// <summary>
-        /// Quantity processed
+        /// Quantity processed. If zero are considered infinite input or output
         /// </summary>
         public byte Count;
         /// <summary>
@@ -21,7 +20,7 @@ namespace CaptainOfPlanner.NewControls
         /// </summary>
         public float Rate;
 
-        public ResourceCount(Resource resource, byte count) : this()
+        public ResourceCount(Resource resource, byte count=0) : this()
         {
             Count = count;
             Resource = resource;

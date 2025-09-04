@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 
-namespace CaptainOfPlanner.NewControls
+
+namespace CaptainOfPlanner
 {
     public class ControlManager
     {
@@ -21,7 +21,6 @@ namespace CaptainOfPlanner.NewControls
             BlackPen = Pens.Black;
         }
 
-
         public PlantControl Control
         {
             get => control;
@@ -39,7 +38,6 @@ namespace CaptainOfPlanner.NewControls
             }
         }
       
-
         /// <summary>
         /// </summary>
         /// <param name="viewer">must be an empty controller</param>
@@ -48,9 +46,6 @@ namespace CaptainOfPlanner.NewControls
             if (viewer == null) throw new ArgumentNullException();
             control = viewer;
         }
-
-
-
 
     }
 }

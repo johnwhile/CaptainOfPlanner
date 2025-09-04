@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
 
     [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
@@ -17,10 +18,15 @@ namespace CaptainOfPlanner.NewControls
         Vector2i mousedown;
         ButtonClose buttonclose;
         
+        public new Vector2i Location
+        {
+            get => base.Location;
+            set { base.Location = value; Node.Position = value; }
+        }
+
         public Color NodeColor { get; set; }
         public int Id { get; }
         public abstract Node Node { get; }
-
 
         public NodeControl(Node node)
         {
@@ -40,16 +46,53 @@ namespace CaptainOfPlanner.NewControls
 
             Name = "NodeCtrl";
 
-            Location = node.Position;
+            base.Location = node.Position;
         }
 
+        /// <summary>
+        /// Remove only LinkControl from controls
+        /// </summary>
+        protected void RemoveLinkControls()
+        {
+            foreach (var control in Controls.OfType<LinkControl>().ToList())
+            {
+                control.Node.UnLink();
+                Controls.Remove(control);
+            }
+        }
+        protected void CreateLinkControls(int offsety, LinkCollection inputs, LinkCollection outputs)
+        {
+            int height = preferedsize.height;
+
+            Vector2i pos = new Vector2i(2, offsety + 10);
+            foreach (var link in inputs)
+            {
+                var ctrl = new LinkControl(link);
+                ctrl.Location = pos;
+                Controls.Add(ctrl);
+                pos.y += ctrl.Size.Height + 2;
+            }
+
+            height = Math.Max(height, pos.y + 5);
+
+            pos = new Vector2i(0, offsety + 10);
+            foreach (var link in outputs)
+            {
+                var ctrl = new LinkControl(link);
+                pos.x = Width - ctrl.Width - 2;
+                ctrl.Location = pos;
+                Controls.Add(ctrl);
+                pos.y += ctrl.Size.Height + 2;
+            }
+            height = Math.Max(height, pos.y + 5);
+            Height = height;
+        }
         private void OnCloseClick(object sender, EventArgs e)
         {
             Node.Plant.RemoveNode(Node);
             if (Parent is PlantControl plantctrl) 
-                plantctrl.RemoveControl(this);
+                plantctrl.RemoveNodeControl(this);
         }
-
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -63,7 +106,7 @@ namespace CaptainOfPlanner.NewControls
             base.OnMouseMove(e);
             if (draging)
             {
-                Location = (Vector2i)Location + ((Vector2i)e.Location - mousedown);
+                Location = Location + ((Vector2i)e.Location - mousedown);
                 Parent.Invalidate();
             }
         }

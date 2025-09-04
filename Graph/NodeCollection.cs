@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     [DebuggerDisplay("Count = {Count}")]
     public class NodeCollection : IEnumerable<Node>

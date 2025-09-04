@@ -1,6 +1,8 @@
-﻿using System.Xml;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public enum LinkType
     {
@@ -20,17 +22,19 @@ namespace CaptainOfPlanner.NewControls
         internal int xml_id = -1;
         internal int xml_linked_id = -1;
 
-        public ResourceCount ResourceCount { get; }
+        public ResourceCount ResourceCount { get; internal set; }
         public Node Owner { get; private set; }
         public LinkType Type { get; }
         public Link Linked { get; set; }
         public ILinkable Controller { get; set; }
+        public bool Priority { get; set; }
 
         public Link(Node owner, LinkType type, ResourceCount resource)
         {
             Owner = owner;
             Type = type;
             ResourceCount = resource;
+            Priority = false;
         }
 
         public void DoLink(Link other)
@@ -48,7 +52,11 @@ namespace CaptainOfPlanner.NewControls
         public void UnLink()
         {
             Controller?.UnLink();
-            if (Linked != null) Linked.Linked = null;
+            if (Linked != null)
+            {
+                Linked.Controller?.UnLink();
+                Linked.Linked = null;
+            }
             Linked = null;
         }
 
@@ -56,13 +64,11 @@ namespace CaptainOfPlanner.NewControls
         /// must be same resource and must be opposite of Input or Output type
         /// </summary>
         public bool IsLinkable(Link other) =>
-            ResourceCount.Resource.IsCompatible(other.ResourceCount.Resource) && 
-            Type != other.Type;
+            ResourceCount.Resource.IsCompatible(other.ResourceCount.Resource) &&
+            Type != other.Type &&
+            Owner != other.Owner;
 
-        public override string ToString()
-        {
-            return $"{Type} {ResourceCount.ToString()}";
-        }
+
 
         /// <summary>
         /// Save only linked link
@@ -75,15 +81,32 @@ namespace CaptainOfPlanner.NewControls
                 link.SetAttribute("id", xml_id.ToString());
                 link.SetAttribute("linkid", Linked.xml_id.ToString());
                 link.SetAttribute("res", ResourceCount.Resource.Name);
+                if (Priority) link.SetAttribute("priority", "true");
                 parent.AppendChild(link);
                 return link;
             }
             return null;
         }
 
-        public bool LoadXml(XmlElement node)
+        public static Link LoadXml(Node node, XmlElement element, Dictionary<int, Link> ToResolve = null)
         {
-            return false;
+            if (!Enum.TryParse(element.Name, out LinkType type)) type = LinkType.Undefined;
+            if (!ResourcesManager.TryGetResource(element.GetAttribute("res"), out Resource resource)) resource = Resource.Undefined;
+            var link = new Link(node, type, new ResourceCount(resource, 0));
+
+            if (!int.TryParse(element.GetAttribute("id"), out link.xml_id)) link.xml_id = -1;
+            if (!int.TryParse(element.GetAttribute("linkid"), out link.xml_linked_id)) link.xml_linked_id = -1;
+            if (!bool.TryParse(element.GetAttribute("priority"), out bool priority)) priority = false;
+            link.Priority = priority;
+
+            if (ToResolve != null && link.xml_id > -1) ToResolve.Add(link.xml_id, link);
+
+            return link;
+        }
+
+        public override string ToString()
+        {
+            return $"{Type} {ResourceCount.ToString()}";
         }
     }
 }

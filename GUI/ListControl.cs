@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Windows.Forms;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public partial class ListControl : UserControl
     {

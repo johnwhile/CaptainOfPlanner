@@ -72,6 +72,7 @@ namespace CaptainOfPlanner
                 Origin = ResourceOrigin.Undefined
             };
 
+        public bool IsUndefined => ID == 0 || State == ResourceState.Undefined || Origin == ResourceOrigin.Undefined;
         public bool IsCompatible(Resource other) => ID == other.ID;
         public static int CompareState(Resource x, Resource y) => x.State.CompareTo(y.State);
         public static int CompareOrigin(Resource x, Resource y) => x.Origin.CompareTo(y.Origin);

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public delegate void LinkMouseHandler(LinkControl sender, MouseEventArgs mouse);
 

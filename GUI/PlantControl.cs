@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public class PlantControl : UserControl
     {
@@ -26,7 +26,7 @@ namespace CaptainOfPlanner.NewControls
 
         public LinkControl CurrentSelected;
 
-        public void RemoveControl(NodeControl node)
+        public void RemoveNodeControl(NodeControl node)
         {
             Controls.Remove(node);
             Invalidate();
@@ -34,6 +34,8 @@ namespace CaptainOfPlanner.NewControls
 
         public void RemoveConnection(LinkControl linkctrl)
         {
+            Console.WriteLine("Remove Connection " + linkctrl);
+
             if (ConnectTo.TryGetValue(linkctrl, out LinkControl tolink))
                 tolink.Invalidate();
 
@@ -44,6 +46,8 @@ namespace CaptainOfPlanner.NewControls
         }
         public void AddConnection(LinkControl fromlink, LinkControl tolink)
         {
+            Console.WriteLine("Add Connection from " + fromlink + " to " + tolink);
+
             ConnectTo.Add(fromlink, tolink);
             fromlink.Invalidate();
             tolink.Invalidate();
@@ -76,20 +80,13 @@ namespace CaptainOfPlanner.NewControls
             foreach (Node node in plant)
             {
                 Control controller;
-                if (node is Processor processor)
-                {
-                    controller = new ProcessControl(processor);
-                }
-                else if (node is Balancer balancer)
-                {
-                    controller = new BalanceControl(balancer);
-                }
-                else
-                {
-                    controller = null;
-                    throw new Exception("unknow node class");
-                }
+                if (node is Processor processor) controller = new ProcessControl(processor);
+                else if (node is Balancer balancer) controller = new BalanceControl(balancer);
+                else if (node is Storage storage) controller = new StorageControl(storage);
+                else controller = null;
+
                 if (controller != null) Controls.Add(controller);
+                else throw new Exception("unknow node class");
             }
             ResumeLayout(true);
 

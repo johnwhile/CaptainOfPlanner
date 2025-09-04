@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public class RecipeCollection : IEnumerable<Recipe>
     {

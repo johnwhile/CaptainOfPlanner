@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public class ButtonClose : Button
     {

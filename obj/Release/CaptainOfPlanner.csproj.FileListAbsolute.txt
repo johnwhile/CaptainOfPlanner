@@ -4,11 +4,10 @@ C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Release\CaptainOfPlanne
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Release\CaptainOfPlanner.exe
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Release\CaptainOfPlanner.pdb
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.csproj.AssemblyReference.cache
-C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.ListControl.ListControl.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.Properties.Resources.resources
-C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.View.PlantViewer.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.Window.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.csproj.GenerateResource.cache
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.exe
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.pdb
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Release\CaptainOfPlanner.ListControl.resources

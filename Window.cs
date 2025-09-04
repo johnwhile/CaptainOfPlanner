@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public partial class Window : Form
     {
@@ -37,6 +36,7 @@ namespace CaptainOfPlanner.NewControls
                 dialog.FileName = plant.Name + ".xml";
                 dialog.Filter = "plant blueprint (*.xml)|*.xml";
                 dialog.RestoreDirectory = true;
+                
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     plant.SaveXml(dialog.FileName);

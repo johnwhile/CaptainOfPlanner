@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CaptainOfPlanner.NewControls
+namespace CaptainOfPlanner
 {
     public class LinkCollection : IEnumerable<Link>
     {
@@ -36,7 +36,8 @@ namespace CaptainOfPlanner.NewControls
 
         public void Add(Link link)
         {
-            list.Add(link);
+            if (link != null)
+                list.Add(link);
         }
 
         public void AddRange(IEnumerable<Link> list)

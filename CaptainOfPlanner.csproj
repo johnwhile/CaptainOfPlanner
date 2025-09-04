@@ -47,41 +47,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewControls\ButtonClose.cs">
+    <Compile Include="GUI\ButtonClose.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NewControls\Storage.cs" />
-    <Compile Include="NewControls\BalanceControl.cs">
+    <Compile Include="Graph\Storage.cs" />
+    <Compile Include="GUI\BalanceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NewControls\StorageControl.cs">
+    <Compile Include="GUI\StorageControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NewControls\Balancer.cs" />
-    <Compile Include="NewControls\LinkControl.cs">
+    <Compile Include="Graph\Balancer.cs" />
+    <Compile Include="GUI\LinkControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NewControls\Link.cs" />
-    <Compile Include="NewControls\LinkCollection.cs" />
-    <Compile Include="NewControls\PlantControl.cs">
+    <Compile Include="Graph\Link.cs" />
+    <Compile Include="Graph\LinkCollection.cs" />
+    <Compile Include="GUI\PlantControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NewControls\Node.cs" />
-    <Compile Include="NewControls\NodeCollection.cs" />
+    <Compile Include="Graph\Node.cs" />
+    <Compile Include="Graph\NodeCollection.cs" />
     <Compile Include="Math.cs" />
-    <Compile Include="NewControls\NodeControl.cs">
+    <Compile Include="GUI\NodeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NewControls\Plant.cs" />
-    <Compile Include="NewControls\Processor.cs" />
-    <Compile Include="NewControls\ListControl.cs">
+    <Compile Include="Graph\Plant.cs" />
+    <Compile Include="Graph\Processor.cs" />
+    <Compile Include="GUI\ListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NewControls\ListControl.Designer.cs">
+    <Compile Include="GUI\ListControl.Designer.cs">
       <DependentUpon>ListControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewControls\ControlManager.cs" />
-    <Compile Include="NewControls\ProcessControl.cs">
+    <Compile Include="GUI\ControlManager.cs" />
+    <Compile Include="GUI\ProcessControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Resource\Recipe.cs" />
@@ -96,7 +96,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="NewControls\ListControl.resx">
+    <EmbeddedResource Include="GUI\ListControl.resx">
       <DependentUpon>ListControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
