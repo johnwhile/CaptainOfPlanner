@@ -47,12 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUI\ButtonClose.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Graph\Storage.cs" />
     <Compile Include="GUI\BalanceControl.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\ProcessControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\ProcessControl.Designer.cs">
+      <DependentUpon>ProcessControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\StorageControl.cs">
       <SubType>UserControl</SubType>
@@ -69,20 +72,14 @@
     <Compile Include="Graph\Node.cs" />
     <Compile Include="Graph\NodeCollection.cs" />
     <Compile Include="Math.cs" />
+    <Compile Include="Graph\Plant.cs" />
+    <Compile Include="Graph\Processor.cs" />
+    <Compile Include="GUI\ControlManager.cs" />
     <Compile Include="GUI\NodeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Graph\Plant.cs" />
-    <Compile Include="Graph\Processor.cs" />
-    <Compile Include="GUI\ListControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\ListControl.Designer.cs">
-      <DependentUpon>ListControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\ControlManager.cs" />
-    <Compile Include="GUI\ProcessControl.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="GUI\NodeControl.Designer.cs">
+      <DependentUpon>NodeControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Resource\Recipe.cs" />
     <Compile Include="Resource\RecipesManager.cs" />
@@ -96,8 +93,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GUI\ListControl.resx">
-      <DependentUpon>ListControl.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\NodeControl.resx">
+      <DependentUpon>NodeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ProcessControl.resx">
+      <DependentUpon>ProcessControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -126,14 +126,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resource\balancer.png" />
+    <Content Include="Resource\mirror.png" />
     <Content Include="Resource\close.png" />
     <Content Include="Resource\icons.png" />
+    <Content Include="Resource\processor.png" />
     <Content Include="Resource\Recipes.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Resources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\run.png" />
+    <Content Include="Resource\storage.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

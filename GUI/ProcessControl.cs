@@ -1,57 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace CaptainOfPlanner
 {
-    public class ProcessControl : NodeControl
+    public partial class ProcessControl : NodeControl
     {
         Processor processor;
-        public ComboBox comboRecipe { get; }
-        public ComboBox comboFilter { get; }
         public override Node Node => processor;
 
-        public ProcessControl(Processor node) : base(node)
+        /// <summary>
+        /// </summary>
+        public ProcessControl(Processor node = null) : base(node)
         {
-            SuspendLayout();
-
             processor = node;
             NodeColor = ColorTranslator.FromHtml("#6666FF");
             Name = "ProcessorCtrl";
+            InitializeComponent();
 
-            comboRecipe = new ComboBox();
-            comboFilter = new ComboBox();
 
-            foreach (var resource in ResourcesManager.Resources)
-                comboFilter.Items.Add(resource.Name);
-
-            comboFilter.DropDownWidth = 20;
-            comboFilter.Location = new Point(2, HeaderHeight + 2);
-            comboFilter.Size = new Size(Width - 4, 20);
-            comboFilter.Text = "-- filter resource --";
-            comboFilter.SelectedValueChanged += FilterSelectionChanged;
-
-            PopulateComboRecipe(null);
-
-            comboRecipe.DropDownWidth = RecipesManager.MaxRecipesFormattedNameLenght * 6;
-            comboRecipe.Location = new Point(2, HeaderHeight + 2 + comboFilter.Height);
-            comboRecipe.Size = new Size(Width - 4, 20);
-            comboRecipe.Text = "-- select recipe --";
-            comboRecipe.SelectedValueChanged += RecipeSelectionChanged;
-
-            Controls.Add(comboFilter);
-            Controls.Add(comboRecipe);
+            OffsetInput = new Vector2i(2, comboRecipe.Bottom + 5);
+            OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboRecipe.Bottom + 5);
 
             RemoveLinkControls();
-            CreateLinkControls(comboRecipe.Bottom+5, processor.Inputs, processor.Outputs);
+            CreateLinkControls(processor.Inputs, processor.Outputs);
             Invalidate();
-
             ResumeLayout();
         }
-
-
         void PopulateComboRecipe(Resource? resource)
         {
             List<Recipe> datasource = new List<Recipe>();
@@ -69,8 +46,7 @@ namespace CaptainOfPlanner
             comboRecipe.ValueMember = "Display";
         }
 
-
-        private void FilterSelectionChanged(object sender, EventArgs e)
+        private void comboFilter_SelectedValueChanged(object sender, EventArgs e)
         {
             int index = comboFilter.SelectedIndex;
 
@@ -80,8 +56,7 @@ namespace CaptainOfPlanner
                 PopulateComboRecipe(null);
         }
 
-
-        private void RecipeSelectionChanged(object sender, EventArgs e)
+        private void comboRecipe_SelectedValueChanged(object sender, EventArgs e)
         {
             int index = comboRecipe.SelectedIndex;
             if (index > -1)
@@ -92,7 +67,7 @@ namespace CaptainOfPlanner
                     processor.Recipe = recipe;
                     SuspendLayout();
                     RemoveLinkControls();
-                    CreateLinkControls(comboRecipe.Bottom+5, processor.Inputs, processor.Outputs);
+                    CreateLinkControls(processor.Inputs, processor.Outputs);
                     Invalidate();
                     ResumeLayout(true);
                 }

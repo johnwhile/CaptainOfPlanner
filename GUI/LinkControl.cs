@@ -20,9 +20,9 @@ namespace CaptainOfPlanner
         public static LinkControl CurrentSelected;
 
         bool selected = false;
-        bool islinked = false;
 
-        protected static Vector2i preferedsize = new Vector2i(70, 25);
+        public static Vector2i PreferedSize = new Vector2i(70, 25);
+        
         public Link Node { get; }
 
         public LinkControl Linked
@@ -49,15 +49,11 @@ namespace CaptainOfPlanner
             }
         }
 
-        internal event LinkMouseHandler LinkMouseDown;
-        internal event LinkMouseHandler LinkMouseUp;
-        internal event LinkMouseHandler LinkMouseClick;
-
         public LinkControl(Link node)
         {
             //SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             //SetStyle(ControlStyles.UserPaint, true);
-            Size = preferedsize;
+            Size = PreferedSize;
             Node = node;
             node.Controller = this;
         }
@@ -70,16 +66,12 @@ namespace CaptainOfPlanner
                 if (other.Controller is LinkControl linked)
                 {
                     plantcontrol.AddConnection(this, linked);
-                    islinked = true;
-                    linked.islinked = true;
                 }
             }
         }
 
         public void UnLink()
         {
-            islinked = false;
-
             if (Parent?.Parent is PlantControl plantcontrol)
             {
                 plantcontrol.RemoveConnection(this);
@@ -107,7 +99,6 @@ namespace CaptainOfPlanner
                     CurrentSelected = this;
                 }
                 Invalidate();
-                LinkMouseClick?.Invoke(this, e);
             }
 
         }

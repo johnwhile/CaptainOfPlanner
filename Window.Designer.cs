@@ -32,9 +32,13 @@
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.listControl = new CaptainOfPlanner.ListControl();
+            this.MenuItemTool = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuItemProcessor = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemBalancer = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemStorage = new System.Windows.Forms.ToolStripMenuItem();
             this.plantControl = new CaptainOfPlanner.PlantControl();
-            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,7 +46,7 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
-            this.runToolStripMenuItem});
+            this.MenuItemTool});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1013, 24);
@@ -72,14 +76,59 @@
             this.SaveMenu.Text = "Save planner";
             this.SaveMenu.Click += new System.EventHandler(this.SaveMenu_Click);
             // 
-            // listControl
+            // MenuItemTool
             // 
-            this.listControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.listControl.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listControl.Location = new System.Drawing.Point(0, 24);
-            this.listControl.Name = "listControl";
-            this.listControl.Size = new System.Drawing.Size(143, 529);
-            this.listControl.TabIndex = 0;
+            this.MenuItemTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemRun,
+            this.toolStripSeparator,
+            this.MenuItemProcessor,
+            this.MenuItemBalancer,
+            this.MenuItemStorage});
+            this.MenuItemTool.Name = "MenuItemTool";
+            this.MenuItemTool.Size = new System.Drawing.Size(46, 20);
+            this.MenuItemTool.Text = "Tools";
+            // 
+            // MenuItemRun
+            // 
+            this.MenuItemRun.Image = global::CaptainOfPlanner.Properties.Resources.run;
+            this.MenuItemRun.Name = "MenuItemRun";
+            this.MenuItemRun.Size = new System.Drawing.Size(180, 22);
+            this.MenuItemRun.Text = "Run";
+            this.MenuItemRun.ToolTipText = "analyze the graph and calculate the flows for a certain number of interactions";
+            // 
+            // toolStripSeparator
+            // 
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
+            // 
+            // MenuItemProcessor
+            // 
+            this.MenuItemProcessor.Image = global::CaptainOfPlanner.Properties.Resources.processor;
+            this.MenuItemProcessor.Name = "MenuItemProcessor";
+            this.MenuItemProcessor.Size = new System.Drawing.Size(180, 22);
+            this.MenuItemProcessor.Text = "Processor";
+            this.MenuItemProcessor.ToolTipText = "Insert a Processor node.\r\nUse a recipe to transform input elements into output el" +
+    "ements";
+            this.MenuItemProcessor.Click += new System.EventHandler(this.MenuItemProcessor_Click);
+            // 
+            // MenuItemBalancer
+            // 
+            this.MenuItemBalancer.Image = global::CaptainOfPlanner.Properties.Resources.balancer;
+            this.MenuItemBalancer.Name = "MenuItemBalancer";
+            this.MenuItemBalancer.Size = new System.Drawing.Size(180, 22);
+            this.MenuItemBalancer.Text = "Balancer";
+            this.MenuItemBalancer.ToolTipText = "Insert a Balancer node.\r\nUsed to merge and/or separate flows of a single resource" +
+    " type";
+            this.MenuItemBalancer.Click += new System.EventHandler(this.MenuItemBalancer_Click);
+            // 
+            // MenuItemStorage
+            // 
+            this.MenuItemStorage.Image = global::CaptainOfPlanner.Properties.Resources.storage;
+            this.MenuItemStorage.Name = "MenuItemStorage";
+            this.MenuItemStorage.Size = new System.Drawing.Size(180, 22);
+            this.MenuItemStorage.Text = "Storage";
+            this.MenuItemStorage.ToolTipText = "Insert a Storage node.\r\nUsed to normalize flows";
+            this.MenuItemStorage.Click += new System.EventHandler(this.MenuItemStorage_Click);
             // 
             // plantControl
             // 
@@ -92,20 +141,12 @@
             this.plantControl.Size = new System.Drawing.Size(870, 529);
             this.plantControl.TabIndex = 2;
             // 
-            // runToolStripMenuItem
-            // 
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.runToolStripMenuItem.Text = "Run";
-            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
-            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1013, 553);
             this.Controls.Add(this.plantControl);
-            this.Controls.Add(this.listControl);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "Window";
@@ -123,9 +164,13 @@
         private System.Windows.Forms.ToolStripMenuItem FileMenu;
         private System.Windows.Forms.ToolStripMenuItem OpenMenu;
         private System.Windows.Forms.ToolStripMenuItem SaveMenu;
-        public ListControl listControl;
         public PlantControl plantControl;
-        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemTool;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemProcessor;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemRun;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemBalancer;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemStorage;
     }
 }
 

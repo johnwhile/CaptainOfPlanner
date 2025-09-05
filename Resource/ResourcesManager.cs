@@ -62,8 +62,6 @@ namespace CaptainOfPlanner
             return name;
         }
 
-
-
         public static Resource Undefined =>
             new Resource()
             {
@@ -329,7 +327,7 @@ namespace CaptainOfPlanner
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error loading Resources.xml", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.ToString() + "\nError loading Resources.xml", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Resources = new List<Resource>() { Resource.Undefined };
                 ResourcesName = new List<string>() { "undefined" };
                 return false;

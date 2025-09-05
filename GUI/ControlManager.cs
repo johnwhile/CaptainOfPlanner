@@ -33,7 +33,7 @@ namespace CaptainOfPlanner
             {
                 if (plant == value) return;
                 control.Plant = value;
-                control.GenerateControllers(value);
+                control.GenerateControllers();
                 plant = value;
             }
         }

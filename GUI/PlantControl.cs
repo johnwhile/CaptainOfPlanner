@@ -26,7 +26,7 @@ namespace CaptainOfPlanner
 
         public LinkControl CurrentSelected;
 
-        public void RemoveNodeControl(NodeControl node)
+        public void RemoveNodeControl(UserControl node)
         {
             Controls.Remove(node);
             Invalidate();
@@ -54,17 +54,19 @@ namespace CaptainOfPlanner
             Invalidate();
         }
 
-        public void AddNewNodeAndControler(Plant plant, NodeType type)
+        public void AddNewNodeAndControler(NodeType type)
         {
+            if (Plant == null) return;
+
             Control controller;
             switch(type)
             {
                 case NodeType.Processor:
-                    controller = new ProcessControl((Processor)plant.GenerateNode(type)); break;
+                    controller = new ProcessControl((Processor)Plant.GenerateNode(type)); break;
                 case NodeType.Balancer:
-                    controller = new BalanceControl((Balancer)plant.GenerateNode(type)); break;
+                    controller = new BalanceControl((Balancer)Plant.GenerateNode(type)); break;
                 case NodeType.Storage:
-                    controller = new StorageControl((Storage)plant.GenerateNode(type)); break;
+                    controller = new StorageControl((Storage)Plant.GenerateNode(type)); break;
                 default: throw new Exception("unknow node class");
 
             }
@@ -72,12 +74,14 @@ namespace CaptainOfPlanner
             Invalidate();
         }
 
-        public void GenerateControllers(Plant plant)
+        public void GenerateControllers()
         {
+            if (Plant == null) return;
+
             SuspendLayout();
             Controls.Clear();
 
-            foreach (Node node in plant)
+            foreach (Node node in Plant)
             {
                 Control controller;
                 if (node is Processor processor) controller = new ProcessControl(processor);
@@ -91,7 +95,7 @@ namespace CaptainOfPlanner
             ResumeLayout(true);
 
             ConnectTo.Clear();
-            foreach (Node node in plant)
+            foreach (Node node in Plant)
             {
                 foreach(Link link in node.Inputs)
                 {

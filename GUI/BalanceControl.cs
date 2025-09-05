@@ -53,6 +53,11 @@ namespace CaptainOfPlanner
             Controls.Add(ButtonIncrease);
             Controls.Add(ButtonDecrease);
 
+
+            OffsetInput = new Vector2i(2, comboResource.Bottom + 5);
+            OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboResource.Bottom + 5);
+
+
             UpdateLinkControls();
 
             ResumeLayout();
@@ -70,7 +75,7 @@ namespace CaptainOfPlanner
         void UpdateLinkControls()
         {
             RemoveLinkControls();
-            CreateLinkControls(comboResource.Bottom +2, balancer.Inputs, balancer.Outputs);
+            CreateLinkControls(balancer.Inputs, balancer.Outputs);
             Invalidate();
         }
 
@@ -84,7 +89,7 @@ namespace CaptainOfPlanner
                 {
                     balancer.Resource = resource;
                     RemoveLinkControls();
-                    CreateLinkControls(comboResource.Bottom + 2, balancer.Inputs, balancer.Outputs);
+                    CreateLinkControls(balancer.Inputs, balancer.Outputs);
                     Invalidate();
                 }
             }

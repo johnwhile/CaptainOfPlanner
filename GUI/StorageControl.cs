@@ -33,7 +33,7 @@ namespace CaptainOfPlanner
             Controls.Add(comboResource);
 
             RemoveLinkControls();
-            CreateLinkControls(comboResource.Bottom + 5, storage.Inputs, storage.Outputs);
+            CreateLinkControls(storage.Inputs, storage.Outputs);
             Invalidate();
 
             ResumeLayout();
@@ -49,7 +49,7 @@ namespace CaptainOfPlanner
                 {
                     storage.Resource = resource;
                     RemoveLinkControls();
-                    CreateLinkControls(comboResource.Bottom+5, storage.Inputs, storage.Outputs);
+                    CreateLinkControls(storage.Inputs, storage.Outputs);
                     Invalidate();
                 }
             }

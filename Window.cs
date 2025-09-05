@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CaptainOfPlanner
 {
@@ -36,7 +37,7 @@ namespace CaptainOfPlanner
                 dialog.FileName = plant.Name + ".xml";
                 dialog.Filter = "plant blueprint (*.xml)|*.xml";
                 dialog.RestoreDirectory = true;
-                
+
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     plant.SaveXml(dialog.FileName);
@@ -53,7 +54,7 @@ namespace CaptainOfPlanner
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     var plant = new Plant("MyPlant");
-                    
+
                     if (!plant.Load(dialog.FileName))
                         MessageBox.Show("Error loading plant");
                     Manager.Plant = plant;
@@ -61,9 +62,20 @@ namespace CaptainOfPlanner
             }
         }
 
-        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MenuItemRun_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void MenuItemProcessor_Click(object sender, EventArgs e) =>
+            Manager.Control.AddNewNodeAndControler(NodeType.Processor);
+
+
+        private void MenuItemBalancer_Click(object sender, EventArgs e) =>
+            Manager.Control.AddNewNodeAndControler(NodeType.Balancer);
+
+        private void MenuItemStorage_Click(object sender, EventArgs e) =>
+            Manager.Control.AddNewNodeAndControler(NodeType.Storage);
+
     }
 }

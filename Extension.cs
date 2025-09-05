@@ -10,6 +10,14 @@ namespace CaptainOfPlanner
 
     internal static class Extensions
     {
+        public static void Swap<T>(ref T left, ref T right) where T:struct
+        {
+            var tmp = left;
+            left = right;
+            right = tmp;
+        }
+
+
         public static void ClearEvents(object instance)
         {
             var eventsToClear = instance.GetType().GetEvents(
