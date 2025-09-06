@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CaptainOfPlanner
 {
     public partial class Window : Form
     {
+        public bool IsDebug =
+#if DEBUG
+            true;
+#else
+            false;
+#endif
         public ControlManager Manager;
 
         public Window()
@@ -17,8 +23,16 @@ namespace CaptainOfPlanner
         {
             base.OnLoad(e);
 
-            ResourcesManager.Load("Resource\\Resources.xml");
-            RecipesManager.Load("Resource\\Recipes.xml");
+            if (IsDebug)
+            {
+                ResourcesManager.Load("Resource\\Resources_Debug.xml");
+                RecipesManager.Load("Resource\\Recipes_Debug.xml");
+            }
+            else
+            {
+                ResourcesManager.Load("Resource\\Resources.xml");
+                RecipesManager.Load("Resource\\Recipes.xml");
+            }
             //ResouceManager.Save("Resouces_out.xml", SaveResourceOption.SortByOrigin);
 
             Manager = new ControlManager(plantControl);
@@ -27,8 +41,7 @@ namespace CaptainOfPlanner
                 MessageBox.Show("Error loading plant");
             Manager.Plant = plant;
         }
-
-        private void SaveMenu_Click(object sender, EventArgs e)
+        private void MenuSave_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog())
             {
@@ -44,8 +57,7 @@ namespace CaptainOfPlanner
                 }
             }
         }
-
-        private void OpenMenu_Click(object sender, EventArgs e)
+        private void MenuOpen_Click(object sender, EventArgs e)
         {
             using (var dialog = new OpenFileDialog())
             {
@@ -61,21 +73,15 @@ namespace CaptainOfPlanner
                 }
             }
         }
-
-        private void MenuItemRun_Click(object sender, EventArgs e)
+        private void MenuRun_Click(object sender, EventArgs e)
         {
-
+            Manager.Plant.RUN();
         }
-
-        private void MenuItemProcessor_Click(object sender, EventArgs e) =>
+        private void MenuAddProcessor_Click(object sender, EventArgs e) =>
             Manager.Control.AddNewNodeAndControler(NodeType.Processor);
-
-
-        private void MenuItemBalancer_Click(object sender, EventArgs e) =>
+        private void MenuAddBalancer_Click(object sender, EventArgs e) =>
             Manager.Control.AddNewNodeAndControler(NodeType.Balancer);
-
-        private void MenuItemStorage_Click(object sender, EventArgs e) =>
+        private void MenuAddStorage_Click(object sender, EventArgs e) =>
             Manager.Control.AddNewNodeAndControler(NodeType.Storage);
-
     }
 }

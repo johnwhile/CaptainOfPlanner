@@ -29,6 +29,15 @@ namespace CaptainOfPlanner
 
         }
 
+        public void RUN(int iterations = 10)
+        {
+
+        }
+
+
+
+
+
         /// <summary>
         /// Create a new node and add to nodes list
         /// </summary>

@@ -92,7 +92,7 @@ namespace CaptainOfPlanner
         {
             if (!Enum.TryParse(element.Name, out LinkType type)) type = LinkType.Undefined;
             if (!ResourcesManager.TryGetResource(element.GetAttribute("resource"), out Resource resource)) resource = Resource.Undefined;
-            var link = new Link(node, type, new ResourceCount(resource, 0));
+            var link = new Link(node, type, new ResourceCount(resource));
 
             if (!int.TryParse(element.GetAttribute("id"), out link.xml_id)) link.xml_id = -1;
             if (!int.TryParse(element.GetAttribute("linkid"), out link.xml_linked_id)) link.xml_linked_id = -1;

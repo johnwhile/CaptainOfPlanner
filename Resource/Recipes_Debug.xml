@@ -1,0 +1,13 @@
+<Recipes>
+  <recipe time="30">
+    <input  count="1" name="A"></input>
+    <input  count="2" name="B"></input>
+    <output count="3" name="C"></output>
+    <output count="4" name="D"></output>
+  </recipe>
+  <recipe time="30">
+    <input  count="6" name="C"></input>
+    <output count="3" name="E"></output>
+    <output count="3" name="F"></output>
+  </recipe>
+</Recipes>

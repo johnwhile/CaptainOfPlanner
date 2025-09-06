@@ -15,3 +15,6 @@ C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.BalanceControl.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.StorageControl.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe.config
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Recipes_Debug.xml
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Resources_Debug.xml
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.PlantControl.resources

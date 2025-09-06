@@ -41,19 +41,25 @@ namespace CaptainOfPlanner
         protected override void CompleatReadingXml(XmlElement element)
         {
             string encode = element.GetAttribute("recipe");
-            
-            if (!RecipesManager.Recipes.TryGetByEncoded(encode, out recipe))
-                Console.WriteLine("ERROR unknow recipe in xml processor");
 
+            if (!RecipesManager.Recipes.TryGetByEncoded(encode, out recipe))
+            {
+                Console.WriteLine("ERROR unknow recipe in xml processor");
+                return;
+            }
 
             // Add missing or unlinked inputs and output not saved into xml
-            foreach(var input in recipe.Inputs)
-                if (!Inputs.Find(input.Resource.Name, out _)) 
+            foreach (var input in recipe.Inputs)
+                if (!Inputs.Find(input.Resource.Name, out Link link))
                     Inputs.Add(new Link(this, LinkType.Input, input));
+                else
+                    link.ResourceCount = input;
 
             foreach (var output in recipe.OutPuts)
-                if (!Outputs.Find(output.Resource.Name, out _))
+                if (!Outputs.Find(output.Resource.Name, out Link link))
                     Outputs.Add(new Link(this, LinkType.Output, output));
+                else
+                    link.ResourceCount = output;
         }
     }
 }

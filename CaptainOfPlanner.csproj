@@ -105,6 +105,9 @@
     <EmbeddedResource Include="GUI\NodeControl.resx">
       <DependentUpon>NodeControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PlantControl.resx">
+      <DependentUpon>PlantControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\ProcessControl.resx">
       <DependentUpon>ProcessControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +141,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resource\open.png" />
+    <Content Include="Resource\Recipes_Debug.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Resources_Debug.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\save.png" />
     <Content Include="Resource\balancer.png" />
     <Content Include="Resource\mirror.png" />
     <Content Include="Resource\close.png" />
@@ -151,6 +162,7 @@
     </Content>
     <Content Include="Resource\run.png" />
     <Content Include="Resource\storage.png" />
+    <Content Include="Resource\tile.bmp" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

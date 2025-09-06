@@ -29,15 +29,12 @@
         private void InitializeComponent()
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.SaveMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemTool = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.MenuItemProcessor = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemBalancer = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemStorage = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuRun = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuAddProcessor = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuAddBalancer = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuAddStorage = new System.Windows.Forms.ToolStripMenuItem();
             this.plantControl = new CaptainOfPlanner.PlantControl();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -45,100 +42,80 @@
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileMenu,
-            this.MenuItemTool});
+            this.MenuOpen,
+            this.MenuSave,
+            this.MenuRun,
+            this.MenuAddProcessor,
+            this.MenuAddBalancer,
+            this.MenuAddStorage});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1013, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
-            // FileMenu
+            // MenuOpen
             // 
-            this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenMenu,
-            this.SaveMenu});
-            this.FileMenu.Name = "FileMenu";
-            this.FileMenu.Size = new System.Drawing.Size(37, 20);
-            this.FileMenu.Text = "File";
+            this.MenuOpen.Image = global::CaptainOfPlanner.Properties.Resources.open;
+            this.MenuOpen.Name = "MenuOpen";
+            this.MenuOpen.Size = new System.Drawing.Size(64, 20);
+            this.MenuOpen.Text = "Open";
+            this.MenuOpen.Click += new System.EventHandler(this.MenuOpen_Click);
             // 
-            // OpenMenu
+            // MenuSave
             // 
-            this.OpenMenu.Name = "OpenMenu";
-            this.OpenMenu.Size = new System.Drawing.Size(146, 22);
-            this.OpenMenu.Text = "Open planner";
-            this.OpenMenu.Click += new System.EventHandler(this.OpenMenu_Click);
+            this.MenuSave.Image = global::CaptainOfPlanner.Properties.Resources.save;
+            this.MenuSave.Name = "MenuSave";
+            this.MenuSave.Size = new System.Drawing.Size(59, 20);
+            this.MenuSave.Text = "Save";
+            this.MenuSave.Click += new System.EventHandler(this.MenuSave_Click);
             // 
-            // SaveMenu
+            // MenuRun
             // 
-            this.SaveMenu.Name = "SaveMenu";
-            this.SaveMenu.Size = new System.Drawing.Size(146, 22);
-            this.SaveMenu.Text = "Save planner";
-            this.SaveMenu.Click += new System.EventHandler(this.SaveMenu_Click);
+            this.MenuRun.Image = global::CaptainOfPlanner.Properties.Resources.run;
+            this.MenuRun.Name = "MenuRun";
+            this.MenuRun.Size = new System.Drawing.Size(56, 20);
+            this.MenuRun.Text = "Run";
+            this.MenuRun.ToolTipText = "analyze the graph and calculate the flows for a certain number of interactions";
             // 
-            // MenuItemTool
+            // MenuAddProcessor
             // 
-            this.MenuItemTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuItemRun,
-            this.toolStripSeparator,
-            this.MenuItemProcessor,
-            this.MenuItemBalancer,
-            this.MenuItemStorage});
-            this.MenuItemTool.Name = "MenuItemTool";
-            this.MenuItemTool.Size = new System.Drawing.Size(46, 20);
-            this.MenuItemTool.Text = "Tools";
-            // 
-            // MenuItemRun
-            // 
-            this.MenuItemRun.Image = global::CaptainOfPlanner.Properties.Resources.run;
-            this.MenuItemRun.Name = "MenuItemRun";
-            this.MenuItemRun.Size = new System.Drawing.Size(180, 22);
-            this.MenuItemRun.Text = "Run";
-            this.MenuItemRun.ToolTipText = "analyze the graph and calculate the flows for a certain number of interactions";
-            // 
-            // toolStripSeparator
-            // 
-            this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
-            // 
-            // MenuItemProcessor
-            // 
-            this.MenuItemProcessor.Image = global::CaptainOfPlanner.Properties.Resources.processor;
-            this.MenuItemProcessor.Name = "MenuItemProcessor";
-            this.MenuItemProcessor.Size = new System.Drawing.Size(180, 22);
-            this.MenuItemProcessor.Text = "Processor";
-            this.MenuItemProcessor.ToolTipText = "Insert a Processor node.\r\nUse a recipe to transform input elements into output el" +
+            this.MenuAddProcessor.Image = global::CaptainOfPlanner.Properties.Resources.processor;
+            this.MenuAddProcessor.Name = "MenuAddProcessor";
+            this.MenuAddProcessor.Size = new System.Drawing.Size(86, 20);
+            this.MenuAddProcessor.Text = "Processor";
+            this.MenuAddProcessor.ToolTipText = "Insert a Processor node.\r\nUse a recipe to transform input elements into output el" +
     "ements";
-            this.MenuItemProcessor.Click += new System.EventHandler(this.MenuItemProcessor_Click);
+            this.MenuAddProcessor.Click += new System.EventHandler(this.MenuAddProcessor_Click);
             // 
-            // MenuItemBalancer
+            // MenuAddBalancer
             // 
-            this.MenuItemBalancer.Image = global::CaptainOfPlanner.Properties.Resources.balancer;
-            this.MenuItemBalancer.Name = "MenuItemBalancer";
-            this.MenuItemBalancer.Size = new System.Drawing.Size(180, 22);
-            this.MenuItemBalancer.Text = "Balancer";
-            this.MenuItemBalancer.ToolTipText = "Insert a Balancer node.\r\nUsed to merge and/or separate flows of a single resource" +
+            this.MenuAddBalancer.Image = global::CaptainOfPlanner.Properties.Resources.balancer;
+            this.MenuAddBalancer.Name = "MenuAddBalancer";
+            this.MenuAddBalancer.Size = new System.Drawing.Size(80, 20);
+            this.MenuAddBalancer.Text = "Balancer";
+            this.MenuAddBalancer.ToolTipText = "Insert a Balancer node.\r\nUsed to merge and/or separate flows of a single resource" +
     " type";
-            this.MenuItemBalancer.Click += new System.EventHandler(this.MenuItemBalancer_Click);
+            this.MenuAddBalancer.Click += new System.EventHandler(this.MenuAddBalancer_Click);
             // 
-            // MenuItemStorage
+            // MenuAddStorage
             // 
-            this.MenuItemStorage.Image = global::CaptainOfPlanner.Properties.Resources.storage;
-            this.MenuItemStorage.Name = "MenuItemStorage";
-            this.MenuItemStorage.Size = new System.Drawing.Size(180, 22);
-            this.MenuItemStorage.Text = "Storage";
-            this.MenuItemStorage.ToolTipText = "Insert a Storage node.\r\nUsed to normalize flows";
-            this.MenuItemStorage.Click += new System.EventHandler(this.MenuItemStorage_Click);
+            this.MenuAddStorage.Image = global::CaptainOfPlanner.Properties.Resources.storage;
+            this.MenuAddStorage.Name = "MenuAddStorage";
+            this.MenuAddStorage.Size = new System.Drawing.Size(75, 20);
+            this.MenuAddStorage.Text = "Storage";
+            this.MenuAddStorage.ToolTipText = "Insert a Storage node.\r\nUsed to normalize flows";
+            this.MenuAddStorage.Click += new System.EventHandler(this.MenuAddStorage_Click);
             // 
             // plantControl
             // 
             this.plantControl.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.plantControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.plantControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plantControl.Location = new System.Drawing.Point(143, 24);
+            this.plantControl.Location = new System.Drawing.Point(0, 24);
             this.plantControl.Name = "plantControl";
             this.plantControl.Plant = null;
-            this.plantControl.Size = new System.Drawing.Size(870, 529);
+            this.plantControl.Size = new System.Drawing.Size(1013, 529);
             this.plantControl.TabIndex = 2;
             // 
             // Window
@@ -162,15 +139,15 @@
 
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem FileMenu;
-        private System.Windows.Forms.ToolStripMenuItem OpenMenu;
-        private System.Windows.Forms.ToolStripMenuItem SaveMenu;
+        private System.Windows.Forms.ToolStripMenuItem MenuOpen;
+        private System.Windows.Forms.ToolStripMenuItem MenuSave;
         public PlantControl plantControl;
         private System.Windows.Forms.ToolStripMenuItem MenuItemTool;
-        private System.Windows.Forms.ToolStripMenuItem MenuItemProcessor;
+        private System.Windows.Forms.ToolStripMenuItem MenuAddProcessor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
-        private System.Windows.Forms.ToolStripMenuItem MenuItemRun;
-        private System.Windows.Forms.ToolStripMenuItem MenuItemBalancer;
-        private System.Windows.Forms.ToolStripMenuItem MenuItemStorage;
+        private System.Windows.Forms.ToolStripMenuItem MenuRun;
+        private System.Windows.Forms.ToolStripMenuItem MenuAddBalancer;
+        private System.Windows.Forms.ToolStripMenuItem MenuAddStorage;
     }
 }
 

@@ -57,7 +57,7 @@ namespace CaptainOfPlanner
         {
             string name = null;
             bool cut = Name.Length > numchars;
-            if (cut) name = Name.Substring(0, numchars-3) + "...";
+            if (cut) name = Name.Substring(0, numchars - 3) + "...";
             return name;
         }
 
@@ -296,34 +296,34 @@ namespace CaptainOfPlanner
             }
 
 
-                ResourcesName = new List<string>() { "undefined" };
-                Resources = new List<Resource>() { Resource.Undefined };
-                
-                var doc = new XmlDocument();
-                doc.Load(xml);
+            ResourcesName = new List<string>() { "undefined" };
+            Resources = new List<Resource>() { Resource.Undefined };
 
-                byte id = 1;
-                ResourceOrigin origin = ResourceOrigin.Undefined;
-                ResourceState state = ResourceState.Undefined;
+            var doc = new XmlDocument();
+            doc.Load(xml);
 
-                //Resources must be the only one root node
-                if (doc.DocumentElement.Name == "Resouces")
-                    foreach (XmlNode node in doc.DocumentElement.ChildNodes)
-                        ReadNode(node, ref id, ref origin, ref state);
+            byte id = 1;
+            ResourceOrigin origin = ResourceOrigin.Undefined;
+            ResourceState state = ResourceState.Undefined;
+
+            //Resources must be the only one root node
+            if (doc.DocumentElement.Name == "Resouces")
+                foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+                    ReadNode(node, ref id, ref origin, ref state);
 
 
-                Resources.Sort(1, Resources.Count - 1, new ComparerByNameThenOrigin());
+            Resources.Sort(1, Resources.Count - 1, new ComparerByNameThenOrigin());
 
-                var resource_name_tmp = new List<string>(ResourcesName.Count) { ResourcesName[0] };
+            var resource_name_tmp = new List<string>(ResourcesName.Count) { ResourcesName[0] };
 
-                for (byte i = 1; i < ResourcesName.Count; i++)
-                {
-                    var res = Resources[i];
-                    resource_name_tmp.Add(ResourcesName[res.ID]);
-                    res.ID = i;
-                    Resources[i] = res;
-                }
-                ResourcesName = resource_name_tmp;
+            for (byte i = 1; i < ResourcesName.Count; i++)
+            {
+                var res = Resources[i];
+                resource_name_tmp.Add(ResourcesName[res.ID]);
+                res.ID = i;
+                Resources[i] = res;
+            }
+            ResourcesName = resource_name_tmp;
 
             /*
             catch (Exception e)

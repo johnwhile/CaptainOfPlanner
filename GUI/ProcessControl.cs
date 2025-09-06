@@ -36,7 +36,7 @@ namespace CaptainOfPlanner
             //set undefined resources, mean all recipes
             comboFilter.SelectedIndex = 0;
             //set the recipe
-            comboRecipe.SelectedIndex = comboRecipe.FindString(node?.Recipe.Display);
+            comboRecipe.SelectedIndex = comboRecipe.FindString(node?.Recipe?.Display);
            
 
             //now you can associate the node to this controller

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace CaptainOfPlanner
 {
@@ -24,6 +25,9 @@ namespace CaptainOfPlanner
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
             DoubleBuffered = true;
+            
+            BackgroundImage = Properties.Resources.tile;
+            BackgroundImageLayout = ImageLayout.Tile;
 
             ConnectTo = new Dictionary<LinkControl, LinkControl>();
         }
@@ -154,7 +158,6 @@ namespace CaptainOfPlanner
 
             }
         }
-
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -169,7 +172,6 @@ namespace CaptainOfPlanner
             base.OnMouseUp(e);
             translating = false;
         }
-
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -184,7 +186,6 @@ namespace CaptainOfPlanner
                 Invalidate();
             }
         }
-
     }
 
 }
