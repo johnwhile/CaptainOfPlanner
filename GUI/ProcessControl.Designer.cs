@@ -42,7 +42,7 @@
             this.comboFilter.Size = new System.Drawing.Size(144, 21);
             this.comboFilter.TabIndex = 2;
             this.comboFilter.Text = "-- filter by resources --";
-            this.comboFilter.SelectedValueChanged += new System.EventHandler(this.comboFilter_SelectedValueChanged);
+           
             // 
             // comboRecipe
             // 
@@ -54,14 +54,13 @@
             this.comboRecipe.Size = new System.Drawing.Size(144, 21);
             this.comboRecipe.TabIndex = 3;
             this.comboRecipe.Text = "-- select recipe --";
-            this.comboRecipe.SelectedValueChanged += new System.EventHandler(this.comboRecipe_SelectedValueChanged);
+            
             // 
             // ProcessControl1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.comboRecipe);
             this.Controls.Add(this.comboFilter);
-            this.Name = "ProcessControl1";
             this.Size = new System.Drawing.Size(150, 75);
             this.Controls.SetChildIndex(this.comboFilter, 0);
             this.Controls.SetChildIndex(this.comboRecipe, 0);

@@ -1,11 +1,15 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace CaptainOfPlanner
 {
-
+    /// <summary>
+    /// Base GUI of <see cref="CaptainOfPlanner.Node"/>
+    /// </summary>
+    [DisplayName("{Node}")]
     public partial class NodeControl : UserControl
     {
         #region parameters
@@ -18,6 +22,7 @@ namespace CaptainOfPlanner
         bool draging;
         Vector2i mousedown;
 
+        public PlantControl Owner;
         public virtual Node Node { get; }
         public Color NodeColor { get; set; }
         public int Id { get; }
@@ -29,7 +34,7 @@ namespace CaptainOfPlanner
         protected Vector2i OffsetInput;
         protected Vector2i OffsetOutput;
 
-
+        public bool Mirrored = false;
 
         #endregion
 
@@ -42,7 +47,12 @@ namespace CaptainOfPlanner
             BlackPen = Pens.Black;
         }
 
-        public NodeControl(Node node = null)
+        /// <summary>
+        /// For Designer mode
+        /// </summary>
+        public NodeControl() : this(null, null) { }
+
+        public NodeControl(Node node = null, PlantControl owner = null)
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
@@ -50,14 +60,16 @@ namespace CaptainOfPlanner
             NodeColor = ColorTranslator.FromHtml("#606060");
             draging = false;
             Id = instance_count++;
-            Name = "NodeCtrl";
-
-            if (node!=null) base.Location = node.Position;
+            Owner = owner;
 
             InitializeComponent();
 
             OffsetInput = new Vector2i(2, HeaderHeight + 2);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 4, HeaderHeight + 2);
+
+            if (DesignMode || node == null) return;
+            base.Location = node.Position;
+            Name = node.Name;
         }
 
 
@@ -82,7 +94,7 @@ namespace CaptainOfPlanner
             Vector2i pos = OffsetInput;
             foreach (var link in inputs)
             {
-                var ctrl = new LinkControl(link);
+                var ctrl = new LinkControl(link, this);
                 ctrl.Location = pos;
                 Controls.Add(ctrl);
                 pos.y += ctrl.Size.Height + 2;
@@ -93,7 +105,7 @@ namespace CaptainOfPlanner
             pos = OffsetOutput;
             foreach (var link in outputs)
             {
-                var ctrl = new LinkControl(link);
+                var ctrl = new LinkControl(link, this);
                 ctrl.Location = pos;
                 Controls.Add(ctrl);
                 pos.y += ctrl.Size.Height + 2;
@@ -111,6 +123,7 @@ namespace CaptainOfPlanner
             SuspendLayout();
 
             Extensions.Swap(ref OffsetInput, ref OffsetOutput);
+            Mirrored = !Mirrored;
 
             foreach (var control in Controls.OfType<LinkControl>().ToList())
             {
@@ -127,8 +140,7 @@ namespace CaptainOfPlanner
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Node.Plant.RemoveNode(Node);
-            if (Parent is PlantControl plantctrl)
-                plantctrl.RemoveNodeControl(this);
+            Owner.RemoveNodeControl(this);
         }
         protected override void OnMouseDown(MouseEventArgs e)
         {

@@ -1,60 +1,70 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace CaptainOfPlanner
 {
-    public class StorageControl : NodeControl
+    /// <summary>
+    /// GUI interface for <see cref="Storage"/> node
+    /// </summary>
+    
+    public partial class StorageControl : NodeControl
     {
         Storage storage;
-        public ComboBox comboResource { get; }
-
+        int currentSelectedResource = -1;
         public override Node Node => storage;
 
-        public StorageControl(Storage node) : base(node)
+
+        public StorageControl() : this(null, null)
         {
-            SuspendLayout();
 
-            storage = node;
-            NodeColor = ColorTranslator.FromHtml("#FF66FF");
-            Name = "StorageCtrl";
-
-            comboResource = new ComboBox();
-
-            foreach (var resource in ResourcesManager.Resources)
-                comboResource.Items.Add(resource.Name);
-
-            comboResource.DropDownWidth = 20;
-            comboResource.Location = new Point(2, HeaderHeight + 2);
-            comboResource.Size = new Size(Width - 4, 20);
-            comboResource.Text = "-- set resource --";
-            comboResource.SelectedValueChanged += ResourceSelectionChanged;
-
-            Controls.Add(comboResource);
-
-            RemoveLinkControls();
-            CreateLinkControls(storage.Inputs, storage.Outputs);
-            Invalidate();
-
-            ResumeLayout();
         }
 
-        private void ResourceSelectionChanged(object sender, EventArgs e)
+        public StorageControl(Storage node, PlantControl owner) : base(node, owner)
+        {
+            NodeColor = ColorTranslator.FromHtml("#FF66FF");
+            Name = "StorageCtrl";
+            InitializeComponent();
+
+            comboResource.DataSource = ResourcesManager.Resources;
+            comboResource.DisplayMember = "Name";
+
+            OffsetInput = new Vector2i(2, comboResource.Bottom + 5);
+            OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboResource.Bottom + 5);
+
+            if (DesignMode || node==null) return;
+
+            //set the resource
+            comboResource.SelectedIndex = comboResource.FindString(node.Resource.Name);
+            //build manualy
+            storage = node;
+            UpdateLinkControls();
+        }
+        void UpdateLinkControls()
+        {
+            SuspendLayout();
+            RemoveLinkControls();
+            CreateLinkControls(storage.Inputs, storage.Outputs);
+            ResumeLayout();
+            Invalidate();
+        }
+        private void comboResource_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = comboResource.SelectedIndex;
-            SuspendLayout();
-            if (index > -1 && ResourcesManager.TryGetResource((string)comboResource.Items[index], out Resource resource))
+            if (index == currentSelectedResource) return;
+            currentSelectedResource = index;
+
+            if (storage == null) return;
+
+            if (index > -1)
             {
+                var resource = (Resource)comboResource.Items[index];
                 if (!storage.Resource.IsCompatible(resource))
                 {
                     storage.Resource = resource;
-                    RemoveLinkControls();
-                    CreateLinkControls(storage.Inputs, storage.Outputs);
-                    Invalidate();
+                    UpdateLinkControls();
                 }
             }
-            ResumeLayout();
-
         }
     }
 }

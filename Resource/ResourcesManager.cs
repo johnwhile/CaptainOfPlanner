@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Xml;
 
 namespace CaptainOfPlanner
@@ -43,32 +42,34 @@ namespace CaptainOfPlanner
         /// <summary>
         /// ID = 0 reserved for undefined. 
         /// </summary>
-        public byte ID;
-        public ResourceState State;
-        public ResourceOrigin Origin;
+        public byte ID { get; internal set; }
+        public ResourceState State { get; }
+        public ResourceOrigin Origin { get; }
 
         /// <summary>
         /// Get the resource's name
         /// </summary>
-        public string Name => ResourcesManager.TryGetName(ID);
+        public string Name { get; }
 
         public override string ToString() => Name;
 
         public string ToFormatString(int numchars)
         {
-            var name = ResourcesManager.TryGetName(ID);
-            bool cut = name.Length > numchars;
-            if (cut) name = name.Substring(0, numchars-3) + "...";
+            string name = null;
+            bool cut = Name.Length > numchars;
+            if (cut) name = Name.Substring(0, numchars-3) + "...";
             return name;
         }
 
-        public static Resource Undefined =>
-            new Resource()
-            {
-                ID = 0,
-                State = ResourceState.Undefined,
-                Origin = ResourceOrigin.Undefined
-            };
+        public Resource(byte id, ResourceState state, ResourceOrigin origin) : this()
+        {
+            ID = id;
+            State = state;
+            Origin = origin;
+            Name = ResourcesManager.TryGetName(ID);
+        }
+
+        public static Resource Undefined => new Resource(0, ResourceState.Undefined, ResourceOrigin.Undefined);
 
         public bool IsUndefined => ID == 0 || State == ResourceState.Undefined || Origin == ResourceOrigin.Undefined;
         public bool IsCompatible(Resource other) => ID == other.ID;
@@ -288,16 +289,16 @@ namespace CaptainOfPlanner
                 else
                     foreach (XmlNode child in node.ChildNodes)
                     {
-                        Resources.Add(new Resource { ID = rec_id++, Origin = rec_origin, State = rec_state });
                         ResourcesName.Add(child.InnerText.TrimEnd().TrimStart());
+                        Resources.Add(new Resource(rec_id++, rec_state, rec_origin));
                     }
 
             }
 
-            try
-            {
-                Resources = new List<Resource>() { Resource.Undefined };
+
                 ResourcesName = new List<string>() { "undefined" };
+                Resources = new List<Resource>() { Resource.Undefined };
+                
                 var doc = new XmlDocument();
                 doc.Load(xml);
 
@@ -324,14 +325,14 @@ namespace CaptainOfPlanner
                 }
                 ResourcesName = resource_name_tmp;
 
-            }
+            /*
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString() + "\nError loading Resources.xml", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Resources = new List<Resource>() { Resource.Undefined };
                 ResourcesName = new List<string>() { "undefined" };
                 return false;
-            }
+            }*/
             return true;
         }
 

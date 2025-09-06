@@ -1,48 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 
 namespace CaptainOfPlanner
 {
+
+    /// <summary>
+    /// GUI interface for <see cref="Processor"/> node
+    /// </summary>
     public partial class ProcessControl : NodeControl
     {
         Processor processor;
         public override Node Node => processor;
 
+        int currentSelectedFilter = -1;
+        int currentSelectedRecipe = -1;
+
         /// <summary>
         /// </summary>
-        public ProcessControl(Processor node = null) : base(node)
+        public ProcessControl(Processor node = null, PlantControl owner = null) : base(node, owner)
         {
-            processor = node;
             NodeColor = ColorTranslator.FromHtml("#6666FF");
-            Name = "ProcessorCtrl";
             InitializeComponent();
-
 
             OffsetInput = new Vector2i(2, comboRecipe.Bottom + 5);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboRecipe.Bottom + 5);
 
+            comboFilter.DataSource = ResourcesManager.Resources;
+            comboFilter.DisplayMember = "Name";
+            PopulateComboRecipe(Resource.Undefined);
+
+            comboFilter.SelectedValueChanged += comboFilter_SelectedValueChanged;
+            comboRecipe.SelectedValueChanged += comboRecipe_SelectedValueChanged;
+            //set undefined resources, mean all recipes
+            comboFilter.SelectedIndex = 0;
+            //set the recipe
+            comboRecipe.SelectedIndex = comboRecipe.FindString(node?.Recipe.Display);
+           
+
+            //now you can associate the node to this controller
+            if (DesignMode || node == null) return;
+            processor = node;
             RemoveLinkControls();
             CreateLinkControls(processor.Inputs, processor.Outputs);
             Invalidate();
             ResumeLayout();
         }
-        void PopulateComboRecipe(Resource? resource)
+
+        /// <summary>
+        /// change recipe list using resource filter
+        /// </summary>
+        void PopulateComboRecipe(Resource resource)
         {
-            List<Recipe> datasource = new List<Recipe>();
-
-            Func<Recipe, bool> selector = recipe => recipe.Contains(resource.Value, out _);
-
-            if (resource.HasValue)
-                foreach (var recipe in RecipesManager.Recipes.Where(selector))
-                    datasource.Add(recipe);
+            if (resource.IsUndefined)
+            {
+                comboRecipe.DataSource = RecipesManager.Recipes;
+            }
             else
-                foreach (var recipe in RecipesManager.Recipes)
-                    datasource.Add(recipe);
-
-            comboRecipe.DataSource = datasource;
+            {
+                Func<Recipe, bool> selector = recipe => recipe.Contains(resource, out _);
+                comboRecipe.DataSource = RecipesManager.Recipes.Where(selector).ToList() ;
+            }
             comboRecipe.ValueMember = "Display";
         }
 
@@ -50,18 +69,26 @@ namespace CaptainOfPlanner
         {
             int index = comboFilter.SelectedIndex;
 
-            if (index > -1 && ResourcesManager.TryGetResource((string)comboFilter.Items[index], out Resource resource))
-                PopulateComboRecipe(resource);
-            else
-                PopulateComboRecipe(null);
-        }
+            if (index == currentSelectedFilter) return;
+            currentSelectedFilter = index;
 
+            if (index > -1)
+                PopulateComboRecipe((Resource)comboFilter.Items[index]);
+            else
+                PopulateComboRecipe(Resource.Undefined);
+        }
         private void comboRecipe_SelectedValueChanged(object sender, EventArgs e)
         {
             int index = comboRecipe.SelectedIndex;
+            if (index == currentSelectedRecipe) return;
+            currentSelectedRecipe = index;
+
+            if (processor == null) return;
+
             if (index > -1)
             {
                 var recipe = (Recipe)comboRecipe.Items[index];
+
                 if (recipe != processor.Recipe)
                 {
                     processor.Recipe = recipe;

@@ -92,13 +92,10 @@ namespace CaptainOfPlanner
                 Console.WriteLine("ERROR unknow resource in xml balancer");
 
             // cut in case something wrong
-
             while (Inputs.Count > MAXLINKS - 1) Inputs.Remove(Inputs.Last);
             while (Outputs.Count > (MAXLINKS - Inputs.Count)) Outputs.Remove(Outputs.Last);
 
-
-
-            int missing = MAXLINKS - Outputs.Count - Inputs.Count - 1;
+            int missing = MAXLINKS - Outputs.Count - Inputs.Count;
             while (missing-- > 0) Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(resource)));
             if (Outputs.Count == 0) Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(resource)));
 

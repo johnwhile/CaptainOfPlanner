@@ -7,7 +7,9 @@ namespace CaptainOfPlanner
     public class Processor : Node
     {
         public override NodeType Type => NodeType.Processor;
-        Recipe recipe;
+
+        Recipe recipe = Recipe.Empty;
+        
         public Recipe Recipe
         {
             get => recipe;

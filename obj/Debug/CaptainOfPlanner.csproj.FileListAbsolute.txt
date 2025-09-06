@@ -12,4 +12,6 @@ C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\CaptainOfPlanner.
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.pdb
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.ProcessControl.resources
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.BalanceControl.resources
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.StorageControl.resources
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe.config

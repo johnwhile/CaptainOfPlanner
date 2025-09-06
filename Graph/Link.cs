@@ -80,7 +80,7 @@ namespace CaptainOfPlanner
                 var link = parent.OwnerDocument.CreateElement(Type.ToString());
                 link.SetAttribute("id", xml_id.ToString());
                 link.SetAttribute("linkid", Linked.xml_id.ToString());
-                link.SetAttribute("res", ResourceCount.Resource.Name);
+                link.SetAttribute("resource", ResourceCount.Resource.Name);
                 if (Priority) link.SetAttribute("priority", "true");
                 parent.AppendChild(link);
                 return link;
@@ -91,7 +91,7 @@ namespace CaptainOfPlanner
         public static Link LoadXml(Node node, XmlElement element, Dictionary<int, Link> ToResolve = null)
         {
             if (!Enum.TryParse(element.Name, out LinkType type)) type = LinkType.Undefined;
-            if (!ResourcesManager.TryGetResource(element.GetAttribute("res"), out Resource resource)) resource = Resource.Undefined;
+            if (!ResourcesManager.TryGetResource(element.GetAttribute("resource"), out Resource resource)) resource = Resource.Undefined;
             var link = new Link(node, type, new ResourceCount(resource, 0));
 
             if (!int.TryParse(element.GetAttribute("id"), out link.xml_id)) link.xml_id = -1;

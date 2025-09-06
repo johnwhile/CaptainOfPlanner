@@ -22,8 +22,8 @@ namespace CaptainOfPlanner
                     Outputs.Clear();
                     if (!value.IsUndefined)
                     {
-                        Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(value, 0)));
-                        Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(value, 0)));
+                        Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(value)));
+                        Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(value)));
                     }
                 }
                 resource = value;
@@ -33,17 +33,26 @@ namespace CaptainOfPlanner
         public Storage(Plant plant, string name = "storage") :
             base(plant, string.IsNullOrEmpty(name) ? "storage" : name)
         {
-
+            Inputs.Add(new Link(this, LinkType.Input, ResourceCount.Undefined));
+            Outputs.Add(new Link(this, LinkType.Output, ResourceCount.Undefined));
         }
 
         protected override void CompleteWritingXml(XmlElement node)
         {
-            node.SetAttribute("res", resource.Name);
+            node.SetAttribute("resource", resource.Name);
         }
         protected override void CompleatReadingXml(XmlElement element)
         {
-            if (!ResourcesManager.TryGetResource(element.GetAttribute("res"), out resource))
+            if (!ResourcesManager.TryGetResource(element.GetAttribute("resource"), out resource))
                 Console.WriteLine("ERROR unknow resource in xml balancer");
+
+            // cut in case something wrong
+            while (Inputs.Count > 1) Inputs.Remove(Inputs.Last);
+            while (Outputs.Count > 1) Outputs.Remove(Inputs.Last);
+
+            if (Inputs.Count == 0) Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(resource)));
+            if (Outputs.Count == 0) Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(resource)));
+
         }
     }
 }

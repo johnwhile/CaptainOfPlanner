@@ -36,9 +36,11 @@ namespace CaptainOfPlanner
 
     public class Recipe : IComparable<Recipe>
     {
+        public static Recipe Empty = new Recipe() { Name = "undefined" };
+
         public int Id;
-        public string Name;
-        public string Display;
+        public string Name { get; set; }
+        public string Display { get;}
         public readonly int Time;
         public readonly ResourceCount[] Inputs;
         public readonly ResourceCount[] OutPuts;
@@ -49,7 +51,6 @@ namespace CaptainOfPlanner
         {
 
         }
-
 
         public Recipe(int time, ResourceCount[] inputs, ResourceCount[] output)
         {
@@ -70,8 +71,10 @@ namespace CaptainOfPlanner
             }
             Encoded = builder.ToString();
 
-            Display = ToFormatString();
+            Display = ToString();
         }
+
+        
 
         /// <summary>
         /// </summary>
@@ -90,25 +93,6 @@ namespace CaptainOfPlanner
             foreach (var res in OutPuts) if (res.Resource.IsCompatible(resource)) { type = LinkType.Output; return true; }
             return false;
         }
-        public int CompareTo(Recipe other) => Display.CompareTo(other.Display);
-
-        public static Recipe Empty => new Recipe() { Id = -1, Name = "undefined" };
-
-        void buildformattedstring(ResourceCount[] array, StringBuilder builder)
-        {
-            if (array == null || array.Length == 0)
-            {
-                builder.Append("empty");
-                return;
-            }
-            builder.Append(array[0].Resource.ToFormatString(10));
-            for (int i = 1; i < array.Length; i++)
-            {
-                builder.Append(" + ");
-                builder.Append(array[i].Resource.ToFormatString(10));
-            }
-        }
-
         public static ushort[] Encode(Recipe recipe)
         {
             byte ni = (byte)(recipe.Inputs != null ? recipe.Inputs.Length : 0);
@@ -128,7 +112,23 @@ namespace CaptainOfPlanner
             return buffer;
         }
 
+        [Obsolete]
+        void buildformattedstring(ResourceCount[] array, StringBuilder builder)
+        {
+            if (array == null || array.Length == 0)
+            {
+                builder.Append("empty");
+                return;
+            }
+            builder.Append(array[0].Resource.ToFormatString(10));
+            for (int i = 1; i < array.Length; i++)
+            {
+                builder.Append(" + ");
+                builder.Append(array[i].Resource.ToFormatString(10));
+            }
+        }
 
+        [Obsolete]
         public string ToFormatString()
         {
             StringBuilder builder = new StringBuilder();
@@ -138,6 +138,8 @@ namespace CaptainOfPlanner
             return builder.ToString();
         }
 
+        public int CompareTo(Recipe other) => Display.CompareTo(other.Display);
+        
         public override string ToString()
         {
             string result = "";
@@ -146,7 +148,6 @@ namespace CaptainOfPlanner
             if (OutPuts != null) result += string.Join(" + ", OutPuts);
             return result;
         }
-
 
     }
 

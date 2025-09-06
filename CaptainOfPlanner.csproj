@@ -47,18 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graph\Storage.cs" />
     <Compile Include="GUI\BalanceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\BalanceControl.Designer.cs">
+      <DependentUpon>BalanceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graph\Storage.cs" />
     <Compile Include="GUI\ProcessControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\ProcessControl.Designer.cs">
       <DependentUpon>ProcessControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\StorageControl.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Graph\Balancer.cs" />
     <Compile Include="GUI\LinkControl.cs">
@@ -85,6 +85,12 @@
     <Compile Include="Resource\RecipesManager.cs" />
     <Compile Include="Resource\ResourcesManager.cs" />
     <Compile Include="Extension.cs" />
+    <Compile Include="GUI\StorageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\StorageControl.Designer.cs">
+      <DependentUpon>StorageControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\BalanceControl.resx">
+      <DependentUpon>BalanceControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\NodeControl.resx">
       <DependentUpon>NodeControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +118,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="GUI\StorageControl.resx">
+      <DependentUpon>StorageControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window.resx">
       <DependentUpon>Window.cs</DependentUpon>
     </EmbeddedResource>

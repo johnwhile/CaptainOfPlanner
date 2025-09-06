@@ -68,7 +68,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonMirror);
             this.Controls.Add(this.buttonClose);
-            this.Name = "NodeControl";
             this.Size = NodeControl.preferedsize;
             this.ResumeLayout(false);
 

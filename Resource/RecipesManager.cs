@@ -5,7 +5,10 @@ using System.Xml;
 
 namespace CaptainOfPlanner
 {
-    public class RecipeCollection : IEnumerable<Recipe>
+    /// <summary>
+    /// IList interface for combobox.datasource compatibility.
+    /// </summary>
+    public class RecipeCollection : IEnumerable<Recipe> , IList
     {
         class CompareByName : IComparer<Recipe>
         {
@@ -21,9 +24,10 @@ namespace CaptainOfPlanner
             dictionary = new Dictionary<string, Recipe>();
         }
 
-        public Recipe this[int index] 
-        { 
+        public Recipe this[int index]
+        {
             get => recipes[index];
+            set => throw new NotImplementedException();
         }
 
         public int Count => recipes.Count;
@@ -51,13 +55,12 @@ namespace CaptainOfPlanner
         /// <summary>
         /// Sort by name
         /// </summary>
-        public void Sort(int startindex)
-        {
+        public void Sort(int startindex)=>
             recipes.Sort(startindex, recipes.Count - startindex, new CompareByName());
-        }
-
-        public bool Contains(Recipe recipe) => dictionary.ContainsKey(recipe.Encoded);
         
+        public bool Contains(Recipe recipe) =>
+            dictionary.ContainsKey(recipe.Encoded);
+
         /// <summary>
         /// Filter by resource
         /// </summary>
@@ -69,17 +72,66 @@ namespace CaptainOfPlanner
         }
         public IEnumerator<Recipe> GetEnumerator()
         {
-            foreach(var recipe in recipes)
+            foreach (var recipe in recipes)
                 yield return recipe;
         }
 
-        public int IndexOf(Recipe item)=>
-            recipes.IndexOf(item);
-
-        public bool Remove(Recipe item)=>
+        public bool Remove(Recipe item) =>
             dictionary.Remove(item.Encoded) && recipes.Remove(item);
-        
+
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        #region IList
+        object IList.this[int index]
+        {
+            get => this[index];
+            set => this[index] = value as Recipe;
+        }
+
+        public int Add(object value)
+        {
+            if (value is Recipe recipe && TryAdd(recipe)) return recipes.Count - 1;
+            return -1;
+        }
+
+        public bool Contains(object value) =>
+            value is Recipe recipe && Contains(recipe);
+        
+        public int IndexOf(object value)
+        {
+            if (value is Recipe recipe) return recipes.IndexOf(recipe);
+            return -1;
+        }
+
+        public void Insert(int index, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsReadOnly => true;
+
+        public bool IsFixedSize => true;
+
+        public object SyncRoot => throw new NotImplementedException();
+
+        public bool IsSynchronized => throw new NotImplementedException();
+
+        #endregion
     }
 
     public static class RecipesManager

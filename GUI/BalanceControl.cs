@@ -1,100 +1,80 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
+
 
 namespace CaptainOfPlanner
 {
-    public class BalanceControl : NodeControl
+    /// <summary>
+    /// GUI interface for <see cref="Balancer"/> node
+    /// </summary>
+    public partial class BalanceControl : NodeControl
     {
         Balancer balancer;
-        Button ButtonIncrease;
-        Button ButtonDecrease;
-        ComboBox comboResource;
-
+        int currentSelectedResource = -1;
         public override Node Node => balancer;
 
-        public BalanceControl(Balancer node) : base(node)
+        public BalanceControl(Balancer node = null, PlantControl owner = null) : base(node, owner)
         {
-            SuspendLayout();
-
-            balancer = node;
             NodeColor = ColorTranslator.FromHtml("#FFFF66");
-            Name = "BalancerCtrl";
+            InitializeComponent();
 
-            comboResource = new ComboBox();
+            buttonIncrease.Font = ControlManager.ArialBold6;
+            buttonDecrease.Font = ControlManager.ArialBold6;
 
-            foreach (var resource in ResourcesManager.Resources)
-                comboResource.Items.Add(resource.Name);
-
-            comboResource.DropDownWidth = 20;
-            comboResource.Location = new Point(2, HeaderHeight + 2);
-            comboResource.Size = new Size(Width - 20-20-8, 20);
-            comboResource.Text = "-- set resource --";
-            comboResource.SelectedValueChanged += ResourceSelectionChanged;
-
-            ButtonIncrease = new Button()
-            {
-                Size = new Size(20, 20),
-                Text = "+",
-                Font = ControlManager.ArialBold6,
-                Location = new Point(comboResource.Right+2, HeaderHeight + 2),
-                
-            };
-            ButtonDecrease = new Button()
-            {
-                Size = new Size(20, 20),
-                Text = "-",
-                Font = ControlManager.ArialBold6,
-                Location = new Point(ButtonIncrease.Right+2, HeaderHeight + 2)
-            };
-            ButtonIncrease.Click += ButtonClick;
-            ButtonDecrease.Click += ButtonClick;
-            Controls.Add(comboResource);
-            Controls.Add(ButtonIncrease);
-            Controls.Add(ButtonDecrease);
-
+            comboResource.DataSource = ResourcesManager.Resources;
+            comboResource.DisplayMember = "Name";
 
             OffsetInput = new Vector2i(2, comboResource.Bottom + 5);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboResource.Bottom + 5);
 
-
-            UpdateLinkControls();
-
-            ResumeLayout();
-        }
-
-        private void ButtonClick(object sender, System.EventArgs e)
-        {
-            var button = (Button)sender;
-            if (button.Text == "+") balancer.Increase();
-            if (button.Text == "-") balancer.Decrease();
+            if (DesignMode || node == null) return;
+            //set the resource
+            comboResource.SelectedIndex = comboResource.FindString(node.Resource.Name);
+            //build manualy
+            balancer = node;
             UpdateLinkControls();
 
         }
+
 
         void UpdateLinkControls()
         {
+            SuspendLayout();
             RemoveLinkControls();
             CreateLinkControls(balancer.Inputs, balancer.Outputs);
+            ResumeLayout();
             Invalidate();
         }
 
-        private void ResourceSelectionChanged(object sender, EventArgs e)
+        private void comboResource_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = comboResource.SelectedIndex;
-            SuspendLayout();
-            if (index > -1 && ResourcesManager.TryGetResource((string)comboResource.Items[index], out Resource resource))
+            if (index == currentSelectedResource) return;
+            currentSelectedResource = index;
+
+            if (balancer == null) return;
+
+            if (index > -1)
             {
+                var resource = (Resource)comboResource.Items[index];
                 if (!balancer.Resource.IsCompatible(resource))
                 {
                     balancer.Resource = resource;
-                    RemoveLinkControls();
-                    CreateLinkControls(balancer.Inputs, balancer.Outputs);
-                    Invalidate();
+                    UpdateLinkControls();
                 }
             }
-            ResumeLayout();
+        }
 
+        private void buttonIncrease_Click(object sender, EventArgs e)
+        {
+            balancer.Increase();
+            UpdateLinkControls();
+        }
+
+        private void buttonDecrease_Click(object sender, EventArgs e)
+        {
+            balancer.Decrease();
+            UpdateLinkControls();
         }
     }
 }
