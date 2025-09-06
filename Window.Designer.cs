@@ -77,6 +77,7 @@
             this.MenuRun.Size = new System.Drawing.Size(56, 20);
             this.MenuRun.Text = "Run";
             this.MenuRun.ToolTipText = "analyze the graph and calculate the flows for a certain number of interactions";
+            this.MenuRun.Click += this.MenuRun_Click;
             // 
             // MenuAddProcessor
             // 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -9,7 +11,7 @@ namespace CaptainOfPlanner
     /// <summary>
     /// GUI interface for <see cref="Plant"/> graph
     /// </summary>
-    public class PlantControl : UserControl
+    public class PlantControl : UserControl, IEnumerable<NodeControl>
     {
         Dictionary<LinkControl, LinkControl> ConnectTo;
 
@@ -19,20 +21,26 @@ namespace CaptainOfPlanner
 
         public Plant Plant { get; set; }
 
+        public LinkControl CurrentSelected;
+
         public PlantControl()
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
             DoubleBuffered = true;
-            
+
             BackgroundImage = Properties.Resources.tile;
             BackgroundImageLayout = ImageLayout.Tile;
 
             ConnectTo = new Dictionary<LinkControl, LinkControl>();
         }
 
-        public LinkControl CurrentSelected;
+
+        public IEnumerator<NodeControl> GetEnumerator() =>
+            Controls.OfType<NodeControl>().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
 
         public void RemoveNodeControl(UserControl node)
         {
@@ -67,7 +75,7 @@ namespace CaptainOfPlanner
             if (Plant == null) return;
 
             Control controller;
-            switch(type)
+            switch (type)
             {
                 case NodeType.Processor:
                     controller = new ProcessControl((Processor)Plant.GenerateNode(type), this); break;
@@ -105,9 +113,9 @@ namespace CaptainOfPlanner
             ConnectTo.Clear();
             foreach (Node node in Plant)
             {
-                foreach(Link link in node.Inputs)
+                foreach (Link link in node.Inputs)
                 {
-                    if (link.Linked!=null && 
+                    if (link.Linked != null &&
                         link.Controller is LinkControl fromlink &&
                         link.Linked.Controller is LinkControl tolink)
 
@@ -186,6 +194,8 @@ namespace CaptainOfPlanner
                 Invalidate();
             }
         }
+
+
     }
 
 }

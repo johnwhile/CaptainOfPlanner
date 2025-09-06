@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Xml;
 
 namespace CaptainOfPlanner
@@ -26,11 +27,21 @@ namespace CaptainOfPlanner
         {
             Name = name;
             nodes = new List<Node>();
-
         }
 
+       
+
+        /// <summary>
+        /// Main algorithm
+        /// </summary>
         public void RUN(int iterations = 10)
         {
+            foreach (var node in this) node.IteratorId = 0;
+
+            //find best starting node. There can be separate networks so for each network
+            //there is a different starting point
+
+            var networks = Network.GetNetworks(this);
 
         }
 

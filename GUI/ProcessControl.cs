@@ -22,7 +22,12 @@ namespace CaptainOfPlanner
         public ProcessControl(Processor node = null, PlantControl owner = null) : base(node, owner)
         {
             NodeColor = ColorTranslator.FromHtml("#6666FF");
+            
+            //fix layout
+            Size = preferedsize;
             InitializeComponent();
+            comboFilter.Width = Width - 6;
+            comboRecipe.Width = Width - 6;
 
             OffsetInput = new Vector2i(2, comboRecipe.Bottom + 5);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboRecipe.Bottom + 5);

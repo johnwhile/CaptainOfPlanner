@@ -16,7 +16,14 @@ namespace CaptainOfPlanner
         public BalanceControl(Balancer node = null, PlantControl owner = null) : base(node, owner)
         {
             NodeColor = ColorTranslator.FromHtml("#FFFF66");
+
+            //fix layout
+            Size = preferedsize;
             InitializeComponent();
+            comboResource.Width = Width - 21 - 21 - 10;
+            buttonIncrease.Location = new Point(Width - 21 - 21 - 4, 21);
+            buttonDecrease.Location = new Point(Width - 21 - 4, 21);
+
 
             buttonIncrease.Font = ControlManager.ArialBold6;
             buttonDecrease.Font = ControlManager.ArialBold6;

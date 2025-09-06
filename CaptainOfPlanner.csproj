@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graph\Network.cs" />
     <Compile Include="GUI\BalanceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

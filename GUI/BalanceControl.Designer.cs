@@ -40,7 +40,7 @@
             this.comboResource.FormattingEnabled = true;
             this.comboResource.Location = new System.Drawing.Point(4, 21);
             this.comboResource.Name = "comboResource";
-            this.comboResource.Size = new System.Drawing.Size(98, 21);
+            this.comboResource.Size = new System.Drawing.Size(121, 21);
             this.comboResource.TabIndex = 2;
             this.comboResource.Text = "-- set resource --";
             this.comboResource.SelectedIndexChanged += new System.EventHandler(this.comboResource_SelectedIndexChanged);
@@ -48,7 +48,7 @@
             // buttonDecrease
             // 
             this.buttonDecrease.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDecrease.Location = new System.Drawing.Point(126, 21);
+            this.buttonDecrease.Location = new System.Drawing.Point(176, 21);
             this.buttonDecrease.Name = "buttonDecrease";
             this.buttonDecrease.Size = new System.Drawing.Size(21, 21);
             this.buttonDecrease.TabIndex = 3;
@@ -59,7 +59,7 @@
             // buttonIncrease
             // 
             this.buttonIncrease.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonIncrease.Location = new System.Drawing.Point(104, 21);
+            this.buttonIncrease.Location = new System.Drawing.Point(154, 21);
             this.buttonIncrease.Name = "buttonIncrease";
             this.buttonIncrease.Size = new System.Drawing.Size(21, 21);
             this.buttonIncrease.TabIndex = 4;
@@ -67,12 +67,13 @@
             this.buttonIncrease.UseVisualStyleBackColor = true;
             this.buttonIncrease.Click += new System.EventHandler(this.buttonIncrease_Click);
             // 
-            // BalanceControl1
+            // BalanceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.buttonIncrease);
             this.Controls.Add(this.buttonDecrease);
             this.Controls.Add(this.comboResource);
+            this.Name = "BalanceControl";
             this.Controls.SetChildIndex(this.comboResource, 0);
             this.Controls.SetChildIndex(this.buttonDecrease, 0);
             this.Controls.SetChildIndex(this.buttonIncrease, 0);

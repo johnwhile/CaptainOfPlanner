@@ -19,12 +19,21 @@ namespace CaptainOfPlanner
     public abstract class Node
     {
         protected static int instance_counter = 0;
-        public abstract NodeType Type { get; }
 
         /// <summary>
-        /// optional, location of control
+        /// used for enumerator's method
         /// </summary>
-        public Vector2i Position { get; set; }
+        public int IteratorId = 0;
+        /// <summary>
+        /// optional: only valid when saving or loading xml
+        /// </summary>
+        public bool Mirrored = false;
+        /// <summary>
+        /// optional: only valid when saving or loading xml
+        /// </summary>
+        public Vector2i Position;
+
+        public abstract NodeType Type { get; }
         /// <summary>
         /// optional name
         /// </summary>
@@ -33,7 +42,6 @@ namespace CaptainOfPlanner
         /// Main owner of all nodes
         /// </summary>
         public Plant Plant { get; }
-
         /// <summary>
         /// A node can contains more than one input
         /// </summary>
@@ -55,16 +63,20 @@ namespace CaptainOfPlanner
 
 
 
+
+        #region Read/White
         /// <summary>
         /// after node type is resolved, load xml data with derived implementation
         /// </summary>
         protected abstract void CompleatReadingXml(XmlElement node);
-        protected abstract void CompleteWritingXml(XmlElement node);
-        
+        protected abstract void CompleteWritingXml(XmlElement node);   
         public virtual XmlElement SaveXml(XmlElement plant)
         {
             var node = plant.OwnerDocument.CreateElement(Type.ToString());
+
             if (!string.IsNullOrEmpty(Name)) node.SetAttribute("name", Name);
+            if (Mirrored) node.SetAttribute("mirror", Mirrored ? "true" : "false");
+
             node.SetAttribute("pos", Position.ToString());
             plant.AppendChild(node);
 
@@ -75,7 +87,6 @@ namespace CaptainOfPlanner
 
             return node;
         }
-
         /// <summary>
         /// load xml node.
         /// </summary>
@@ -87,12 +98,12 @@ namespace CaptainOfPlanner
 
             if (Enum.TryParse(element.Name, out NodeType type))
             {
-                string name = element.GetAttribute("name");
-
                 node = plant.GenerateNode(type);
-
+                node.Name = element.GetAttribute("name");
                 node.Inputs.Clear();
                 node.Outputs.Clear();
+
+                if (!bool.TryParse(element.GetAttribute("mirror"), out node.Mirrored)) node.Mirrored = false;
 
                 if (Vector2i.TryParse(element.GetAttribute("pos"), out Vector2i pos))
                     node.Position = pos;
@@ -111,11 +122,6 @@ namespace CaptainOfPlanner
             }
             return node;
         }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-
+        #endregion
     }
 }

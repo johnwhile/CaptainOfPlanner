@@ -61,7 +61,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.comboRecipe);
             this.Controls.Add(this.comboFilter);
-            this.Size = new System.Drawing.Size(150, 75);
             this.Controls.SetChildIndex(this.comboFilter, 0);
             this.Controls.SetChildIndex(this.comboRecipe, 0);
             this.ResumeLayout(false);

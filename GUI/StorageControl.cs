@@ -24,7 +24,11 @@ namespace CaptainOfPlanner
         {
             NodeColor = ColorTranslator.FromHtml("#FF66FF");
             Name = "StorageCtrl";
+
+            //fix layout
+            Size = preferedsize;
             InitializeComponent();
+            comboResource.Width = Width - 7;
 
             comboResource.DataSource = ResourcesManager.Resources;
             comboResource.DisplayMember = "Name";

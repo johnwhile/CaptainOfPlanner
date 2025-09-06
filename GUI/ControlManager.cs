@@ -13,7 +13,6 @@ namespace CaptainOfPlanner
         PlantControl control;
         Plant plant;
 
-
         static ControlManager()
         {
             SBrush = new SolidBrush(Color.Gray);
@@ -45,6 +44,15 @@ namespace CaptainOfPlanner
         {
             if (viewer == null) throw new ArgumentNullException();
             control = viewer;
+        }
+
+        public void SaveControllerInfo()
+        {
+            foreach(var node in control)
+            {
+                node.Node.Position = node.Location;
+                node.Node.Mirrored = node.Mirrored;
+            }
         }
 
     }

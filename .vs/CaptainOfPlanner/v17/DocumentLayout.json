@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\graph\\processor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:graph\\processor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\graph\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:graph\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|c:\\users\\administrator\\source\\repos\\captainofplanner\\graph\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\graph\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:graph\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\graph\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:graph\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF34B03A-526A-4532-AE9A-D0E2C825977C}|CaptainOfPlanner.csproj|solutionrelative:window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,33 +26,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Processor.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Processor.cs",
-              "RelativeDocumentMoniker": "Graph\\Processor.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Processor.cs*",
-              "RelativeToolTip": "Graph\\Processor.cs*",
-              "ViewState": "AgIAACgAAAAAAAAAAAA0wD4AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-06T16:21:41.25Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Node.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Node.cs",
               "RelativeDocumentMoniker": "Graph\\Node.cs",
               "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Node.cs",
               "RelativeToolTip": "Graph\\Node.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAIA4wDwAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBkAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-06T16:17:39.769Z",
+              "WhenOpened": "2025-09-06T20:43:47.746Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Window.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Window.cs",
+              "RelativeDocumentMoniker": "Window.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Window.cs",
+              "RelativeToolTip": "Window.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwAAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-06T20:39:15.79Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Network.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Network.cs",
+              "RelativeDocumentMoniker": "Graph\\Network.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Network.cs",
+              "RelativeToolTip": "Graph\\Network.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAnwCcAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-06T18:03:03.97Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Plant.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Plant.cs",
+              "RelativeDocumentMoniker": "Graph\\Plant.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\Repos\\CaptainOfPlanner\\Graph\\Plant.cs",
+              "RelativeToolTip": "Graph\\Plant.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAwwCYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-06T16:34:58.295Z"
             }
           ]
         }

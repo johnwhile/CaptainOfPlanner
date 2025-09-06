@@ -20,28 +20,48 @@ namespace CaptainOfPlanner
         protected const int HeaderHeight = 20;
         protected static Vector2i preferedsize;
         bool draging;
+        bool mirrored;
         Vector2i mousedown;
 
         public PlantControl Owner;
         public virtual Node Node { get; }
         public Color NodeColor { get; set; }
         public int Id { get; }
-        public new Vector2i Location
-        {
-            get => base.Location;
-            set { base.Location = value; Node.Position = value; }
-        }
+
         protected Vector2i OffsetInput;
         protected Vector2i OffsetOutput;
 
-        public bool Mirrored = false;
+        public bool Mirrored
+        {
+            get => mirrored;
+            private set
+            {
+                if (mirrored!=value)
+                {
+                    SuspendLayout();
+                    Extensions.Swap(ref OffsetInput, ref OffsetOutput);
+
+                    foreach (var control in Controls.OfType<LinkControl>().ToList())
+                    {
+                        control.Left = control.Node.Type == LinkType.Input ?
+                            OffsetInput.x :
+                            OffsetOutput.x;
+                    }
+
+                    ResumeLayout(true);
+                    Parent?.Invalidate();
+                    Invalidate();
+                }
+                mirrored = value;
+            }
+        }
 
         #endregion
 
 
         static NodeControl()
         {
-            preferedsize = new Vector2i(150, 75);
+            preferedsize = new Vector2i(175, 75);
             SBrush = new SolidBrush(Color.Gray);
             ArialBold6 = new Font("Arial", 6f, FontStyle.Bold);
             BlackPen = Pens.Black;
@@ -59,17 +79,24 @@ namespace CaptainOfPlanner
             DoubleBuffered = true;
             NodeColor = ColorTranslator.FromHtml("#606060");
             draging = false;
+            mirrored = false;
             Id = instance_count++;
             Owner = owner;
 
+            //fix layout
+            Size = preferedsize;
             InitializeComponent();
+            buttonClose.Location = new Point(Width - 21 - 2, 3);
+            buttonMirror.Location = new Point(Width - 21 - 21 - 4, 3);
+
 
             OffsetInput = new Vector2i(2, HeaderHeight + 2);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 4, HeaderHeight + 2);
 
             if (DesignMode || node == null) return;
-            base.Location = node.Position;
+            Location = node.Position;
             Name = node.Name;
+            Mirrored = node.Mirrored;
         }
 
 
@@ -113,30 +140,10 @@ namespace CaptainOfPlanner
             height = Math.Max(height, pos.y + 5);
             Height = height;
         }
-       
-        
-        
-       
+
+
         #region events
-        private void buttonMirror_Click(object sender, EventArgs e)
-        {
-            SuspendLayout();
-
-            Extensions.Swap(ref OffsetInput, ref OffsetOutput);
-            Mirrored = !Mirrored;
-
-            foreach (var control in Controls.OfType<LinkControl>().ToList())
-            {
-                control.Left = control.Node.Type == LinkType.Input ? 
-                    OffsetInput.x :
-                    OffsetOutput.x;
-            }
-
-            ResumeLayout(true);
-            Parent?.Invalidate();
-            Invalidate();
-        }
-
+        private void buttonMirror_Click(object sender, EventArgs e) => Mirrored = !Mirrored;
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Node.Plant.RemoveNode(Node);
@@ -154,7 +161,7 @@ namespace CaptainOfPlanner
             base.OnMouseMove(e);
             if (draging)
             {
-                Location = Location + ((Vector2i)e.Location - mousedown);
+                Location = (Vector2i)Location + ((Vector2i)e.Location - mousedown);
                 Parent.Invalidate();
             }
         }

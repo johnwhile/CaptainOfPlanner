@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace CaptainOfPlanner
@@ -53,6 +52,7 @@ namespace CaptainOfPlanner
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    Manager.SaveControllerInfo();
                     plant.SaveXml(dialog.FileName);
                 }
             }
@@ -73,10 +73,8 @@ namespace CaptainOfPlanner
                 }
             }
         }
-        private void MenuRun_Click(object sender, EventArgs e)
-        {
+        private void MenuRun_Click(object sender, EventArgs e) =>
             Manager.Plant.RUN();
-        }
         private void MenuAddProcessor_Click(object sender, EventArgs e) =>
             Manager.Control.AddNewNodeAndControler(NodeType.Processor);
         private void MenuAddBalancer_Click(object sender, EventArgs e) =>
