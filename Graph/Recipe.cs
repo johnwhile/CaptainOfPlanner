@@ -1,39 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CaptainOfPlanner
 {
-    /// <summary>
-    /// </summary>
-    public struct ResourceCount
-    {
-        /// <summary>
-        /// Quantity processed. If zero are considered infinite input or output
-        /// </summary>
-        public byte Count;
-        /// <summary>
-        /// type of resource
-        /// </summary>
-        public Resource Resource;
-        /// <summary>
-        /// rate as processed per minutes, calculated as Count / Recipe's Time * 60
-        /// </summary>
-        public float Rate;
-
-        public ResourceCount(Resource resource, byte count=0) : this()
-        {
-            Count = count;
-            Resource = resource;
-        }
-
-
-        public static ResourceCount Undefined = new ResourceCount() { Resource = Resource.Undefined };
-
-        public override string ToString() => $"{Resource}";
-        //public override string ToString() => $"{Count} {Resource}";
-    }
-
-
     public class Recipe : IComparable<Recipe>
     {
         public static Recipe Empty = new Recipe() { Name = "undefined" };
@@ -42,25 +14,56 @@ namespace CaptainOfPlanner
         public string Name { get; set; }
         public string Display { get;}
         public readonly int Time;
-        public readonly ResourceCount[] Inputs;
-        public readonly ResourceCount[] OutPuts;
+        public readonly byte[] InCount;
+        public readonly byte[] OutCount;
+        public readonly Resource[] Inputs;
+        public readonly Resource[] OutPuts;
         public readonly string Encoded;
 
 
-        public Recipe() : this(0, null, null)
+        public IEnumerable<(Resource,byte)> InputCollection
+        {
+            get
+            {
+                if (Inputs != null) for (int i = 0; i < Inputs.Length; i++)
+                        yield return (Inputs[i], InCount[i]);
+                yield break;
+            }
+        }
+        public IEnumerable<(Resource, byte)> OutputCollection
+        {
+            get
+            {
+                if (OutPuts != null) for (int i = 0; i < OutPuts.Length; i++)
+                        yield return (OutPuts[i], OutCount[i]);
+                yield break;
+            }
+        }
+
+        public Recipe() : this(0, null, null, null, null)
         {
 
         }
 
-        public Recipe(int time, ResourceCount[] inputs, ResourceCount[] output)
+        public Recipe(int time, IEnumerable<(Resource, byte)> inputs, IEnumerable<(Resource, byte)> output) :
+            this(time,
+                inputs.Select(x => x.Item1).ToArray(),
+                inputs.Select(x => x.Item2).ToArray(),
+                output.Select(x => x.Item1).ToArray(),
+                output.Select(x => x.Item2).ToArray())
+        { }
+
+        public Recipe(int time, Resource[] inputs, byte[] inputquantity, Resource[] output, byte[] outputquantity)
         {
             Name = "Recipe";
             Time = time;
             Inputs = inputs;
             OutPuts = output;
+            InCount = inputquantity;
+            OutCount = outputquantity;
 
-            if (Inputs == null) Inputs = new ResourceCount[0];
-            if (OutPuts == null) OutPuts = new ResourceCount[0];
+            if (Inputs == null) Inputs = new Resource[0];
+            if (OutPuts == null) OutPuts = new Resource[0];
 
             var encoded = Encode(this);
             StringBuilder builder = new StringBuilder();
@@ -89,8 +92,8 @@ namespace CaptainOfPlanner
         public bool Contains(Resource resource, out LinkType type)
         {
             type = LinkType.Undefined;
-            foreach (var res in Inputs) if (res.Resource.IsCompatible(resource)) { type = LinkType.Input; return true; }
-            foreach (var res in OutPuts) if (res.Resource.IsCompatible(resource)) { type = LinkType.Output; return true; }
+            foreach (var res in Inputs) if (res.IsCompatible(resource)) { type = LinkType.Input; return true; }
+            foreach (var res in OutPuts) if (res.IsCompatible(resource)) { type = LinkType.Output; return true; }
             return false;
         }
         public static ushort[] Encode(Recipe recipe)
@@ -104,27 +107,27 @@ namespace CaptainOfPlanner
 
             int j = 1;
             for (int i = 0; i < ni; i++)
-                buffer[j++] = (ushort)(recipe.Inputs[i].Resource.ID | recipe.Inputs[i].Count << 8);
+                buffer[j++] = (ushort)(recipe.Inputs[i].ID | recipe.InCount[i] << 8);
 
             for (int i = 0; i < no; i++)
-                buffer[j++] = (ushort)(recipe.OutPuts[i].Resource.ID | recipe.OutPuts[i].Count << 8);
+                buffer[j++] = (ushort)(recipe.OutPuts[i].ID | recipe.OutCount[i] << 8);
 
             return buffer;
         }
 
         [Obsolete]
-        void buildformattedstring(ResourceCount[] array, StringBuilder builder)
+        void buildformattedstring(Resource[] array, StringBuilder builder)
         {
             if (array == null || array.Length == 0)
             {
                 builder.Append("empty");
                 return;
             }
-            builder.Append(array[0].Resource.ToFormatString(10));
+            builder.Append(array[0].Name.CutString(10));
             for (int i = 1; i < array.Length; i++)
             {
                 builder.Append(" + ");
-                builder.Append(array[i].Resource.ToFormatString(10));
+                builder.Append(array[i].Name.CutString(10));
             }
         }
 

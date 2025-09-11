@@ -1,16 +1,21 @@
 <Recipes>
-  <recipe time="30">
+  <recipe time="60">
     <input  count="1" name="A"></input>
     <input  count="2" name="B"></input>
     <output count="3" name="C"></output>
     <output count="4" name="D"></output>
   </recipe>
-  <recipe time="30">
+  <recipe time="60">
+    <input  count="6" name="C"></input>
+    <input  count="7" name="E"></input>
+    <output count="4" name="B"></output>
+  </recipe>
+  <recipe time="60">
     <input  count="6" name="C"></input>
     <output count="3" name="E"></output>
     <output count="3" name="F"></output>
   </recipe>
-  <recipe time="30">
+  <recipe time="60">
     <input  count="3" name="E"></input>
     <input  count="3" name="G"></input>
     <output count="3" name="B"></output>

@@ -17,4 +17,5 @@ C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Recipes_Debug.xml
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Resources_Debug.xml
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.PlantControl.resources
+C:\Users\Administrator\source\Repos\CaptainOfPlanner\bin\Debug\Resource\Icons.xml
 C:\Users\Administrator\source\Repos\CaptainOfPlanner\obj\Debug\CaptainOfPlanner.exe.config

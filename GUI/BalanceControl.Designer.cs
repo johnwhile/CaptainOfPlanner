@@ -48,7 +48,7 @@
             // buttonDecrease
             // 
             this.buttonDecrease.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDecrease.Location = new System.Drawing.Point(176, 21);
+            this.buttonDecrease.Location = new System.Drawing.Point(151, 21);
             this.buttonDecrease.Name = "buttonDecrease";
             this.buttonDecrease.Size = new System.Drawing.Size(21, 21);
             this.buttonDecrease.TabIndex = 3;
@@ -59,7 +59,7 @@
             // buttonIncrease
             // 
             this.buttonIncrease.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonIncrease.Location = new System.Drawing.Point(154, 21);
+            this.buttonIncrease.Location = new System.Drawing.Point(129, 21);
             this.buttonIncrease.Name = "buttonIncrease";
             this.buttonIncrease.Size = new System.Drawing.Size(21, 21);
             this.buttonIncrease.TabIndex = 4;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace CaptainOfPlanner
@@ -137,7 +138,7 @@ namespace CaptainOfPlanner
     public static class RecipesManager
     {
         public static int MaxRecipesFormattedNameLenght;
-        public static int max_resource_count;
+        public static int max_resource_quantity;
 
         public static RecipeCollection Recipes;
 
@@ -157,8 +158,8 @@ namespace CaptainOfPlanner
 
             if (ResourcesManager.Resources.Count < 1) return false;
 
-            List<ResourceCount> InputsBuffer = new List<ResourceCount>();
-            List<ResourceCount> OutputBuffer = new List<ResourceCount>();
+            var input_buffer = new List<(Resource,byte)>();
+            var output_buffer = new List<(Resource, byte)>();
 
             bool ReadResource(XmlNode node, out Resource resource, out byte count)
             {
@@ -192,27 +193,26 @@ namespace CaptainOfPlanner
 
                 if (!int.TryParse(node.Attributes["time"]?.Value, out int Time)) Time = 60;
 
-                InputsBuffer.Clear();
-                OutputBuffer.Clear();
+                input_buffer.Clear();
+                output_buffer.Clear();
 
                 foreach (XmlNode child in node.ChildNodes)
                 {
-                    var item = new ResourceCount();
-                    if (ReadResource(child, out item.Resource, out item.Count))
+                    if (ReadResource(child, out Resource resource, out byte quantity))
                     {
-                        item.Rate = item.Count * 60f / Time;
                         switch (child.Name)
                         {
-                            case "input": InputsBuffer.Add(item); break;
-                            case "output": OutputBuffer.Add(item); break;
+                            case "input": input_buffer.Add((resource, quantity)); break;
+                            case "output": output_buffer.Add((resource, quantity)); break;
                         }
                     }
                 }
 
-                InputsBuffer.Sort((x, y) => x.Resource.ID.CompareTo(y.Resource.ID));
-                OutputBuffer.Sort((x, y) => x.Resource.ID.CompareTo(y.Resource.ID));
+                input_buffer.Sort((x, y) => x.Item1.ID.CompareTo(y.Item1.ID));
+                output_buffer.Sort((x, y) => x.Item1.ID.CompareTo(y.Item1.ID));
 
-                Recipe recipe = new Recipe(Time, InputsBuffer.ToArray(), OutputBuffer.ToArray());
+                Recipe recipe = new Recipe(Time, input_buffer, output_buffer);
+
                 return recipe;
             }
 
@@ -242,11 +242,11 @@ namespace CaptainOfPlanner
                 MaxRecipesFormattedNameLenght = Math.Max(MaxRecipesFormattedNameLenght, recipe.Display.Length);
 
                 if (recipe.Inputs != null)
-                    foreach (var input in recipe.Inputs)
-                        max_resource_count = Math.Max(max_resource_count, input.Count);
+                    foreach (var input in recipe.InputCollection)
+                        max_resource_quantity = Math.Max(max_resource_quantity, input.Item2);
                 if (recipe.OutPuts != null)
-                    foreach (var ouput in recipe.OutPuts)
-                        max_resource_count = Math.Max(max_resource_count, ouput.Count);
+                    foreach (var ouput in recipe.OutputCollection)
+                        max_resource_quantity = Math.Max(max_resource_quantity, ouput.Item2);
             }
             return true;
         }

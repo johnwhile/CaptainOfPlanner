@@ -61,6 +61,7 @@
             this.buttonMirror.TabIndex = 1;
             this.buttonMirror.UseVisualStyleBackColor = false;
             this.buttonMirror.Click += new System.EventHandler(this.buttonMirror_Click);
+
             // 
             // NodeControl
             // 
@@ -68,8 +69,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonMirror);
             this.Controls.Add(this.buttonClose);
-            this.Size = NodeControl.preferedsize;
+            this.Name = "NodeControl";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

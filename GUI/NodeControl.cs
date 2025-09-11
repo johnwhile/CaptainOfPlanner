@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,6 +24,8 @@ namespace CaptainOfPlanner
         bool mirrored;
         Vector2i mousedown;
 
+        protected virtual string Title => $"{Id} {Name}";
+
         public PlantControl Owner;
         public virtual Node Node { get; }
         public Color NodeColor { get; set; }
@@ -30,11 +33,10 @@ namespace CaptainOfPlanner
 
         protected Vector2i OffsetInput;
         protected Vector2i OffsetOutput;
-
         public bool Mirrored
         {
             get => mirrored;
-            private set
+            protected set
             {
                 if (mirrored!=value)
                 {
@@ -89,14 +91,12 @@ namespace CaptainOfPlanner
             buttonClose.Location = new Point(Width - 21 - 2, 3);
             buttonMirror.Location = new Point(Width - 21 - 21 - 4, 3);
 
-
             OffsetInput = new Vector2i(2, HeaderHeight + 2);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 4, HeaderHeight + 2);
 
             if (DesignMode || node == null) return;
             Location = node.Position;
             Name = node.Name;
-            Mirrored = node.Mirrored;
         }
 
 
@@ -114,16 +114,17 @@ namespace CaptainOfPlanner
         /// <summary>
         /// Create the list of Inputs and Outputs link controllers
         /// </summary>
-        protected void CreateLinkControls(LinkCollection inputs, LinkCollection outputs)
+        protected void CreateLinkControls(LinkCollection inputs, LinkCollection outputs, bool addPriority = false)
         {
             int height = preferedsize.height;
 
             Vector2i pos = OffsetInput;
             foreach (var link in inputs)
             {
-                var ctrl = new LinkControl(link, this);
+                var ctrl = new LinkControl(link, this, addPriority);
                 ctrl.Location = pos;
                 Controls.Add(ctrl);
+               
                 pos.y += ctrl.Size.Height + 2;
             }
 
@@ -132,7 +133,7 @@ namespace CaptainOfPlanner
             pos = OffsetOutput;
             foreach (var link in outputs)
             {
-                var ctrl = new LinkControl(link, this);
+                var ctrl = new LinkControl(link, this, addPriority);
                 ctrl.Location = pos;
                 Controls.Add(ctrl);
                 pos.y += ctrl.Size.Height + 2;
@@ -141,12 +142,13 @@ namespace CaptainOfPlanner
             Height = height;
         }
 
+        protected virtual void RemoveThisNode() { throw new NotImplementedException(); }
 
         #region events
         private void buttonMirror_Click(object sender, EventArgs e) => Mirrored = !Mirrored;
         private void buttonClose_Click(object sender, EventArgs e)
         {
-            Node.Plant.RemoveNode(Node);
+            RemoveThisNode();
             Owner.RemoveNodeControl(this);
         }
         protected override void OnMouseDown(MouseEventArgs e)
@@ -177,7 +179,7 @@ namespace CaptainOfPlanner
             SBrush.Color = NodeColor;
 
             e.Graphics.FillRectangle(SBrush, 0, 0, Width, HeaderHeight);
-            e.Graphics.DrawString($"{Id} {Name}", ArialBold6, Brushes.Black, 5, 5);
+            e.Graphics.DrawString(Title, ArialBold6, Brushes.Black, 5, 5);
 
             BackColor = Color.White;
             ControlPaint.DrawBorder3D(e.Graphics, 0, 0, Width, Height, Border3DStyle.Raised);

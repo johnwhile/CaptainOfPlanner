@@ -7,6 +7,7 @@ namespace CaptainOfPlanner
     public class ControlManager
     {
         public static Font ArialBold6;
+        public static Font ArialBold10;
         public static SolidBrush SBrush;
         public static Pen BlackPen;
 
@@ -17,6 +18,7 @@ namespace CaptainOfPlanner
         {
             SBrush = new SolidBrush(Color.Gray);
             ArialBold6 = new Font("Arial", 6f, FontStyle.Bold);
+            ArialBold10 = new Font("Arial", 10f, FontStyle.Bold);
             BlackPen = Pens.Black;
         }
 

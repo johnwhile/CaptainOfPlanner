@@ -21,6 +21,8 @@ namespace CaptainOfPlanner
             this.x = x;
             this.y = y;
         }
+        public static Vector2i Zero => new Vector2i();
+
         public static Vector2i operator /(Vector2i left, int scalar) =>
             new Vector2i(left.x / scalar, left.y / scalar);
         public static Vector2i operator *(Vector2i left, int scalar) =>

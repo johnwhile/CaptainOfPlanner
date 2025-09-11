@@ -10,6 +10,16 @@ namespace CaptainOfPlanner
 
     internal static class Extensions
     {
+        public static string CutString(this string str, int numchars)
+        {
+            string name = null;
+            bool cut = str.Length > numchars;
+            if (cut) name = str.Substring(0, numchars - 3) + "...";
+            return name;
+        }
+
+
+
         public static void Swap<T>(ref T left, ref T right) where T:struct
         {
             var tmp = left;

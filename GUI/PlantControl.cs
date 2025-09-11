@@ -17,7 +17,7 @@ namespace CaptainOfPlanner
 
         bool translating = false;
         Vector2i mousedown = new Vector2i(0, 0);
-        Pen pen = new Pen(Brushes.Gray, 5);
+        Pen pen = new Pen(Brushes.Blue, 5);
 
         public Plant Plant { get; set; }
 
@@ -113,7 +113,7 @@ namespace CaptainOfPlanner
             ConnectTo.Clear();
             foreach (Node node in Plant)
             {
-                foreach (Link link in node.Inputs)
+                foreach (Link link in node.InLinks)
                 {
                     if (link.Linked != null &&
                         link.Controller is LinkControl fromlink &&

@@ -11,26 +11,29 @@ namespace CaptainOfPlanner
     [DebuggerDisplay("Name")]
     /// <summary>
     /// Main factory class
+    /// Node list is the basic plant structure, each node rapresent a resource process
     /// </summary>
     public class Plant : IEnumerable<Node>
     {
+        List<Processor> Processors;
+        List<Storage> Storages;
+        List<Balancer> Balancers;
+        /// <summary>
+        /// Total nodes count
+        /// </summary>
+        public int Count => Processors.Count + Storages.Count + Balancers.Count;
         /// <summary>
         /// Optional name of plat
         /// </summary>
         public string Name { get; set; }
-        /// <summary>
-        /// Node list is the basic plant structure, each node rapresent a resource process
-        /// </summary>
-        List<Node> nodes;
 
         public Plant(string name)
         {
             Name = name;
-            nodes = new List<Node>();
+            Storages = new List<Storage>();
+            Balancers = new List<Balancer>();
+            Processors = new List<Processor>();
         }
-
-       
-
         /// <summary>
         /// Main algorithm
         /// </summary>
@@ -41,8 +44,17 @@ namespace CaptainOfPlanner
             //find best starting node. There can be separate networks so for each network
             //there is a different starting point
 
-            var networks = Network.GetNetworks(this);
+            //inizialize first state of flow
 
+            foreach (var node in this)
+            {
+                node.UpdateFlowRate();
+            }
+            //compute process and set output
+            foreach (var node in this)
+            {
+                node.UpdateFlowRate();
+            }
         }
 
 
@@ -54,38 +66,54 @@ namespace CaptainOfPlanner
         /// </summary>
         public Node GenerateNode(NodeType type, string name = null)
         {
-            Node node = null;
             switch (type)
             {
-                case NodeType.Processor: node = new Processor(this, name); break;
-                case NodeType.Balancer: node = new Balancer(this, name); break;
-                case NodeType.Storage: node = new Storage(this, name); break;
-                default: throw new Exception($"Unknow nodetype {type}");
+                case NodeType.Processor:
+                    var pro = new Processor(this, name);
+                    Processors.Add(pro);
+                    return pro;
+                case NodeType.Balancer:
+                    var bal = new Balancer(this, name);
+                    Balancers.Add(bal);
+                    return bal;
+                case NodeType.Storage: 
+                    var sto = new Storage(this, name);
+                    Storages.Add(sto);
+                    return sto;
+                default:
+                    throw new Exception($"Unknow nodetype {type}");
             }
-            AddNode(node);
-            return node;
-        }
-
-        public void AddNode(Node node) 
-        { 
-            if (node != null) nodes.Add(node);
         }
 
         public void Clear()
         {
-            while (nodes.Count > 0)
-                RemoveNode(nodes[nodes.Count - 1]);
-        }
-        public void RemoveNode(Node node)
-        {
-            if (node == null) return;
-            foreach (var link in node.Inputs) 
-                link.UnLink();
-            foreach (var link in node.Outputs) link.UnLink();
-            nodes.Remove(node);
-           
+            while (Processors.Count > 0) RemoveNode(Processors.Last());
+            while (Balancers.Count > 0) RemoveNode(Balancers.Last());
+            while (Storages.Count > 0) RemoveNode(Storages.Last());
         }
 
+        public void RemoveNode(Processor node)
+        {
+            Remove(node);
+            Processors.Remove(node);
+        }
+        public void RemoveNode(Balancer node)
+        {
+            Remove(node);
+            Balancers.Remove(node);
+        }
+        public void RemoveNode(Storage node)
+        {
+            Remove(node);
+            Storages.Remove(node);
+        }
+        void Remove(Node node)
+        {
+            if (node == null) return;
+            foreach (var link in node.InLinks) 
+                link.UnLink();
+            foreach (var link in node.OutLinks) link.UnLink();
+        }
 
         /// <summary>
         /// Save Plant scene to xml file
@@ -95,8 +123,8 @@ namespace CaptainOfPlanner
             int ID = 1;
             foreach (var node in this)
             {
-                foreach (var link in node.Inputs) link.xml_id = ID++;
-                foreach (var link in node.Outputs) link.xml_id = ID++;
+                foreach (var link in node.InLinks) link.xml_id = ID++;
+                foreach (var link in node.OutLinks) link.xml_id = ID++;
             }
 
             var doc = new XmlDocument();
@@ -110,7 +138,6 @@ namespace CaptainOfPlanner
             File.Create(xmlfile).Dispose();
             doc.Save(xmlfile);
         }
-
 
         /// <summary>
         /// Load a new Plant scene from xml file
@@ -145,8 +172,14 @@ namespace CaptainOfPlanner
         }
 
 
-        public IEnumerator<Node> GetEnumerator() => nodes.GetEnumerator();
+        public IEnumerator<Node> GetEnumerator()
+        {
+            foreach (var node in Storages) yield return node;
+            foreach (var node in Balancers) yield return node;
+            foreach (var node in Processors) yield return node;
+        }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public override string ToString() => Name;
+
     }
 }

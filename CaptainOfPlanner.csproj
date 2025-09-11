@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graph\Flow.cs" />
     <Compile Include="Graph\Network.cs" />
     <Compile Include="GUI\BalanceControl.cs">
       <SubType>UserControl</SubType>
@@ -82,7 +83,9 @@
     <Compile Include="GUI\NodeControl.Designer.cs">
       <DependentUpon>NodeControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Resource\Recipe.cs" />
+    <Compile Include="Graph\Resource.cs" />
+    <Compile Include="Graph\Recipe.cs" />
+    <Compile Include="Resource\IconsManager.cs" />
     <Compile Include="Resource\RecipesManager.cs" />
     <Compile Include="Resource\ResourcesManager.cs" />
     <Compile Include="Extension.cs" />
@@ -144,6 +147,9 @@
   <ItemGroup>
     <Content Include="Resource\open.png" />
     <Content Include="Resource\Recipes_Debug.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Icons.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Resources_Debug.xml">

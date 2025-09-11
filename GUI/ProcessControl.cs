@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace CaptainOfPlanner
 {
@@ -17,6 +18,8 @@ namespace CaptainOfPlanner
         int currentSelectedFilter = -1;
         int currentSelectedRecipe = -1;
 
+        protected override string Title => $"{Id} {Name}     {processor.Efficiency * 100f}%";
+
         /// <summary>
         /// </summary>
         public ProcessControl(Processor node = null, PlantControl owner = null) : base(node, owner)
@@ -29,9 +32,6 @@ namespace CaptainOfPlanner
             comboFilter.Width = Width - 6;
             comboRecipe.Width = Width - 6;
 
-            OffsetInput = new Vector2i(2, comboRecipe.Bottom + 5);
-            OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboRecipe.Bottom + 5);
-
             comboFilter.DataSource = ResourcesManager.Resources;
             comboFilter.DisplayMember = "Name";
             PopulateComboRecipe(Resource.Undefined);
@@ -42,16 +42,26 @@ namespace CaptainOfPlanner
             comboFilter.SelectedIndex = 0;
             //set the recipe
             comboRecipe.SelectedIndex = comboRecipe.FindString(node?.Recipe?.Display);
-           
+
+            OffsetInput = new Vector2i(2, HeaderHeight + comboFilter.Height + comboRecipe.Height + 6);
+            OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 4, OffsetInput.y);
+            Mirrored = node.Mirrored;
+
 
             //now you can associate the node to this controller
             if (DesignMode || node == null) return;
             processor = node;
+
+
+
             RemoveLinkControls();
-            CreateLinkControls(processor.Inputs, processor.Outputs);
+            CreateLinkControls(processor.InLinks, processor.OutLinks);
             Invalidate();
             ResumeLayout();
         }
+
+        protected override void RemoveThisNode() { processor.Plant.RemoveNode(processor); }
+
 
         /// <summary>
         /// change recipe list using resource filter
@@ -99,11 +109,16 @@ namespace CaptainOfPlanner
                     processor.Recipe = recipe;
                     SuspendLayout();
                     RemoveLinkControls();
-                    CreateLinkControls(processor.Inputs, processor.Outputs);
+                    CreateLinkControls(processor.InLinks, processor.OutLinks);
                     Invalidate();
                     ResumeLayout(true);
                 }
             }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
         }
     }
 }

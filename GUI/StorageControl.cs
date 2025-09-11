@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace CaptainOfPlanner
@@ -35,20 +36,25 @@ namespace CaptainOfPlanner
 
             OffsetInput = new Vector2i(2, comboResource.Bottom + 5);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboResource.Bottom + 5);
+            Mirrored = node.Mirrored;
 
             if (DesignMode || node==null) return;
 
             //set the resource
-            comboResource.SelectedIndex = comboResource.FindString(node.Resource.Name);
+            comboResource.SelectedIndex = comboResource.FindString(node.Resource);
             //build manualy
             storage = node;
             UpdateLinkControls();
         }
+
+        protected override void RemoveThisNode() { storage.Plant.RemoveNode(storage); }
+
+
         void UpdateLinkControls()
         {
             SuspendLayout();
             RemoveLinkControls();
-            CreateLinkControls(storage.Inputs, storage.Outputs);
+            CreateLinkControls(storage.InLinks, storage.OutLinks);
             ResumeLayout();
             Invalidate();
         }

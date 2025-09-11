@@ -45,11 +45,11 @@ namespace CaptainOfPlanner
         /// <summary>
         /// A node can contains more than one input
         /// </summary>
-        public LinkCollection Inputs;
+        public LinkCollection InLinks;
         /// <summary>
         /// A node can contains more than one output
         /// </summary>
-        public LinkCollection Outputs;
+        public LinkCollection OutLinks;
 
 
         protected Node(Plant plant, string name)
@@ -57,11 +57,11 @@ namespace CaptainOfPlanner
             Name = name ?? "node";
             Plant = plant;
 
-            Inputs = new LinkCollection(this, LinkType.Input);
-            Outputs = new LinkCollection(this, LinkType.Output);
+            InLinks = new LinkCollection(this, LinkType.Input);
+            OutLinks = new LinkCollection(this, LinkType.Output);
         }
-
-
+        public abstract void UpdateFlowRate();
+        public abstract void UpdateOutFlowRate();
 
 
         #region Read/White
@@ -82,8 +82,8 @@ namespace CaptainOfPlanner
 
             CompleteWritingXml(node);
 
-            foreach (var link in Inputs) link.SaveXml(node);
-            foreach (var link in Outputs) link.SaveXml(node);
+            foreach (var link in InLinks) link.SaveXml(node);
+            foreach (var link in OutLinks) link.SaveXml(node);
 
             return node;
         }
@@ -91,7 +91,6 @@ namespace CaptainOfPlanner
         /// load xml node.
         /// </summary>
         /// <param name="ToResolve">link list to resolve after loading all nodes</param>
-        /// <returns></returns>
         public static Node LoadXml(Plant plant, XmlElement element, Dictionary<int, Link> ToResolve)
         {
             Node node = null;
@@ -100,8 +99,8 @@ namespace CaptainOfPlanner
             {
                 node = plant.GenerateNode(type);
                 node.Name = element.GetAttribute("name");
-                node.Inputs.Clear();
-                node.Outputs.Clear();
+                node.InLinks.Clear();
+                node.OutLinks.Clear();
 
                 if (!bool.TryParse(element.GetAttribute("mirror"), out node.Mirrored)) node.Mirrored = false;
 
@@ -113,8 +112,8 @@ namespace CaptainOfPlanner
                     var link = Link.LoadXml(node, child, ToResolve);
                     switch (link.Type)
                     {
-                        case LinkType.Input: node.Inputs.Add(link); break;
-                        case LinkType.Output: node.Outputs.Add(link); break;
+                        case LinkType.Input: node.InLinks.Add(link); break;
+                        case LinkType.Output: node.OutLinks.Add(link); break;
                     }
                 }
 

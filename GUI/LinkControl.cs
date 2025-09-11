@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,10 +17,11 @@ namespace CaptainOfPlanner
     [DisplayName("{Node}")]
     public class LinkControl : UserControl , ILinkable
     {
+        ToolTip info;
+
         public static LinkControl CurrentSelected;
         bool selected = false;
-        
-        public static Vector2i PreferedSize = new Vector2i(70, 25);
+        public static Vector2i PreferedSize = new Vector2i(70, 34);
         public NodeControl Owner;
         public PlantControl Main => Owner.Owner;
         public Link Node { get; }
@@ -45,7 +47,7 @@ namespace CaptainOfPlanner
         }
         public bool Mirrored => Owner != null ? Owner.Mirrored : false;
 
-        public LinkControl(Link node, NodeControl owner)
+        public LinkControl(Link node, NodeControl owner, bool prioritybox = false)
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
@@ -56,8 +58,21 @@ namespace CaptainOfPlanner
             Node = node;
             node.Controller = this;
             Owner = owner;
-        }
 
+            if (prioritybox)
+            {
+                CheckBox checkbox = new CheckBox();
+                checkbox.Checked = node.Priority;
+                checkbox.Location = new Point(Width - 16, 0);
+                checkbox.Name = "radioButton1";
+                checkbox.BackColor = Color.Transparent;
+                checkbox.CheckedChanged += CheckedChanged;
+                Controls.Add(checkbox);
+            }
+
+            info = new ToolTip();
+            
+        }
         public (Vector2i pointA, Vector2i pointB) ConnectionLine
         {
             get
@@ -79,18 +94,25 @@ namespace CaptainOfPlanner
                 return (new Vector2i(x0, y), new Vector2i(x1, y));
             }
         }
-
         public void DoLink(Link other)
         {
             if (other.Controller is LinkControl linked)
                 Main.AddConnection(this, linked);
         }
-
         public void UnLink()
         {
             Main.RemoveConnection(this);
         }
+        private void CheckedChanged(object sender, System.EventArgs e)
+        {
+            Node.Priority = ((CheckBox)sender).Checked;
+        }
 
+        protected override void OnMouseHover(EventArgs e)
+        {
+            info.SetToolTip(this, $"enter: {Node.Entering} i/min\nforward: {Node.Forward} i/min");
+            base.OnMouseHover(e);
+        }
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
@@ -116,7 +138,6 @@ namespace CaptainOfPlanner
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            var res = Node.ResourceCount;
 
             if (Node.Linked != null)
                 BackColor = ColorTranslator.FromHtml("#33FF33");
@@ -126,7 +147,20 @@ namespace CaptainOfPlanner
 
             base.OnPaint(e);
 
-            e.Graphics.DrawString($"{res.Count}\n{res.Resource.Name}", ControlManager.ArialBold6, Brushes.Black, 2, 2);
+            string resource_Text = $"{Node.Resource.Name}";
+            if (Node.Quantity>0) resource_Text = $"{Node.Quantity}\n" + resource_Text;
+
+            e.Graphics.DrawString(resource_Text, ControlManager.ArialBold6, Brushes.Black, 2, 2);
+            
+            e.Graphics.DrawString(Node.Forward.ToString(), ControlManager.ArialBold6, Brushes.Black, 2, 18);
+
+            var srcRect = IconsManager.GetRectangle(Node.Resource);
+            var destRect = srcRect;
+            destRect.X = Width - srcRect.Width;
+            destRect.Y = 0;
+            
+            e.Graphics.DrawImage(IconsManager.Image, destRect, srcRect, GraphicsUnit.Pixel);
+
             ControlPaint.DrawBorder3D(e.Graphics, 0, 0, Width, Height, Border3DStyle.Raised);
         }
     }

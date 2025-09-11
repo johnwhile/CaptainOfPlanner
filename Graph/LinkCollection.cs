@@ -8,6 +8,7 @@ namespace CaptainOfPlanner
     {
         Node Owner;
         LinkType type;
+        
         List<Link> list;
 
         public LinkCollection(Node owner, LinkType type)
@@ -19,32 +20,30 @@ namespace CaptainOfPlanner
 
         public bool Find(string resource, out Link link)
         {
-            link = list.Find(x => x.ResourceCount.Resource.Name.CompareTo(resource) == 0);
+            link = list.Find(x => x.Resource.Name.CompareTo(resource) == 0);
             return link != null;
         }
 
 
+        public Link First => list.First();
         public Link Last => list.GetLast();
-
-
         public int Count => list.Count;
+        public Link this[int index] => list[index];
+
         public void Clear()
         {
             while (list.Count > 0) Remove(list.First());
             list.Clear();
         }
-
         public void Add(Link link)
         {
             if (link != null)
                 list.Add(link);
         }
-
         public void AddRange(IEnumerable<Link> list)
         {
             foreach (Link link in list) Add(link);
         }
-
         public void Remove(Link link)
         {
             list.Remove(link);

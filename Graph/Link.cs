@@ -22,21 +22,38 @@ namespace CaptainOfPlanner
         internal int xml_id = -1;
         internal int xml_linked_id = -1;
 
-        public ResourceCount ResourceCount { get; internal set; }
+        /// <summary>
+        /// flow entering to be processed
+        /// </summary>
+        public float Entering;
+        /// <summary>
+        /// flow not processed calcuated as <see cref="Entering"/> - <see cref="Forward"/>
+        /// </summary>
+        public float Backward => Entering - Forward;
+        /// <summary>
+        /// flow that continue to the link
+        /// </summary>
+        public float Forward;
+
+        public int Quantity;
+        public Resource Resource { get; internal set; }
         public Node Owner { get; private set; }
         public LinkType Type { get; }
         public Link Linked { get; set; }
         public ILinkable Controller { get; set; }
         public bool Priority { get; set; }
+        public bool IsLinked => Linked != null;
 
-        public Link(Node owner, LinkType type, ResourceCount resource)
+        public Link(Node owner, LinkType type, Resource resource, int resourceCount = 0)
         {
             Owner = owner;
             Type = type;
-            ResourceCount = resource;
+            Resource = resource;
+            Quantity = resourceCount;
             Priority = false;
+            Forward = 0;
+            Entering = 0;
         }
-
         public void DoLink(Link other)
         {
             if (!IsLinkable(other)) return;
@@ -52,7 +69,7 @@ namespace CaptainOfPlanner
         public void UnLink()
         {
             Controller?.UnLink();
-            if (Linked != null)
+            if (IsLinked)
             {
                 Linked.Controller?.UnLink();
                 Linked.Linked = null;
@@ -64,23 +81,21 @@ namespace CaptainOfPlanner
         /// must be same resource and must be opposite of Input or Output type
         /// </summary>
         public bool IsLinkable(Link other) =>
-            ResourceCount.Resource.IsCompatible(other.ResourceCount.Resource) &&
+            Resource.IsCompatible(other.Resource) &&
             Type != other.Type &&
             Owner != other.Owner;
-
-
 
         /// <summary>
         /// Save only linked link
         /// </summary>
         public XmlElement SaveXml(XmlElement parent)
         {
-            if (Linked != null)
+            if (IsLinked)
             {
                 var link = parent.OwnerDocument.CreateElement(Type.ToString());
                 link.SetAttribute("id", xml_id.ToString());
                 link.SetAttribute("linkid", Linked.xml_id.ToString());
-                link.SetAttribute("resource", ResourceCount.Resource.Name);
+                link.SetAttribute("resource", Resource);
                 if (Priority) link.SetAttribute("priority", "true");
                 parent.AppendChild(link);
                 return link;
@@ -92,7 +107,7 @@ namespace CaptainOfPlanner
         {
             if (!Enum.TryParse(element.Name, out LinkType type)) type = LinkType.Undefined;
             if (!ResourcesManager.TryGetResource(element.GetAttribute("resource"), out Resource resource)) resource = Resource.Undefined;
-            var link = new Link(node, type, new ResourceCount(resource));
+            var link = new Link(node, type, resource);
 
             if (!int.TryParse(element.GetAttribute("id"), out link.xml_id)) link.xml_id = -1;
             if (!int.TryParse(element.GetAttribute("linkid"), out link.xml_linked_id)) link.xml_linked_id = -1;
@@ -106,7 +121,7 @@ namespace CaptainOfPlanner
 
         public override string ToString()
         {
-            return $"{Type} {ResourceCount.ToString()}";
+            return $"{Type} {Resource.ToString()}";
         }
     }
 }

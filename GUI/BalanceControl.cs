@@ -33,25 +33,30 @@ namespace CaptainOfPlanner
 
             OffsetInput = new Vector2i(2, comboResource.Bottom + 5);
             OffsetOutput = new Vector2i(Width - LinkControl.PreferedSize.width - 2, comboResource.Bottom + 5);
+            Mirrored = node.Mirrored;
 
             if (DesignMode || node == null) return;
             //set the resource
-            comboResource.SelectedIndex = comboResource.FindString(node.Resource.Name);
+            comboResource.SelectedIndex = comboResource.FindString(node.Resource);
             //build manualy
             balancer = node;
             UpdateLinkControls();
 
         }
 
+        protected override void RemoveThisNode() { balancer.Plant.RemoveNode(balancer); }
 
         void UpdateLinkControls()
         {
             SuspendLayout();
             RemoveLinkControls();
-            CreateLinkControls(balancer.Inputs, balancer.Outputs);
+            CreateLinkControls(balancer.InLinks, balancer.OutLinks, true);
             ResumeLayout();
             Invalidate();
         }
+
+
+
 
         private void comboResource_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CaptainOfPlanner.Properties;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,27 +7,6 @@ using System.Xml;
 
 namespace CaptainOfPlanner
 {
-    public enum ResourceState : byte
-    {
-        Fluid = (byte)'F',
-        Loose = (byte)'L',
-        Unit = (byte)'U',
-        Molten = (byte)'M',
-        Virtual = (byte)'V',
-        Undefined = (byte)'\0',
-
-    }
-    public enum ResourceOrigin : byte
-    {
-        Natural = (byte)'N',
-        Semi = (byte)'S',
-        Crafted = (byte)'C',
-        Food = (byte)'F',
-        Petrochemical = (byte)'P',
-        Power = (byte)'E',
-        Waste = (byte)'W',
-        Undefined = (byte)'\0',
-    }
     public enum SaveResourceOption
     {
         SortByOrigin,
@@ -35,49 +15,6 @@ namespace CaptainOfPlanner
         SortByNameThenState
     }
 
-    /// <summary>
-    /// </summary>
-    public struct Resource
-    {
-        /// <summary>
-        /// ID = 0 reserved for undefined. 
-        /// </summary>
-        public byte ID { get; internal set; }
-        public ResourceState State { get; }
-        public ResourceOrigin Origin { get; }
-
-        /// <summary>
-        /// Get the resource's name
-        /// </summary>
-        public string Name { get; }
-
-        public override string ToString() => Name;
-
-        public string ToFormatString(int numchars)
-        {
-            string name = null;
-            bool cut = Name.Length > numchars;
-            if (cut) name = Name.Substring(0, numchars - 3) + "...";
-            return name;
-        }
-
-        public Resource(byte id, ResourceState state, ResourceOrigin origin) : this()
-        {
-            ID = id;
-            State = state;
-            Origin = origin;
-            Name = ResourcesManager.TryGetName(ID);
-        }
-
-        public static Resource Undefined => new Resource(0, ResourceState.Undefined, ResourceOrigin.Undefined);
-
-        public bool IsUndefined => ID == 0 || State == ResourceState.Undefined || Origin == ResourceOrigin.Undefined;
-        public bool IsCompatible(Resource other) => ID == other.ID;
-        public static int CompareState(Resource x, Resource y) => x.State.CompareTo(y.State);
-        public static int CompareOrigin(Resource x, Resource y) => x.Origin.CompareTo(y.Origin);
-        public static int CompareName(Resource x, Resource y) => ResourcesManager.TryGetName(x.ID).CompareTo(ResourcesManager.TryGetName(y.ID));
-
-    }
     class ComparerByOrigin : IComparer<Resource>
     {
         public int Compare(Resource x, Resource y)
@@ -132,11 +69,10 @@ namespace CaptainOfPlanner
 
         static ResourcesManager()
         {
-
-
+            ResourcesName = new List<string>();
+            Resources = new List<Resource>();
         }
         public static string TryGetName(byte id) => ResourcesName[id];
-
         public static bool TryGetResource(byte id, out Resource resource)
         {
             resource = Resource.Undefined;
@@ -160,7 +96,6 @@ namespace CaptainOfPlanner
             }
             return false;
         }
-
         public static bool Save(string xml = "Resource_out.xml", SaveResourceOption sortby = SaveResourceOption.SortByOrigin)
         {
             var sortedId = Enumerable.Range(0, Resources.Count).Select(i => (byte)i++).ToArray();
@@ -295,9 +230,11 @@ namespace CaptainOfPlanner
 
             }
 
+            ResourcesName.Clear();
+            Resources.Clear();
 
-            ResourcesName = new List<string>() { "undefined" };
-            Resources = new List<Resource>() { Resource.Undefined };
+            ResourcesName.Add("undefined");
+            Resources.Add(Resource.Undefined);
 
             var doc = new XmlDocument();
             doc.Load(xml);

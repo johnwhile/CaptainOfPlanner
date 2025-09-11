@@ -9,7 +9,6 @@ namespace CaptainOfPlanner
     public class Storage : Node
     {
         public override NodeType Type => NodeType.Storage;
-
         Resource resource = Resource.Undefined;
         public Resource Resource
         {
@@ -18,13 +17,12 @@ namespace CaptainOfPlanner
             {
                 if (!resource.IsCompatible(value))
                 {
-                    Inputs.Clear();
-                    Outputs.Clear();
-                    if (!value.IsUndefined)
-                    {
-                        Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(value)));
-                        Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(value)));
-                    }
+                    InLinks.Clear();
+                    OutLinks.Clear();
+
+                    InLinks.Add(new Link(this, LinkType.Input, value));
+                    OutLinks.Add(new Link(this, LinkType.Output, value));
+
                 }
                 resource = value;
             }
@@ -33,13 +31,32 @@ namespace CaptainOfPlanner
         public Storage(Plant plant, string name = "storage") :
             base(plant, string.IsNullOrEmpty(name) ? "storage" : name)
         {
-            Inputs.Add(new Link(this, LinkType.Input, ResourceCount.Undefined));
-            Outputs.Add(new Link(this, LinkType.Output, ResourceCount.Undefined));
+            InLinks.Add(new Link(this, LinkType.Input, Resource.Undefined));
+            OutLinks.Add(new Link(this, LinkType.Output, Resource.Undefined));
         }
 
+        public override void UpdateOutFlowRate()
+        {
+            
+        }
+
+        public override void UpdateFlowRate()
+        {
+            foreach (var link in InLinks)
+            {
+                link.Forward = 0;
+            }
+            foreach (var link in OutLinks)
+            {
+                link.Forward = float.PositiveInfinity;
+            }
+        }
+
+
+        #region Read/Write
         protected override void CompleteWritingXml(XmlElement node)
         {
-            node.SetAttribute("resource", resource.Name);
+            node.SetAttribute("resource", resource);
         }
         protected override void CompleatReadingXml(XmlElement element)
         {
@@ -47,12 +64,13 @@ namespace CaptainOfPlanner
                 Console.WriteLine("ERROR unknow resource in xml balancer");
 
             // cut in case something wrong
-            while (Inputs.Count > 1) Inputs.Remove(Inputs.Last);
-            while (Outputs.Count > 1) Outputs.Remove(Inputs.Last);
+            while (InLinks.Count > 1) InLinks.Remove(InLinks.Last);
+            while (OutLinks.Count > 1) OutLinks.Remove(InLinks.Last);
 
-            if (Inputs.Count == 0) Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(resource)));
-            if (Outputs.Count == 0) Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(resource)));
+            if (InLinks.Count == 0) InLinks.Add(new Link(this, LinkType.Input, resource));
+            if (OutLinks.Count == 0) OutLinks.Add(new Link(this, LinkType.Output, resource));
 
         }
+        #endregion
     }
 }

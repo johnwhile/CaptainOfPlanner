@@ -18,19 +18,17 @@ namespace CaptainOfPlanner
             get => resource;
             set
             {
-                if (value.IsUndefined) return;
-
                 if (!resource.IsCompatible(value))
                 {
-                    foreach (var link in Inputs)
+                    foreach (var link in InLinks)
                     {
                         link.UnLink();
-                        link.ResourceCount = new ResourceCount(value, 0);
+                        link.Resource = value;
                     }
-                    foreach (var link in Outputs)
+                    foreach (var link in OutLinks)
                     {
                         link.UnLink();
-                        link.ResourceCount = new ResourceCount(value, 0);
+                        link.Resource = value;
                     }
 
                     resource = value;
@@ -43,12 +41,12 @@ namespace CaptainOfPlanner
         {
             for (int i = 0; i < 4; i++)
             {
-                Inputs.Add(new Link(this, LinkType.Input, ResourceCount.Undefined));
-                Outputs.Add(new Link(this, LinkType.Output, ResourceCount.Undefined));
+                InLinks.Add(new Link(this, LinkType.Input, Resource.Undefined));
+                OutLinks.Add(new Link(this, LinkType.Output, Resource.Undefined));
             }
         }
 
-        int InputCount => Inputs.Count;
+        int InputCount => InLinks.Count;
 
         public int TotalInputs
         {
@@ -65,25 +63,53 @@ namespace CaptainOfPlanner
                 }
             }
         }
+        public override void UpdateOutFlowRate()
+        {
+            
+        }
+        public override void UpdateFlowRate()
+        {
+            float entering = 0;
+            int entercount = 0;
+            foreach (var link in InLinks)
+                if (link.IsLinked)
+                {
+                    entering = link.Linked.Forward;
+                    entercount++;
+                }
+
+            float exiting = 0;
+            int exitcount = 0;
+            foreach (var link in OutLinks)
+                if (link.IsLinked)
+                {
+                    exiting += link.Linked.Forward;
+                    exitcount++;
+                }
+            float avarage = exiting / exitcount;
+
+        }
 
 
         public void Increase()
         {
-            if (Inputs.Count == MAXLINKS - 1) return;
-            Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(resource)));
-            Outputs.Remove(Outputs.Last);
+            if (InLinks.Count == MAXLINKS - 1) return;
+            InLinks.Add(new Link(this, LinkType.Input, resource));
+            OutLinks.Remove(OutLinks.Last);
         }
 
         public void Decrease()
         {
-            if (Outputs.Count == MAXLINKS - 1) return;
-            Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(resource)));
-            Inputs.Remove(Inputs.Last);
+            if (OutLinks.Count == MAXLINKS - 1) return;
+            OutLinks.Add(new Link(this, LinkType.Output, resource));
+            InLinks.Remove(InLinks.Last);
         }
 
+        #region Read/Write
         protected override void CompleteWritingXml(XmlElement element)
         {
-            element.SetAttribute("resource", resource.Name);
+            element.SetAttribute("resource", resource);
+            element.SetAttribute("inputs", TotalInputs.ToString());
         }
 
         protected override void CompleatReadingXml(XmlElement element)
@@ -91,15 +117,21 @@ namespace CaptainOfPlanner
             if (!ResourcesManager.TryGetResource(element.GetAttribute("resource"), out resource))
                 Console.WriteLine("ERROR unknow resource in xml balancer");
 
-            // cut in case something wrong
-            while (Inputs.Count > MAXLINKS - 1) Inputs.Remove(Inputs.Last);
-            while (Outputs.Count > (MAXLINKS - Inputs.Count)) Outputs.Remove(Outputs.Last);
+            if (!int.TryParse(element.GetAttribute("inputs"), out int preferedInputs)) preferedInputs = 4;
 
-            int missing = MAXLINKS - Outputs.Count - Inputs.Count;
-            while (missing-- > 0) Inputs.Add(new Link(this, LinkType.Input, new ResourceCount(resource)));
-            if (Outputs.Count == 0) Outputs.Add(new Link(this, LinkType.Output, new ResourceCount(resource)));
+            // cut in case something wrong
+            while (InLinks.Count > MAXLINKS - 1) InLinks.Remove(InLinks.Last);
+            while (OutLinks.Count > (MAXLINKS - InLinks.Count)) OutLinks.Remove(OutLinks.Last);
+
+
+            int missing = MAXLINKS - OutLinks.Count - InLinks.Count;
+            int missing_i = missing - InLinks.Count - 1;
+            int missing_o = missing - OutLinks.Count - 1;
+            while (missing_i-- > 0) InLinks.Add(new Link(this, LinkType.Input, resource));
+            while (missing_o-- > 0) OutLinks.Add(new Link(this, LinkType.Output, resource));
 
         }
+        #endregion
     }
 
 }
